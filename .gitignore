@@ -23,34 +23,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-=======
-# General ignores
-.DS_Store
-build
-out
-kotlin-js-store
 
-# IntelliJ ignores
-*.iml
-/*.ipr
-
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/gradle.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-/.idea/artifacts
-/.idea/compiler.xml
-/.idea/jarRepositories.xml
-/.idea/*.iml
-/.idea/modules
-/.idea/libraries-with-intellij-classes.xml
-
-# Gradle ignores
-.gradle
-
-# Kotlin ignores
-.kotlin
->>>>>>> c87c4c640f825bfad2c355595d1101fe7920dc22
+# environment
+.env
+config.env
