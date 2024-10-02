@@ -3,7 +3,7 @@ const mongo = require('mongoose')
 // Kết nối đến MongoDB
 const connectMongo = async () => {
   try {
-    await mongo.connect('mongodb+srv://lethanhvinhspk:ljlSdShbRvvyyUtJ@mongovinh.jfrn5.mongodb.net/', {
+    await mongo.connect('mongodb+srv://lethanhvinhspk:ljlSdShbRvvyyUtJ@mongovinh.jfrn5.mongodb.net/Event?retryWrites=true&w=majority', {
       useNewUrlParser: true,
       useUnifiedTopology: true
     })
