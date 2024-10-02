@@ -1,27 +1,46 @@
+import React, { useState } from 'react'
 import imgLogin from '../../../assets/admin-login.jpg'
+import BgLogin from '../../../assets/bg-login.png'
+
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline'
 import LockIcon from '@mui/icons-material/Lock'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'
 import CloseIcon from '@mui/icons-material/Close'
+import VisibilityIcon from '@mui/icons-material/Visibility'
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import { useState } from 'react'
 import { Helmet } from 'react-helmet' // dùng để thay đổi title của trang
 
 function Login() {
   const navigate = useNavigate()
   const [username, setUsername] = useState('')
   const [pass, setPass] = useState('')
-  const [role, setRole] = useState('')
   const [message, setMessage] = useState('')
   const [isLogin, setIsLogin] = useState(false)
-  const [typeUsername, setTypeUserName] = useState('skjdhfkjsdh')
-  const [typePassword, setTypePassword] = useState('skjdhfkjsdh')
+  const [showPassword, setShowPassword] = useState(false)
+
+  const handleLogin = () => {
+    if (username === '' || pass === '') {
+      setMessage('Vui lòng nhập đầy đủ thông tin')
+    } else if (username !== 'admin' || pass !== 'admin') {
+      setMessage('Tài khoản hoặc mật khẩu không đúng')
+    } else {
+      setIsLogin(true)
+      setMessage('')
+      alert('Đăng nhập thành công')
+    }
+  }
+
+  const handleCancel = () => {
+    // Load lại trang
+    window.location.reload()
+  }
 
   return (
     <>
       <Helmet>
-        <title>Login | EL-Space</title>
+        <title>Đăng nhập Admin</title>
       </Helmet>
       <LoginWrapper>
         <div className="wrapper">
@@ -30,55 +49,45 @@ function Login() {
               <img src={imgLogin} alt="Image" />
             </div>
             <div className="content">
-              <h1>Login</h1>
+              <h1>Đăng Nhập Admin</h1>
 
               <div className="input-username">
                 <label>
-                  Username/Email: <span>*</span>
+                  Tên tài khoản: <span>*</span>
                 </label>
                 <br />
                 <div className="input-box">
-                  <PersonOutlineIcon
-                    sx={{
-                      width: '10%',
-                      fontSize: 40,
-                      color: '#187BCE',
-                      padddingLeft: '10px',
-                      marginRight: '10px'
-                    }}
-                    className="icon"
-                  />
+                  <PersonOutlineIcon className="input-icon" />
                   <input
                     type="text"
                     required
                     value={username}
-                    onChange={typeUsername}
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="Enter your username or email"
                   />
                 </div>
               </div>
 
               <div className="input-pass">
                 <label>
-                  Password: <span>*</span>
+                  Mật khẩu: <span>*</span>
                 </label>
                 <br />
                 <div className="input-box">
-                  <LockIcon
-                    sx={{
-                      width: '10%',
-                      fontSize: 40,
-                      color: '#187BCE',
-                      paddingBottom: '2px',
-                      marginRight: '10px'
-                    }}
-                    className="icon"
-                  />
+                  <LockIcon className="input-icon" />
                   <input
-                    type="password"
+                    type={showPassword ? 'text' : 'password'}
                     required
                     value={pass}
-                    onChange={typePassword}
+                    onChange={(e) => setPass(e.target.value)}
+                    placeholder="Enter your password"
                   />
+                  <span
+                    className="toggle-password"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                  </span>
                 </div>
               </div>
 
@@ -95,21 +104,19 @@ function Login() {
                 </p>
               )}
               <div className="button">
-                <button className="button-login">
+                <button className="button-login" onClick={handleLogin}>
                   <ExitToAppIcon sx={{ paddingRight: '10px', fontSize: 35 }} />
-                  Log in
+                  Đăng nhập
                 </button>
-                <Link to="/">
-                  <button className="button-cancel">
-                    <CloseIcon
-                      sx={{ paddingRight: '10px', fontSize: 35, color: 'red' }}
-                    />
-                    Cancel
-                  </button>
-                </Link>
+                <button className="button-cancel" onClick={handleCancel}>
+                  <CloseIcon
+                    sx={{ paddingRight: '10px', fontSize: 35, color: 'red' }}
+                  />
+                  Hủy
+                </button>
               </div>
               <div className="forgot">
-                <a href="#">Forgot Password</a>
+                <a href="#">Quên mật khẩu</a>
               </div>
             </div>
           </div>
@@ -128,8 +135,12 @@ const LoginWrapper = styled.section`
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    background-image: url(${BgLogin});
+    background-size: cover;
+    object-fit: cover;
 
-    /* Background animation */
+
+
     &::after {
       content: '';
       position: absolute;
@@ -139,10 +150,10 @@ const LoginWrapper = styled.section`
       height: 100%;
       background: linear-gradient(
         45deg,
-        rgba(24, 123, 206, 0.5),
-        rgba(243, 243, 250, 0.5)
+        rgba(34, 25, 29, 0.12),
+        rgba(243, 243, 250, 0.9)
       );
-      animation: gradientShift 7s infinite alternate;
+      animation: gradientShift 4s infinite alternate;
       z-index: 1;
     }
   }
@@ -163,7 +174,6 @@ const LoginWrapper = styled.section`
     align-items: center;
     width: 80%;
     height: 550px;
-    overflow: hidden;
     padding-left: 0px;
     background-color: #fff;
     border-radius: 8px;
@@ -186,58 +196,18 @@ const LoginWrapper = styled.section`
       width: 50%;
       flex: 1;
       h1 {
-        color: #187bce;
+        margin-bottom: 30px;
+        color: #252525;
         text-align: center;
-        font-size: 32px;
+        font-size: 4rem;
         font-style: normal;
         font-weight: 700;
         line-height: 1.6;
       }
 
-      .input-username {
-        margin-bottom: 15px;
-
-        label {
-          color: #333;
-          font-size: 2rem;
-          font-style: normal;
-          font-weight: 700;
-          line-height: 1.6;
-          margin-bottom: 10px;
-          span {
-            color: red;
-          }
-        }
-        .input-box {
-          input {
-            width: 80%;
-            height: 40px;
-            border-radius: 5px;
-            border: none;
-            color: #187bce;
-            font-size: 1.6rem;
-            font-style: normal;
-            line-height: normal;
-            padding-left: 10px;
-            background: rgba(243, 243, 250, 0.8);
-            transition: 0.3s all ease;
-
-            &:hover {
-              transition: 0.3s all ease;
-              box-shadow: 0 0 0 2px #187bce;
-            }
-
-            &:focus,
-            &:active {
-              outline: none;
-              box-shadow: 0 0 0 2px #187bce;
-            }
-          }
-        }
-      }
-
+      .input-username,
       .input-pass {
-        margin-bottom: 15px;
+        margin-bottom: 20px;
 
         label {
           color: #333;
@@ -252,82 +222,55 @@ const LoginWrapper = styled.section`
         }
 
         .input-box {
-          input {
-            width: 80%;
-            height: 40px;
-            border-radius: 5px;
-            border: none;
-            color: #187bce;
-            font-size: 1.6rem;
-            font-style: normal;
-            line-height: normal;
-            padding-left: 10px;
-            background: rgba(243, 243, 250, 0.8);
-            transition: 0.3s all ease;
-
-            &:hover {
-              transition: 0.3s all ease;
-              box-shadow: 0 0 0 2px #187bce;
-            }
-
-            &:focus,
-            &:active {
-              outline: none;
-              box-shadow: 0 0 0 2px #187bce;
-            }
-          }
-        }
-      }
-
-      .role {
-        display: flex;
-        justify-content: space-between;
-        font-size: 1.6rem;
-        font-style: normal;
-        font-weight: 700;
-        line-height: normal;
-        width: 300px;
-        margin: 0 auto;
-        margin-top: 30px;
-        align-items: center;
-
-        input[type='radio'] {
-          display: none;
-        }
-
-        label {
           display: flex;
           align-items: center;
-          cursor: pointer;
+          background: #f1f3f5;
+          border-radius: 5px;
+          padding: 0 10px;
+          margin-top: 10px;
+          transition: box-shadow 0.3s ease;
 
-          .custom-radio {
-            width: 20px;
-            height: 20px;
-            border: 2px solid #187bce;
-            border-radius: 50%;
-            margin-right: 5px;
-            position: relative;
+          .input-icon {
+            color: #555;
+            margin-right: 10px;
+            font-size: 2rem;
           }
 
-          .custom-radio::after {
-            content: '';
-            width: 12px;
-            height: 12px;
-            background-color: #187bce;
-            border-radius: 50%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            opacity: 0;
-            transition: opacity 0.2s;
+          input {
+            flex: 1;
+            height: 40px;
+            border: none;
+            color: #252525;
+            font-size: 1.6rem;
+            background: transparent;
+            outline: none;
+
+            &::placeholder {
+              color: #999;
+              font-size: 1.4rem;
+            }
+          }
+          .toggle-password {
+            cursor: pointer;
+            color: #555;
+            font-size: 1.8rem;
+            margin-left: 10px;
+            display: flex;
+            align-items: center;
+          }
+
+          &:hover {
+            box-shadow: 0 0 0 2px #252525;
+          }
+
+          &:focus-within {
+            box-shadow: 0 0 0 2px #252525;
           }
         }
+      }
 
-        /* Sửa lại selector để nó target đúng element */
-        input[type='radio']:checked + .custom-radio::after {
-          opacity: 1;
-        }
+      .input-pass .input-box {
+        background: #f1f3f5;
       }
 
       .button {
@@ -335,41 +278,49 @@ const LoginWrapper = styled.section`
         gap: 20px;
         width: 100%;
         margin: 0 auto;
-        margin-top: 40px;
         justify-content: center;
+        gap: 30px;
+        margin-top: 50px;
 
         .button-login {
-          background-color: #187bce;
+          background-color: #252525;
           color: #fff;
-          font-size: 2rem;
-          font-style: normal;
+          font-size: 1.6rem;
           font-weight: 700;
+          text-transform: uppercase;
           line-height: 1.6;
           border-radius: 5px;
           padding: 5px 50px;
           border: none;
+          display: flex;
+          align-items: center;
+          cursor: pointer;
           transition: 0.3s all ease;
 
           &:hover {
-            background-color: #0d5aa7;
+            background-color: #252525;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
           }
         }
 
         .button-cancel {
           background-color: #fff;
-          color: #187bce;
-          font-size: 2rem;
-          font-style: normal;
+          color: #252525;
+          font-size: 1.6rem;
           font-weight: 700;
+          text-transform: uppercase;
           line-height: 1.6;
           border-radius: 5px;
           padding: 5px 50px;
           border: none;
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+          text-decoration: none;
           transition: 0.3s all ease;
 
           &:hover {
-            box-shadow: 0 0 0 2px #1971c2;
+            box-shadow: 0 0 0 2px #252525;
           }
         }
 
@@ -389,6 +340,7 @@ const LoginWrapper = styled.section`
       .forgot {
         text-align: end;
         margin: 0px 10px;
+        margin-top: 20px;
         a {
           color: #555;
           font-size: 1.6rem;
@@ -399,20 +351,14 @@ const LoginWrapper = styled.section`
           transition: 0.3s all ease;
 
           &:hover {
-            color: #187bce;
+            color: #252525;
             text-decoration: underline;
           }
         }
       }
-
-      .loginGoogle {
-        margin-top: 20px;
-        margin-bottom: 20px;
-        display: flex;
-        justify-content: center;
-      }
     }
   }
+
   @media (max-width: 768px) {
     .container {
       flex-direction: column;
@@ -429,15 +375,9 @@ const LoginWrapper = styled.section`
       .content {
         width: 100%;
 
-        .input-username .input-box input,
-        .input-pass .input-box input {
+        .input-username .input-box,
+        .input-pass .input-box {
           width: 100%;
-        }
-
-        .input-box {
-          .icon {
-            display: none;
-          }
         }
 
         .button {
@@ -447,16 +387,6 @@ const LoginWrapper = styled.section`
           .button-login,
           .button-cancel {
             width: 100%;
-            margin-bottom: 10px;
-          }
-        }
-
-        .role {
-          width: 100%;
-
-          label {
-            width: 100%;
-            justify-content: flex-start;
             margin-bottom: 10px;
           }
         }
@@ -484,10 +414,8 @@ const LoginWrapper = styled.section`
         font-size: 1.4rem;
         padding-left: 5px;
       }
-
-      .content .button-login,
-      .content .button-cancel {
-        font-size: 1.6rem;
+      .content .button {
+        font-size: 1.4rem;
       }
 
       .content .forgot a {
