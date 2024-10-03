@@ -11,6 +11,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { Helmet } from 'react-helmet' // dùng để thay đổi title của trang
+import axios from 'axios'
 
 function Login() {
   const navigate = useNavigate()
@@ -20,15 +21,32 @@ function Login() {
   const [isLogin, setIsLogin] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (username === '' || pass === '') {
       setMessage('Vui lòng nhập đầy đủ thông tin')
-    } else if (username !== 'admin' || pass !== 'admin') {
-      setMessage('Tài khoản hoặc mật khẩu không đúng')
-    } else {
-      setIsLogin(true)
+    }
+    else {
       setMessage('')
-      alert('Đăng nhập thành công')
+    }
+    try {
+      const res = await axios.post("http://localhost:3000/ad/login", {
+        username,
+        pass
+      })
+      if (res.data === "error")
+        setMessage("An error occurred when login!")
+      else if (res.data === 'not found')
+        setMessage('Tài khoản hoặc mật khẩu không đúng')
+      else {
+        const { userID } = res.data
+        const userData = JSON.stringify({ userID })
+        alert("Login successfully")
+        localStorage.setItem("userAuth", userData)
+        // navigate(`/`)
+      }
+    } catch (error) {
+      alert("An error occurred while trying to log in.")
+      //console.error(error)
     }
   }
 
