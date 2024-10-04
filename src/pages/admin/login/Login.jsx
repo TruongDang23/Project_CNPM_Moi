@@ -1,59 +1,57 @@
-import React, { useState } from 'react'
-import imgLogin from '../../../assets/admin-login.jpg'
-import BgLogin from '../../../assets/bg-login.png'
+import React, { useState } from "react";
+import imgLogin from "../../../assets/admin-login.jpg";
+import BgLogin from "../../../assets/bg-login.png";
 
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline'
-import LockIcon from '@mui/icons-material/Lock'
-import ExitToAppIcon from '@mui/icons-material/ExitToApp'
-import CloseIcon from '@mui/icons-material/Close'
-import VisibilityIcon from '@mui/icons-material/Visibility'
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
-import { Link, useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
-import { Helmet } from 'react-helmet' // dùng để thay đổi title của trang
-import axios from 'axios'
+import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import LockIcon from "@mui/icons-material/Lock";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import CloseIcon from "@mui/icons-material/Close";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { Link, useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { Helmet } from "react-helmet"; // dùng để thay đổi title của trang
+import axios from "axios";
 
 function Login() {
-  const navigate = useNavigate()
-  const [username, setUsername] = useState('')
-  const [pass, setPass] = useState('')
-  const [message, setMessage] = useState('')
-  const [isLogin, setIsLogin] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
-  
+  const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+  const [pass, setPass] = useState("");
+  const [message, setMessage] = useState("");
+  const [isLogin, setIsLogin] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
   const handleLogin = async () => {
-    if (username === '' || pass === '') {
-      setMessage('Vui lòng nhập đầy đủ thông tin')
-    }
-    else {
-      setMessage('')
+    if (username === "" || pass === "") {
+      setMessage("Vui lòng nhập đầy đủ thông tin");
+    } else {
+      setMessage("");
     }
     try {
       const res = await axios.post("http://localhost:3000/ad/login", {
         username,
-        pass
-      })
-      if (res.data === "error")
-        setMessage("An error occurred when login!")
-      else if (res.data === 'not found')
-        setMessage('Tài khoản hoặc mật khẩu không đúng')
+        pass,
+      });
+      if (res.data === "error") setMessage("An error occurred when login!");
+      else if (res.data === "not found")
+        setMessage("Tài khoản hoặc mật khẩu không đúng");
       else {
-        const { userID } = res.data
-        const userData = JSON.stringify({ userID })
-        alert("Login successfully")
-        localStorage.setItem("userAuth", userData)
+        const { userID } = res.data;
+        const userData = JSON.stringify({ userID });
+        alert("Login successfully");
+        localStorage.setItem("userAuth", userData);
         // navigate(`/`)
       }
     } catch (error) {
-      alert("An error occurred while trying to log in.")
+      alert("An error occurred while trying to log in.");
       //console.error(error)
     }
-  }
+  };
 
   const handleCancel = () => {
     // Load lại trang
-    window.location.reload()
-  }
+    window.location.reload();
+  };
 
   return (
     <>
@@ -94,7 +92,7 @@ function Login() {
                 <div className="input-box">
                   <LockIcon className="input-icon" />
                   <input
-                    type={showPassword ? 'text' : 'password'}
+                    type={showPassword ? "text" : "password"}
                     required
                     value={pass}
                     onChange={(e) => setPass(e.target.value)}
@@ -112,10 +110,10 @@ function Login() {
               {message && (
                 <p
                   style={{
-                    color: 'red',
-                    textAlign: 'center',
-                    marginTop: '20px',
-                    fontSize: '1.6rem'
+                    color: "red",
+                    textAlign: "center",
+                    marginTop: "20px",
+                    fontSize: "1.6rem",
                   }}
                 >
                   {message}
@@ -123,12 +121,12 @@ function Login() {
               )}
               <div className="button">
                 <button className="button-login" onClick={handleLogin}>
-                  <ExitToAppIcon sx={{ paddingRight: '10px', fontSize: 35 }} />
+                  <ExitToAppIcon sx={{ paddingRight: "10px", fontSize: 35 }} />
                   Đăng nhập
                 </button>
                 <button className="button-cancel" onClick={handleCancel}>
                   <CloseIcon
-                    sx={{ paddingRight: '10px', fontSize: 35, color: 'red' }}
+                    sx={{ paddingRight: "10px", fontSize: 35, color: "red" }}
                   />
                   Hủy
                 </button>
@@ -141,7 +139,7 @@ function Login() {
         </div>
       </LoginWrapper>
     </>
-  )
+  );
 }
 
 const LoginWrapper = styled.section`
@@ -157,10 +155,8 @@ const LoginWrapper = styled.section`
     background-size: cover;
     object-fit: cover;
 
-
-
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       top: 0;
       left: 0;
@@ -441,6 +437,6 @@ const LoginWrapper = styled.section`
       }
     }
   }
-`
+`;
 
-export default Login
+export default Login;
