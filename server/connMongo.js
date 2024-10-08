@@ -1,17 +1,21 @@
-const mongo = require('mongoose')
+import mongoose from 'mongoose'
+import dotenv from 'dotenv'
+
+dotenv.config({ path: './config.env' })
 
 // Kết nối đến MongoDB
 const connectMongo = async () => {
   try {
-    await mongo.connect('mongodb+srv://lethanhvinhspk:ljlSdShbRvvyyUtJ@mongovinh.jfrn5.mongodb.net/Event?retryWrites=true&w=majority', {
+    // console.log(process.env)
+    await mongoose.connect(process.env.CONNECTIONSTRING, {
       useNewUrlParser: true,
       useUnifiedTopology: true
     })
     console.log('Connected to MongoDB')
   } catch (err) {
-    //console.error('Error connecting to MongoDB', err)
+    console.error('Error connecting to MongoDB', err)
     process.exit(1) // Dừng ứng dụng nếu không thể kết nối
   }
 }
 
-module.exports = connectMongo
+export default connectMongo
