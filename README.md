@@ -1,8 +1,13 @@
-# React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# Yêu cầu đồ án
+### REST API
+- Phải viết đúng chuẩn của REST API
+- Sử dụng các phương thức: PUT, POST, GET, DELETE
+- Có sử dụng filter, sort, pagination
+- Có xác thực Authentication (JWT)
+- Yêu cầu có tính bảo mật
+### MODEL MONGOOSE
+- Schema phải có validation cho các field
+- CRUD cho các Model tương ứng 
+### EXPRESS
+- Tự config một vài middle ware
+- Sử dụng một số middle ware có sẵn
