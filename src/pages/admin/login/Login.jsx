@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import imgLogin from '../../../assets/admin-login.jpg'
 import BgLogin from '../../../assets/bg-login.png'
 
