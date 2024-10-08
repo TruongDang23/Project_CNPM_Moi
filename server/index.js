@@ -1,13 +1,14 @@
 //import some library
-const cors = require('cors')
-const express = require('express')
-const bodyParser = require('body-parser')
+import cors from 'cors'
+import express from 'express'
+import bodyParser from 'body-parser'
 
-const mongo = require('./connMongo')
+import mongo from './connMongo.js'
 const connMongo = mongo()
 
 // Import routes
-const adminRoutes = require('./routes/admin')(connMongo) //Truyền các connection cần thiết vào các Route
+import adminRoutesFunction from './routes/admin.js'
+const adminRoutes = adminRoutesFunction(connMongo) //Truyền các connection cần thiết vào các Route
 
 const app = express()
 const port = 3000

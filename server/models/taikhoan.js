@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 const taikhoanSchema = new mongoose.Schema({
   // Định nghĩa các thuộc tính
@@ -12,4 +12,4 @@ const TaiKhoan = mongoose.model('taikhoan', taikhoanSchema, 'TaiKhoan')
 //đối số thứ 2: cấu trúc của đối tượng: Schema
 //đối số thứ 3: tên collection <=> tên table mà muốn đưa dữ liệu vào
 
-module.exports = TaiKhoan
+export default TaiKhoan

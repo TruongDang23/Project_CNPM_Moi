@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose';
 
 const adminSchema = new mongoose.Schema({
   // Định nghĩa các thuộc tính
@@ -8,11 +8,11 @@ const adminSchema = new mongoose.Schema({
   SDT: { type: String },
   NgaySinh: { type: String },
   NoiSong: { type: String }
-})
+});
 
-const Admin = mongoose.model('admin', adminSchema, 'Admin')
+const Admin = mongoose.model('admin', adminSchema, 'Admin');
 //đối số thứ 1: tên của model, ví dụ bạn muốn gọi đến userID trong model này thì sẽ gọi bằng: user.userID
 //đối số thứ 2: cấu trúc của đối tượng: Schema
 //đối số thứ 3: tên collection <=> tên table mà muốn đưa dữ liệu vào
 
-module.exports = Admin
+export default Admin;
