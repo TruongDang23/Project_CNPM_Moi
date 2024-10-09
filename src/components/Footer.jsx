@@ -7,6 +7,7 @@ function Footer() {
         <h3>Đồ án Đặt và Quản lý tổ chức Sự kiện</h3>
         <div className="footer-content">
           <ul>
+            <li>＼(・ω・＼) 🧑‍💻 (／・ω・)／</li>
             <li>Lê Thành Vinh</li>
             <li>Đặng Quang Trường</li>
             <li>Vũ Hoàng Gia Bảo</li>
@@ -46,18 +47,29 @@ const FooterWrapper = styled.footer`
     line-height: 1.6;
     margin-top: 20px;
     display: block;
+    text-align: center;
   }
 
   .footer-content {
     display: flex;
     width: 100%;
     justify-content: space-between;
+    align-items: center;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      text-align: center;
+    }
   }
 
   ul {
     list-style: none;
     padding: 0;
     margin: 0;
+
+    @media (max-width: 768px) {
+      margin-bottom: 20px;
+    }
   }
 
   li {
@@ -71,6 +83,11 @@ const FooterWrapper = styled.footer`
     width: 200px;
     height: 100%;
     object-fit: cover;
+
+    @media (max-width: 768px) {
+      margin-bottom: 20px;
+    }
   }
 `
+
 export default Footer
