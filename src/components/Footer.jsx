@@ -4,7 +4,7 @@ function Footer() {
   return (
     <FooterWrapper>
       <div className="container">
-        <h3>Đồ án Đặt và Quản lý tổ chức Sự kiện</h3>
+        <h3>Đồ án Đặt dịch vụ và Quản lý tổ chức Sự kiện</h3>
         <div className="footer-content">
           <ul>
             <li>＼(・ω・＼) 🧑‍💻 (／・ω・)／</li>
@@ -42,13 +42,13 @@ const FooterWrapper = styled.footer`
   }
 
   a {
+    align-self: flex-start;
     color: #fff;
     text-decoration: none;
     font-size: 1.6rem;
     line-height: 1.6;
     margin-top: 20px;
     display: block;
-    text-align: center;
   }
 
   .footer-content {
