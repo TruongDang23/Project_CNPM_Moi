@@ -2,20 +2,22 @@ import styled from 'styled-components'
 import { Helmet } from 'react-helmet'
 import Sticky from 'react-sticky-el'
 import { useState } from 'react'
+
 import Header from '../../../components/Header'
 import Footer from '../../../components/Footer'
+import HeroSection from './HeroSection'
 
 function Welcome() {
   return (
     <>
       <Helmet>
-        <title>Welcome</title>
+        <title>Trang chủ</title>
       </Helmet>
       <Sticky>
         <Header />
       </Sticky>
       <WelcomeWrapper>
-        <h1>Welcome to the system</h1>
+        <HeroSection />
       </WelcomeWrapper>
       <Footer />
     </>

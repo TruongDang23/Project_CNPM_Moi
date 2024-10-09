@@ -35,6 +35,7 @@ const FooterWrapper = styled.footer`
   padding: 40px 20px;
 
   h3 {
+    color: #fff;
     font-size: 2rem;
     margin-bottom: 40px;
     text-align: center;
