@@ -10,6 +10,7 @@ import Footer from '../../../components/Footer'
 import HeroSection from './HeroSection'
 import SomeHall from './SomeHall'
 import SecondHeroSection from './SecondHeroSection'
+import IntroService from './IntroService'
 
 function Welcome() {
   return (
@@ -24,6 +25,7 @@ function Welcome() {
         <HeroSection />
         <WelcomMainWrapper className="container">
           <SomeHall someHallData={someHallData} />
+          <IntroService />
         </WelcomMainWrapper>
         <SecondHeroSection />
       </WelcomeWrapper>
