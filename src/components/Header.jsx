@@ -10,7 +10,7 @@ import { Avatar } from '@mui/material'
 import AvatarUser from './AvatarUser'
 
 function Header() {
-  const token = true
+  const token = true // Change to true to see the logged in state: true or false
 
   {
     if (token) {
@@ -129,7 +129,7 @@ const Navbar = styled.nav`
       &::before {
         content: '';
         position: absolute;
-        bottom: 0;
+        bottom: -7px;
         width: 100%;
         height: 2px;
         background-color: #000; /* Màu viền */
