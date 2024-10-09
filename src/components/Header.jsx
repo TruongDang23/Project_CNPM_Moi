@@ -1,12 +1,9 @@
-import React from 'react'
 import styled from 'styled-components'
 import Logo from '../assets/logo.png'
-import { Helmet } from 'react-helmet'
 import ListService from './ListService'
 
 import Badge from '@mui/material/Badge'
 import BookmarkIcon from '@mui/icons-material/Bookmark'
-import { Avatar } from '@mui/material'
 import AvatarUser from './AvatarUser'
 
 function Header() {

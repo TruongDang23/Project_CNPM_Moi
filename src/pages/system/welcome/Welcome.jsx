@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet'
 import Sticky from 'react-sticky-el'
 import { useState } from 'react'
 import Header from '../../../components/Header'
+import Footer from '../../../components/Footer'
 
 function Welcome() {
   return (
@@ -16,6 +17,7 @@ function Welcome() {
       <WelcomeWrapper>
         <h1>Welcome to the system</h1>
       </WelcomeWrapper>
+      <Footer />
     </>
   )
 }
