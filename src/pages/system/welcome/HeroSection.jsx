@@ -14,6 +14,7 @@ function HeroSection() {
 }
 
 const HeroSectionWrapper = styled.section`
+  margin-bottom: 5rem;
   height: 90vh;
   display: flex;
   align-items: center;
