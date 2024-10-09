@@ -14,7 +14,7 @@ const connectMongo = async () => {
     console.log('Connected to MongoDB')
   } catch (err) {
     console.error('Error connecting to MongoDB', err)
-    process.exit(1) // Dừng ứng dụng nếu không thể kết nối
+    process.exit(1) // Dừng ứng dụng nếu không thể kết nốiCSDL
   }
 }
 
