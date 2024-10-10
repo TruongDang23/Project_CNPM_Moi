@@ -19,7 +19,7 @@ import ListItemText from '@mui/material/ListItemText'
 import Link from '@mui/material/Link'
 
 import { Helmet } from 'react-helmet' // dùng để thay đổi title của trang
-import LogoAdmin from '../../../assets/logo-dash.png'
+import LogoAdmin from '../../../assets/logo.png'
 
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom'
 import AutoAwesomeMosaicIcon from '@mui/icons-material/AutoAwesomeMosaic'
@@ -28,6 +28,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import LibraryMusicIcon from '@mui/icons-material/LibraryMusic'
 import FoodBankIcon from '@mui/icons-material/FoodBank'
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard'
+import HoiTruong from './HoiTruong'
 
 const drawerWidth = 240
 
@@ -155,8 +156,9 @@ function DashBoard() {
           PaperProps={{
             sx: {
               width: 100,
-              background: 'linear-gradient(to right, #212529, #000000)',
-              color: '#fff'
+              borderRight: '2px solid #808080',
+              background: '#fff',
+              color: '#212121'
             }
           }}
         >
@@ -176,15 +178,15 @@ function DashBoard() {
                 <img
                   src={LogoAdmin}
                   alt="Web Logo"
-                  style={{ width: '150px' }}
+                  style={{ width: '100px' }}
                 />
               </Box>
             </Link>
             <IconButton onClick={handleDrawerClose} sx={{ fontSize: 40 }}>
               {theme.direction === 'rtl' ? (
-                <ChevronRightIcon sx={{ fontSize: 30, color: '#fff' }} />
+                <ChevronRightIcon sx={{ fontSize: 30, color: '#212121' }} />
               ) : (
-                <ChevronLeftIcon sx={{ fontSize: 30, color: '#fff' }} />
+                <ChevronLeftIcon sx={{ fontSize: 30, color: '#212121' }} />
               )}
             </IconButton>
           </DrawerHeader>
@@ -193,31 +195,31 @@ function DashBoard() {
             {[
               {
                 text: 'Tổng quan',
-                icon: <AutoAwesomeMosaicIcon sx={{ fontSize: 35 }} />
+                icon: <AutoAwesomeMosaicIcon sx={{ fontSize: 30 }} />
               },
               {
                 text: 'Hội trường',
-                icon: <MeetingRoomIcon sx={{ fontSize: 35 }} />
+                icon: <MeetingRoomIcon sx={{ fontSize: 30 }} />
               },
               {
                 text: 'Đơn đặt hàng',
-                icon: <ShoppingCartIcon sx={{ fontSize: 35 }} />
+                icon: <ShoppingCartIcon sx={{ fontSize: 30 }} />
               },
               {
                 text: 'MC',
-                icon: <InterpreterModeIcon sx={{ fontSize: 35 }} />
+                icon: <InterpreterModeIcon sx={{ fontSize: 30 }} />
               },
               {
                 text: 'Nhạc công',
-                icon: <LibraryMusicIcon sx={{ fontSize: 35 }} />
+                icon: <LibraryMusicIcon sx={{ fontSize: 30 }} />
               },
               {
                 text: 'Món ăn',
-                icon: <FoodBankIcon sx={{ fontSize: 35 }} />
+                icon: <FoodBankIcon sx={{ fontSize: 30 }} />
               },
               {
                 text: 'Thiệp mời',
-                icon: <CardGiftcardIcon sx={{ fontSize: 35 }} />
+                icon: <CardGiftcardIcon sx={{ fontSize: 30 }} />
               }
             ].map((item, index) => (
               <ListItem
@@ -233,11 +235,11 @@ function DashBoard() {
                     px: 2.5,
                     '&:hover': {
                       backgroundColor: '#ffffff4d',
-                      borderLeft: '4px solid #fff'
+                      borderLeft: '4px solid #212121'
                     },
                     '&.Mui-selected': {
                       backgroundColor: '#ffffff4d',
-                      borderLeft: '4px solid #fff'
+                      borderLeft: '4px solid #212121'
                     }
                   }}
                 >
@@ -246,7 +248,7 @@ function DashBoard() {
                       minWidth: 0,
                       mr: open ? 3 : 'auto',
                       justifyContent: 'center',
-                      color: '#fff'
+                      color: '#212121'
                     }}
                   >
                     {item.icon}
@@ -268,7 +270,7 @@ function DashBoard() {
         <Box component="main" sx={{ flexGrow: 1 }}>
           <DrawerHeader />
           {content === 'Tổng quan' && <h1>page 1</h1>}
-          {content === 'Hội trường' && <h1>page 2</h1>}
+          {content === 'Hội trường' && <HoiTruong />}
           {content === 'Đơn đặt hàng' && <h1>page 3</h1>}
           {content === 'MC' && <h1>page 4</h1>}
           {content === 'Nhạc công' && <h1>page 5</h1>}
