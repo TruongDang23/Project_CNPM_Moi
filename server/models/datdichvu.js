@@ -2,19 +2,12 @@ import mongoose from 'mongoose'
 import validator from 'validator'
 
 const datDichVuSchema = new mongoose.Schema({
-  HoTen: {
+  MaTK: {
     type: String,
-    required: [true, 'Họ tên là bắt buộc'],
-    minlength: [2, 'Họ tên phải có ít nhất 2 ký tự']
-  },
-  SDT: {
-    type: String,
-    required: [true, 'Số điện thoại là bắt buộc'],
+    required: [true, 'Phải có MaTK'],
     validate: {
-      validator: function (v) {
-        return validator.isMobilePhone(v, 'vi-VN')
-      },
-      message: 'Số điện thoại không hợp lệ'
+      validator: (value) => validator.isAlphanumeric(value), // Kiểm tra xem MaTK có phải là chuỗi ký tự và số không
+      message: 'MaTK chỉ được chứa ký tự chữ và số'
     }
   },
   ThoiDiemDat: {
@@ -48,7 +41,7 @@ const datDichVuSchema = new mongoose.Schema({
   },
   TrangThai: {
     type: Boolean,
-    default: true
+    default: false
   },
   DichVu: {
     SoLuongBan: {
@@ -65,15 +58,18 @@ const datDichVuSchema = new mongoose.Schema({
     MaNhacCong: {
       type: String
     },
-    MaThiep: {
+    MaThiepMoi: {
       type: String
     },
     MaHoiTruong: {
       type: String
     },
-    MonAn: {
-      type: [String]
+    MonCombo: {
+      type: String
     }
+  },
+  Note: {
+    type: String
   }
 })
 
