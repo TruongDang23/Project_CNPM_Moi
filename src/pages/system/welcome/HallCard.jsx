@@ -1,20 +1,7 @@
 import styled from 'styled-components'
 
 function HallCard({ hall }) {
-  const {
-    TenHoiTruong,
-    SucChua,
-    Wifi,
-    MoTa,
-    MayLanh,
-    PhongKin,
-    DienTich,
-    SoPhong,
-    ViTriLau,
-    Gia,
-    TinhTrang,
-    HinhAnh
-  } = hall
+  const { TenHoiTruong, SucChua, Gia, TinhTrang, HinhAnh } = hall
 
   return (
     <HallCardWrapper>
@@ -83,7 +70,7 @@ const HallCardWrapper = styled.div`
     text-align: center;
 
     button {
-        width: 100%;
+      width: 100%;
       padding: 15px 20px;
       background-color: #252525;
       color: #fff;
