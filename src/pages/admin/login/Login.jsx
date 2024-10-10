@@ -12,6 +12,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { Helmet } from 'react-helmet' // dùng để thay đổi title của trang
 import axios from 'axios'
+import endpoint from '../../../constance/endpoint'
 
 function Login() {
   const navigate = useNavigate()
@@ -28,7 +29,7 @@ function Login() {
       setMessage('')
     }
     try {
-      const res = await axios.post('http://localhost:3000/ad/login', {
+      const res = await axios.post(`http://${endpoint}/login`, {
         username,
         pass
       })
