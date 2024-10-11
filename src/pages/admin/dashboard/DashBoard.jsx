@@ -28,7 +28,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import LibraryMusicIcon from '@mui/icons-material/LibraryMusic'
 import FoodBankIcon from '@mui/icons-material/FoodBank'
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard'
-import HoiTruong from './HoiTruong'
+import HoiTruong from './hoitruong/HoiTruong'
 
 const drawerWidth = 240
 
