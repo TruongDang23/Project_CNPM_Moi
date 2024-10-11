@@ -108,7 +108,7 @@ function HoiTruongDetail({ selectedData }) {
         </div>
         <div className="form-row">
           <div className="form-group">
-            <label className="label">Diện tích:</label>
+            <label className="label">Diện tích (m2):</label>
             <input
               className="input"
               name="DienTich"
@@ -221,6 +221,9 @@ const HoiTruongDetailWrapper = styled.div`
   }
   .form-group {
     margin-bottom: 15px;
+    button {
+      float: right;
+    }
   }
 
   .form-row {
