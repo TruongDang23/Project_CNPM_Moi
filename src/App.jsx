@@ -3,7 +3,7 @@ import Welcome from './pages/system/welcome/Welcome.jsx'
 import DashBoard from './pages/admin/dashboard/DashBoard.jsx'
 
 function App() {
-  return <DashBoard />
+  return <Welcome />
 }
 
 export default App

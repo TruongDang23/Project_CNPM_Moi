@@ -21,7 +21,7 @@ const SecondHeroSectionWrapper = styled.section`
   object-fit: cover;
   text-align: center;
   h1 {
-    color: #252525;
+    color: var(--primary-color);
     font-size: 4.5rem;
     margin-bottom: 2rem;
 

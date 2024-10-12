@@ -26,7 +26,7 @@ const HeroSectionWrapper = styled.section`
   object-fit: cover;
   text-align: center;
   h1 {
-    color: #252525;
+    color: var(--primary-color);
     font-size: 6rem;
     margin-bottom: 2rem;
     text-transform: uppercase;
@@ -44,7 +44,7 @@ const HeroSectionWrapper = styled.section`
     }
   }
   h3 {
-    color: #808080;
+    color: var(--secondary-color);
     font-size: 3rem;
     margin-bottom: 1rem;
     line-height: 1.5;

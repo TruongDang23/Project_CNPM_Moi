@@ -19,7 +19,7 @@ import ListItemText from '@mui/material/ListItemText'
 import Link from '@mui/material/Link'
 
 import { Helmet } from 'react-helmet' // dùng để thay đổi title của trang
-import LogoAdmin from '../../../assets/logo.png'
+import LogoAdmin from '../../../assets/logo-v1.png'
 
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom'
 import AutoAwesomeMosaicIcon from '@mui/icons-material/AutoAwesomeMosaic'

@@ -45,6 +45,7 @@ const HallCardWrapper = styled.div`
     padding: 20px;
 
     h3 {
+      color: var(--primary-color);
       font-size: 1.8rem;
       margin-bottom: 10px;
     }
@@ -72,19 +73,20 @@ const HallCardWrapper = styled.div`
     button {
       width: 100%;
       padding: 15px 20px;
-      background-color: #252525;
+      background-color: var(--primary-color);
       color: #fff;
       font-size: 1.3rem;
       font-weight: 700;
       text-transform: uppercase;
       border-radius: 5px;
+      border: none;
       cursor: pointer;
       transition: all 0.3s;
 
       &:hover,
       &:visited {
-        background-color: #3a3a3a;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Add shadow */
+        background-color: var(--hover-color-1); /* Change background on hover */
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
         transition: all 0.3s;
       }
     }

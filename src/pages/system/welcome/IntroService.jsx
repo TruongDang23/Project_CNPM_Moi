@@ -90,7 +90,7 @@ function IntroService() {
 const IntroServiceWrapper = styled.section`
   margin: 10rem 0;
   h2 {
-    color: #252525;
+    color: var(--primary-color);
     font-size: 3rem;
     margin-bottom: 5rem;
     text-align: center;
@@ -114,6 +114,7 @@ const IntroServiceWrapper = styled.section`
     width: 40%;
     padding: 20px;
     h3 {
+      color: var(--primary-color);
       font-size: 3rem;
       margin-bottom: 10px;
       line-height: 1.6;

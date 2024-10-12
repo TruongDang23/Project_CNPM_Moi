@@ -278,7 +278,7 @@ const HoiTruongDetailWrapper = styled.div`
   }
 
   .button.delete {
-    background-color: #f44336;
+    background-color: var(--primary-color);
 
     &:hover {
       background-color: #d32f2f;

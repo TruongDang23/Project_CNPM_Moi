@@ -64,7 +64,7 @@ function ListService() {
         sx={{
           fontSize: '16px',
           fontWeight: 'bold',
-          color: '#333',
+          color: 'var(--primary-color)', // Màu chữ
           textTransform: 'capitalize'
         }}
       >
@@ -147,7 +147,7 @@ function ListService() {
 const StyledButton = styled(Button)`
   font-size: 16px;
   font-weight: bold;
-  color: #333;
+  color: var(--primary-color); /* Màu chữ */
   text-transform: capitalize;
   position: relative;
   background: none;
@@ -155,7 +155,7 @@ const StyledButton = styled(Button)`
   cursor: pointer;
 
   &:hover {
-    color: #000; /* Màu chữ khi hover */
+    color: var(--bold-color); /* Màu chữ khi hover */
   }
 
   &:hover::before {
@@ -168,7 +168,7 @@ const StyledButton = styled(Button)`
     bottom: 0;
     width: 100%;
     height: 2px;
-    background-color: #000; /* Màu viền */
+    background-color: var(--bold-color); /* Màu viền */
     transform: scaleX(0);
     transform-origin: center;
     transition: transform 0.3s ease-in-out;

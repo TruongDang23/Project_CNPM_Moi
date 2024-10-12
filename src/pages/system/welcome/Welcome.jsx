@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 import { Helmet } from 'react-helmet'
 import Sticky from 'react-sticky-el'
-import { useState } from 'react'
 
 import someHallData from '../../../data/someHallData'
 
