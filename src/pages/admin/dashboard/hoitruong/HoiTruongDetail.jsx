@@ -214,8 +214,11 @@ function HoiTruongDetail({ selectedData }) {
 }
 
 const HoiTruongDetailWrapper = styled.div`
+  color: var(--primary-color);
   font-size: 1.2rem;
+  transition: all 0.4s;
   h3 {
+    color: var(--primary-color);
     font-size: 1.6rem;
     margin-bottom: 15px;
   }
@@ -242,7 +245,7 @@ const HoiTruongDetailWrapper = styled.div`
   .textarea {
     width: 100%;
     padding: 8px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--primary-color);
     border-radius: 5px;
   }
 
@@ -252,7 +255,7 @@ const HoiTruongDetailWrapper = styled.div`
 
   .button {
     padding: 10px 30px;
-    background-color: #333;
+    background-color: var(--primary-color);
     text-transform: uppercase;
     font-size: 1.2rem;
     font-weight: 700;
@@ -263,22 +266,23 @@ const HoiTruongDetailWrapper = styled.div`
     margin-top: 10px;
 
     &:hover {
-      background-color: #555;
+      background-color: var(--hover-color-1);
+      transition: all 0.4s;
     }
   }
 
   .button.update {
-    background-color: #f1f3f5;
-    color: #212121;
+    background-color: var(--hover-color-2);
+    color: var(--primary-color);
 
     &:hover {
       color: #fff;
-      background-color: #555;
+      background-color: var(--bold-color);
     }
   }
 
   .button.delete {
-    background-color: var(--primary-color);
+    background-color: #f44336;
 
     &:hover {
       background-color: #d32f2f;

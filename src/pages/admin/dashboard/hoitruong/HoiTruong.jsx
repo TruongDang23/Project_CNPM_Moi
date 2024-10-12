@@ -66,6 +66,7 @@ function HoiTruong() {
 const HoiTruongWrapper = styled.section`
   font-family: 'Source Sans 3', sans-serif;
   h2 {
+    color: var(--primary-color);
     width: 100%;
     font-size: 2.4rem;
     margin: 20px;
@@ -87,6 +88,7 @@ const HoiTruongWrapper = styled.section`
       height: auto;
 
       h3 {
+        color: var(--primary-color);
         font-size: 1.6rem;
       }
 
@@ -106,7 +108,7 @@ const HoiTruongWrapper = styled.section`
           width: 30%;
           padding: 10px;
           border-radius: 5px;
-          border: 1px solid #ccc;
+          border: 1px solid var(--primary-color);
         }
       }
     }

@@ -58,7 +58,7 @@ export const customStyles = {
     style: {
       fontSize: '1.4rem',
       fontWeight: '600',
-      backgroundColor: '#252525',
+      backgroundColor: 'var(--primary-color)',
       color: '#fff',
       padding: '12px' // padding cho các ô header
     }

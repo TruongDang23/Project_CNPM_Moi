@@ -19,7 +19,9 @@ import ListItemText from '@mui/material/ListItemText'
 import Link from '@mui/material/Link'
 
 import { Helmet } from 'react-helmet' // dùng để thay đổi title của trang
-import LogoAdmin from '../../../assets/logo-v1.png'
+
+// import LogoAdmin from '../../../assets/logo-v1.png'
+import LogoAdmin from '../../../assets/logo-v2.png'
 
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom'
 import AutoAwesomeMosaicIcon from '@mui/icons-material/AutoAwesomeMosaic'
@@ -123,7 +125,7 @@ function DashBoard() {
         <AppBar
           position="fixed"
           open={open}
-          sx={{ bgcolor: '#fff', color: '#333' }}
+          sx={{ bgcolor: '#fff', color: 'var(--primary-color)' }}
         >
           <Toolbar>
             <>
@@ -137,13 +139,17 @@ function DashBoard() {
                   ...(open && { display: 'none' })
                 }}
               >
-                <MenuIcon sx={{ fontSize: 30, color: '#000000' }} />
+                <MenuIcon sx={{ fontSize: 30, color: 'var(----bold-color)' }} />
               </IconButton>
               <Typography
                 variant="h3"
                 noWrap
                 component="div"
-                sx={{ fontSize: '2rem', fontWeight: '700', color: '#212121' }}
+                sx={{
+                  fontSize: '2rem',
+                  fontWeight: '700',
+                  color: 'var(----primary-color)'
+                }}
               >
                 Dashboard Quản Lý
               </Typography>
@@ -156,9 +162,9 @@ function DashBoard() {
           PaperProps={{
             sx: {
               width: 100,
-              borderRight: '2px solid #808080',
+              borderRight: '2px solid var(--secondary-color)',
               background: '#fff',
-              color: '#212121'
+              color: 'var(--primary-color)'
             }
           }}
         >
@@ -184,9 +190,13 @@ function DashBoard() {
             </Link>
             <IconButton onClick={handleDrawerClose} sx={{ fontSize: 40 }}>
               {theme.direction === 'rtl' ? (
-                <ChevronRightIcon sx={{ fontSize: 30, color: '#212121' }} />
+                <ChevronRightIcon
+                  sx={{ fontSize: 30, color: 'var(--primary-color)' }}
+                />
               ) : (
-                <ChevronLeftIcon sx={{ fontSize: 30, color: '#212121' }} />
+                <ChevronLeftIcon
+                  sx={{ fontSize: 30, color: 'var(--primary-color)' }}
+                />
               )}
             </IconButton>
           </DrawerHeader>
@@ -235,11 +245,11 @@ function DashBoard() {
                     px: 2.5,
                     '&:hover': {
                       backgroundColor: '#ffffff4d',
-                      borderLeft: '4px solid #212121'
+                      borderLeft: '4px solid var(--primary-color)1'
                     },
                     '&.Mui-selected': {
                       backgroundColor: '#ffffff4d',
-                      borderLeft: '4px solid #212121'
+                      borderLeft: '4px solid var(--primary-color)'
                     }
                   }}
                 >
@@ -248,7 +258,7 @@ function DashBoard() {
                       minWidth: 0,
                       mr: open ? 3 : 'auto',
                       justifyContent: 'center',
-                      color: '#212121'
+                      color: 'var(--primary-color)'
                     }}
                   >
                     {item.icon}
