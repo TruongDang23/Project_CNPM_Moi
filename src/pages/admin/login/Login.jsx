@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import imgLogin from '../../../assets/admin-login.jpg'
-import BgLogin from '../../../assets/bg-login.png'
+
+import BgLogin from '../../../assets/bg-v1.png'
+// import BgLogin from '../../../assets/bg-v2.png'
 
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline'
 import LockIcon from '@mui/icons-material/Lock'
@@ -211,7 +213,7 @@ const LoginWrapper = styled.section`
       flex: 1;
       h1 {
         margin-bottom: 30px;
-        color: #252525;
+        color: var(--primary-color);
         text-align: center;
         font-size: 4rem;
         font-style: normal;
@@ -224,7 +226,7 @@ const LoginWrapper = styled.section`
         margin-bottom: 20px;
 
         label {
-          color: #333;
+          color: var(--primary-color);
           font-size: 2rem;
           font-style: normal;
           font-weight: 700;
@@ -274,11 +276,11 @@ const LoginWrapper = styled.section`
           }
 
           &:hover {
-            box-shadow: 0 0 0 2px #252525;
+            box-shadow: 0 0 0 2px var(--primary-color);
           }
 
           &:focus-within {
-            box-shadow: 0 0 0 2px #252525;
+            box-shadow: 0 0 0 2px var(--primary-color);
           }
         }
       }
@@ -297,7 +299,7 @@ const LoginWrapper = styled.section`
         margin-top: 50px;
 
         .button-login {
-          background-color: #252525;
+          background-color: var(--primary-color);
           color: #fff;
           font-size: 1.6rem;
           font-weight: 700;
@@ -312,14 +314,14 @@ const LoginWrapper = styled.section`
           transition: 0.3s all ease;
 
           &:hover {
-            background-color: #252525;
+            background-color: var(--hover-color-1);
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
           }
         }
 
         .button-cancel {
           background-color: #fff;
-          color: #252525;
+          color: var(--primary-color);
           font-size: 1.6rem;
           font-weight: 700;
           text-transform: uppercase;
@@ -334,7 +336,7 @@ const LoginWrapper = styled.section`
           transition: 0.3s all ease;
 
           &:hover {
-            box-shadow: 0 0 0 2px #252525;
+            box-shadow: 0 0 0 2px var(--primary-color);
           }
         }
 
@@ -356,7 +358,7 @@ const LoginWrapper = styled.section`
         margin: 0px 10px;
         margin-top: 20px;
         a {
-          color: #555;
+          color: var(--primary-color);
           font-size: 1.6rem;
           font-style: normal;
           font-weight: 700;
@@ -365,7 +367,7 @@ const LoginWrapper = styled.section`
           transition: 0.3s all ease;
 
           &:hover {
-            color: #252525;
+            color: var(--hover-color-1);
             text-decoration: underline;
           }
         }

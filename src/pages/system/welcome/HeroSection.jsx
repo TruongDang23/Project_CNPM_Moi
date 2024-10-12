@@ -1,5 +1,6 @@
 import styled from 'styled-components'
-import Bg from '../../../assets/bg-login.png'
+import Bg from '../../../assets/bg-v1.png'
+// import Bg from '../../../assets/bg-v2.png'
 
 function HeroSection() {
   return (
