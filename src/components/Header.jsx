@@ -1,5 +1,6 @@
 import styled from 'styled-components'
-import Logo from '../assets/logo.png'
+// import Logo from '../assets/logo-v1.png'
+import Logo from '../assets/logo-v2.png'
 import ListService from './ListService'
 
 import Badge from '@mui/material/Badge'
@@ -62,7 +63,7 @@ function Header() {
 
 const StyledBadge = styled(Badge)`
   cursor: pointer;
-  color: #252525;
+  color: var(--primary-color);
   transition: all 0.3s;
   ${'' /* giảm kích thước của badge */}
   .MuiBadge-badge {
@@ -109,14 +110,14 @@ const Navbar = styled.nav`
 
     .link {
       font-size: 16px;
-      color: #252525;
+      color: var(--primary-color);
       font-weight: 700;
       text-decoration: none;
       position: relative;
       padding: 5px 0;
 
       &:hover {
-        color: #000; /* Màu chữ khi hover */
+        color: var(--bold-color); /* Màu chữ khi hover */
       }
 
       &:hover::before {
@@ -129,7 +130,7 @@ const Navbar = styled.nav`
         bottom: -7px;
         width: 100%;
         height: 2px;
-        background-color: #000; /* Màu viền */
+        background-color: var(--bold-color); /* Màu viền */
         transform: scaleX(0);
         transform-origin: center;
         transition: transform 0.3s ease-in-out;
@@ -153,12 +154,12 @@ const Navbar = styled.nav`
     }
 
     .login {
-      background-color: #252525;
+      background-color: var(--primary-color);
       color: #fff;
 
       &:hover,
       &:visited {
-        background-color: #3a3a3a;
+        background-color: var(--hover-color-1); /* Change background on hover */
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Add shadow */
         transition: all 0.3s;
       }
@@ -166,13 +167,13 @@ const Navbar = styled.nav`
 
     .signup {
       background-color: #f1f3f5;
-      color: #252525;
+      color: var(--primary-color);
       border: none;
 
       &:hover,
       &:visited {
-        background-color: #e0e3e7; /* Change background on hover */
-        color: #000; /* Darken the text */
+        background-color: var(--hover-color-2) /* Change background on hover */
+        color: var(--bold-color); /* Darken the text */
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Add shadow */
         transition: all 0.3s;
       }

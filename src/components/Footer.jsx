@@ -30,7 +30,7 @@ function Footer() {
 }
 
 const FooterWrapper = styled.footer`
-  background-color: #212121;
+  background-color: var(--primary-color);
   color: #fff;
   padding: 40px 20px;
 

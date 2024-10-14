@@ -17,7 +17,7 @@ function SomeHall({ someHallData }) {
 const SomeHallWrapper = styled.section`
   margin: 10rem 0;
   h2 {
-    color: #252525;
+    color: var(--primary-color);
     font-size: 3rem;
     margin-bottom: 5rem;
     text-align: center;

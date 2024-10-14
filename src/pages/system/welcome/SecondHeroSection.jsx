@@ -1,5 +1,6 @@
 import styled from 'styled-components'
-import Bg from '../../../assets/bg-login.png'
+import Bg from '../../../assets/bg-v1.png'
+// import Bg from '../../../assets/bg-v2.png'
 
 function SecondHeroSection() {
   return (
@@ -21,7 +22,7 @@ const SecondHeroSectionWrapper = styled.section`
   object-fit: cover;
   text-align: center;
   h1 {
-    color: #252525;
+    color: var(--primary-color);
     font-size: 4.5rem;
     margin-bottom: 2rem;
 
