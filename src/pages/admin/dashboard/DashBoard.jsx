@@ -279,7 +279,7 @@ function DashBoard() {
         </Drawer>
         <Box component="main" sx={{ flexGrow: 1 }}>
           <DrawerHeader />
-          {content === 'Tổng quan' && <h1>page 1</h1>}
+          {content === 'Tổng quan' && <h1>page 1  </h1>}
           {content === 'Hội trường' && <HoiTruong />}
           {content === 'Đơn đặt hàng' && <h1>page 3</h1>}
           {content === 'MC' && <h1>page 4</h1>}
