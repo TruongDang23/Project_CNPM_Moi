@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Box from '@mui/material/Box'
 import Stepper from '@mui/material/Stepper'
 import Step from '@mui/material/Step'
 import StepLabel from '@mui/material/StepLabel'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
+
+import { OrderContext } from '../../../context/OrderContext'
 
 import styled from 'styled-components'
 
@@ -24,7 +26,8 @@ const steps = [
   'Chọn Thiệp'
 ]
 
-function MainOrderStepper({ orderdata }) {
+function MainOrderStepper() {
+  const { orderdata } = useContext(OrderContext)
   const { LuuHoiTruong, LuuMC, LuuNhacCong, LuuCombo, LuuThiep } = orderdata
   const [activeStep, setActiveStep] = useState(0)
 

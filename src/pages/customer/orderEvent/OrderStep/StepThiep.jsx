@@ -1,39 +1,9 @@
 import styled from 'styled-components'
-
-import { useState } from 'react'
-
-// LuuThiep: [
-//     {
-//       MaThiep: 'T001',
-//       LoaiThiep: 'Sinh Nhật',
-//       Gia: 3000,
-//       HinhAnh: [
-//         'https://assets.paperlust.co/uploads/design/1282/Floral_birthday_(Birthday_invitation)_pink_potrait_133x184.jpg',
-//         'https://i.pinimg.com/originals/ff/16/8f/ff168fe3e16bcbbfb24bea63b4600bbb.jpg'
-//       ]
-//     },
-//     {
-//       MaThiep: 'T002',
-//       LoaiThiep: 'Cưới',
-//       Gia: 3000,
-//       HinhAnh: [
-//         'https://static.vecteezy.com/system/resources/previews/000/620/974/original/birthday-invitation-card-vector.jpg',
-//         'https://th.bing.com/th/id/R.a33b0ac896e39f9a17773a787106c245?rik=2jw1LJR8GWULFA&pid=ImgRaw&r=0'
-//       ]
-//     },
-//     {
-//       MaThiep: 'T003',
-//       LoaiThiep: 'Tân Gia',
-//       Gia: 3000,
-//       HinhAnh: [
-//         'https://th.bing.com/th/id/R.a33b0ac896e39f9a17773a787106c245?rik=2jw1LJR8GWULFA&pid=ImgRaw&r=0',
-//         'https://assets.paperlust.co/uploads/design/1282/Floral_birthday_(Birthday_invitation)_pink_potrait_133x184.jpg'
-//       ]
-//     }
-//   ]
+import { OrderContext } from '../../../../context/OrderContext'
+import { useState, useContext } from 'react'
 
 function StepThiep({ luuThiep }) {
-  const [selectedThiep, setSelectedThiep] = useState(null)
+  const { selectedThiep, setSelectedThiep } = useContext(OrderContext)
   const handleThiepChange = (e) => {
     const thiepID = e.target.value
     const thiep = luuThiep.find((thiep) => thiep.MaThiep === thiepID)
@@ -52,6 +22,7 @@ function StepThiep({ luuThiep }) {
             <option value="" disabled hidden>
               Chọn thiệp
             </option>
+            <option value="none">Không chọn thiệp</option>
             {luuThiep.map((thiep) => (
               <option key={thiep.MaThiep} value={thiep.MaThiep}>
                 {thiep.LoaiThiep}
@@ -79,6 +50,17 @@ function StepThiep({ luuThiep }) {
           </div>
         ) : (
           <p>Chưa chọn thiệp</p>
+        )}
+      </div>
+
+      <div className="step-choose">
+        {selectedThiep ? (
+          <p>
+            Bạn đã chọn Thiệp {selectedThiep.LoaiThiep}
+            <span>✔ </span>
+          </p>
+        ) : (
+          <p>&nbsp;</p>
         )}
       </div>
     </StepThiepWrapper>
@@ -149,6 +131,20 @@ const StepThiepWrapper = styled.div`
           display: flex;
           gap: 2rem;
         }
+      }
+    }
+  }
+
+  .step-choose {
+    text-align: center;
+    p {
+      font-size: 1.6rem;
+      font-style: normal;
+      font-weight: 700;
+
+      span {
+        color: val(--primary-color);
+        padding-left: 1rem;
       }
     }
   }

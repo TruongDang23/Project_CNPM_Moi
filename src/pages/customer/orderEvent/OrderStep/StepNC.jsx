@@ -1,33 +1,9 @@
 import styled from 'styled-components'
-import { useState } from 'react'
-
-// LuuNhacCong: [
-//     {
-//       MaNhacCong: 'N001',
-//       HoTen: 'Nguyễn Văn A',
-//       SDT: '0912345678',
-//       KinhNghiem: 5,
-//       LoaiNhacCu: 'Guitar',
-//       TinhTrang: true,
-//       Gia: 2000000,
-//       HinhAnh:
-//         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRapo-IFhBNQMfIiJNcZCFQe2W8WS8FoUdvEg&s'
-//     },
-//     {
-//       MaNhacCong: 'N002',
-//       HoTen: 'Trần Văn B',
-//       SDT: '0912345678',
-//       KinhNghiem: 3,
-//       LoaiNhacCu: 'Piano',
-//       TinhTrang: true,
-//       Gia: 2000000,
-//       HinhAnh:
-//         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQr0zAwlwlbN9_tV_K5VKf2BzK6Jq6-XynBEA&s'
-//     }
-//   ],
+import { useState, useContext } from 'react'
+import { OrderContext } from '../../../../context/OrderContext'
 
 function StepNC({ luuNhacCong }) {
-  const [selectedNC, setSelectedNC] = useState(null)
+  const { selectedNC, setSelectedNC } = useContext(OrderContext)
   const handleNCChange = (e) => {
     const ncID = e.target.value
     const nc = luuNhacCong.find((nc) => nc.MaNhacCong === ncID)
@@ -47,6 +23,7 @@ function StepNC({ luuNhacCong }) {
             <option value="" disabled hidden>
               Chọn Nhạc Công
             </option>
+            <option value="none">Không chọn Nhạc Công</option>
             {luuNhacCong.map((nc) => (
               <option key={nc.MaNhacCong} value={nc.MaNhacCong}>
                 {nc.HoTen}
@@ -75,6 +52,17 @@ function StepNC({ luuNhacCong }) {
           </div>
         ) : (
           <p>Chưa chọn Nhạc Công</p>
+        )}
+      </div>
+
+      <div className="step-choose">
+        {selectedNC ? (
+          <p>
+            Bạn đã chọn Nhạc Công {selectedNC.HoTen}
+            <span>✔ </span>
+          </p>
+        ) : (
+          <p>&nbsp;</p>
         )}
       </div>
     </StepNCWrapper>
@@ -145,6 +133,20 @@ const StepNCWrapper = styled.div`
           display: flex;
           gap: 2rem;
         }
+      }
+    }
+  }
+
+  .step-choose {
+    text-align: center;
+    p {
+      font-size: 1.6rem;
+      font-style: normal;
+      font-weight: 700;
+
+      span {
+        color: val(--primary-color);
+        padding-left: 1rem;
       }
     }
   }

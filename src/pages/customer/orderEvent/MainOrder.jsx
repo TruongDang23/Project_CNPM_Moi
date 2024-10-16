@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import MainOrderStepper from './MainOrderStepper'
 
-function MainOrder({ orderdata }) {
+function MainOrder() {
   return (
     <OrderEventWrapper className="container">
       <div className="order-event-heading">
@@ -9,7 +9,7 @@ function MainOrder({ orderdata }) {
         <button id="btn-cancel">Hủy</button>
       </div>
       <hr />
-      <MainOrderStepper orderdata={orderdata} />
+      <MainOrderStepper/>
     </OrderEventWrapper>
   )
 }

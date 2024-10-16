@@ -1,8 +1,9 @@
 import styled from 'styled-components'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { OrderContext } from '../../../../context/OrderContext'
 
 function StepMC({ luuMC }) {
-  const [selectedMC, setSelectedMC] = useState(null)
+  const { selectedMC, setSelectedMC } = useContext(OrderContext)
   const handleMCChange = (e) => {
     const mcID = e.target.value
     const mc = luuMC.find((mc) => mc.MaMC === mcID)
@@ -22,6 +23,7 @@ function StepMC({ luuMC }) {
             <option value="" disabled hidden>
               Chọn MC
             </option>
+            <option value="none">Không chọn MC</option>
             {luuMC.map((mc) => (
               <option key={mc.MaMC} value={mc.MaMC}>
                 {mc.HoTen}
@@ -49,6 +51,17 @@ function StepMC({ luuMC }) {
           </div>
         ) : (
           <p>Chưa chọn MC</p>
+        )}
+      </div>
+
+      <div className="step-choose">
+        {selectedMC ? (
+          <p>
+            Bạn đã chọn {selectedMC.HoTen}
+            <span>✔ </span>
+          </p>
+        ) : (
+          <p>&nbsp;</p>
         )}
       </div>
     </StepMCWrapper>
@@ -115,6 +128,20 @@ const StepMCWrapper = styled.section`
           font-size: 2rem;
           margin-bottom: 1rem;
         }
+      }
+    }
+  }
+
+  .step-choose {
+    text-align: center;
+    p {
+      font-size: 1.6rem;
+      font-style: normal;
+      font-weight: 700;
+
+      span {
+        color: val(--primary-color);
+        padding-left: 1rem;
       }
     }
   }

@@ -1,62 +1,9 @@
 import styled from 'styled-components'
-import { useState } from 'react'
-
-// LuuCombo: [
-//     {
-//       MaCombo: 'C001',
-//       TenCombo: 'Combo 1',
-//       LoaiCombo: 'Combo Thịt Đỏ',
-//       MoTa: 'Sự kết hợp hài hòa',
-//       Gia: 5000000,
-//       DanhSachMonAn: [
-//         'Bún chả',
-//         'Bánh mì pate',
-//         'Canh chua cá',
-//         'Cơm gà',
-//         'Bún riêu'
-//       ],
-//       HinhAnh: [
-//         'https://media.istockphoto.com/id/1196814203/vi/anh/kh%C3%A1c-nhau-m%C3%B3n-h%E1%BA%A3i-s%E1%BA%A3n-tr%C3%AAn-b%C3%A0n-%C4%91%C3%A1.jpg?s=1024x1024&w=is&k=20&c=jafepGgVvVpXertZpAmpGFiuIrzX-5OtMREngWbGaMM='
-//       ]
-//     },
-//     {
-//       MaCombo: 'C002',
-//       TenCombo: 'Combo 2',
-//       LoaiCombo: 'Combo Thịt Trắng',
-//       MoTa: 'Sự kết hợp hài hòa',
-//       Gia: 5000000,
-//       DanhSachMonAn: [
-//         'Bún chả',
-//         'Bánh mì pate',
-//         'Canh chua cá',
-//         'Cơm gà',
-//         'Bún riêu'
-//       ],
-//       HinhAnh: [
-//         'https://media.istockphoto.com/id/1196814203/vi/anh/kh%C3%A1c-nhau-m%C3%B3n-h%E1%BA%A3i-s%E1%BA%A3n-tr%C3%AAn-b%C3%A0n-%C4%91%C3%A1.jpg?s=1024x1024&w=is&k=20&c=jafepGgVvVpXertZpAmpGFiuIrzX-5OtMREngWbGaMM='
-//       ]
-//     },
-//     {
-//       MaCombo: 'C003',
-//       TenCombo: 'Combo 3',
-//       LoaiCombo: 'Combo Hải Sản',
-//       MoTa: 'Sự kết hợp hài hòa',
-//       Gia: 5000000,
-//       DanhSachMonAn: [
-//         'Bún chả',
-//         'Bánh mì pate',
-//         'Canh chua cá',
-//         'Cơm gà',
-//         'Bún riêu'
-//       ],
-//       HinhAnh: [
-//         'https://media.istockphoto.com/id/1196814203/vi/anh/kh%C3%A1c-nhau-m%C3%B3n-h%E1%BA%A3i-s%E1%BA%A3n-tr%C3%AAn-b%C3%A0n-%C4%91%C3%A1.jpg?s=1024x1024&w=is&k=20&c=jafepGgVvVpXertZpAmpGFiuIrzX-5OtMREngWbGaMM='
-//       ]
-//     }
-//   ],
+import { OrderContext } from '../../../../context/OrderContext'
+import { useState, useContext } from 'react'
 
 function StepCombo({ luuCombo }) {
-  const [selectedCombo, setSelectedCombo] = useState(null)
+  const { selectedCombo, setSelectedCombo } = useContext(OrderContext)
   const handleComboChange = (e) => {
     const comboID = e.target.value
     const combo = luuCombo.find((combo) => combo.MaCombo === comboID)
@@ -68,14 +15,15 @@ function StepCombo({ luuCombo }) {
       <h3>Chọn Thực Đơn</h3>
       <div className="step-content">
         <p>
-          Hãy chọn các Combo Thực đơn mà bạn đã lưu, nếu bạn chưa có thì hãy xem danh
-          sách Combo Thực đơn và lưu chúng lại nha
+          Hãy chọn các Combo Thực đơn mà bạn đã lưu, nếu bạn chưa có thì hãy xem
+          danh sách Combo Thực đơn và lưu chúng lại nha
         </p>
         <div className="step-content-action">
           <select defaultValue="" onChange={handleComboChange}>
             <option value="" disabled hidden>
               Chọn Combo
             </option>
+            <option value="none">Không chọn Combo</option>
             {luuCombo.map((combo) => (
               <option key={combo.MaCombo} value={combo.MaCombo}>
                 {combo.TenCombo}
@@ -113,6 +61,17 @@ function StepCombo({ luuCombo }) {
           </div>
         ) : (
           <p>Chưa chọn Combo</p>
+        )}
+      </div>
+
+      <div className="step-choose">
+        {selectedCombo ? (
+          <p>
+            Bạn đã chọn {selectedCombo.TenCombo}
+            <span>✔ </span>
+          </p>
+        ) : (
+          <p>&nbsp;</p>
         )}
       </div>
     </StepComboWrapper>
@@ -193,6 +152,20 @@ const StepComboWrapper = styled.div`
             font-style: italic;
           }
         }
+      }
+    }
+  }
+
+  .step-choose {
+    text-align: center;
+    p {
+      font-size: 1.6rem;
+      font-style: normal;
+      font-weight: 700;
+
+      span {
+        color: val(--primary-color);
+        padding-left: 1rem;
       }
     }
   }

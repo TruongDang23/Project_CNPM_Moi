@@ -1,9 +1,9 @@
 import styled from 'styled-components'
-
-import { useState } from 'react'
+import { OrderContext } from '../../../../context/OrderContext'
+import { useState, useContext } from 'react'
 
 function StepHall({ luuHoiTruong }) {
-  const [selectedHall, setSelectedHall] = useState(null)
+  const { selectedHall, setSelectedHall } = useContext(OrderContext)
   const handleHallChange = (e) => {
     const hallId = e.target.value
     const hall = luuHoiTruong.find((hall) => hall.MaHoiTruong === hallId)
@@ -64,6 +64,17 @@ function StepHall({ luuHoiTruong }) {
           </div>
         ) : (
           <p>Vui lòng chọn một hội trường để xem chi tiết.</p>
+        )}
+      </div>
+
+      <div className="step-choose">
+        {selectedHall ? (
+          <p>
+            Bạn đã chọn {selectedHall.TenHoiTruong}
+            <span>✔</span>
+          </p>
+        ) : (
+          <p>&nbsp;</p>
         )}
       </div>
     </StepHallWrapper>
@@ -134,6 +145,20 @@ const StepHallWrapper = styled.div`
           display: flex;
           gap: 2rem;
         }
+      }
+    }
+  }
+
+  .step-choose {
+    text-align: center;
+    p {
+      font-size: 1.6rem;
+      font-style: normal;
+      font-weight: 700;
+
+      span {
+        color: val(--primary-color);
+        padding-left: 1rem;
       }
     }
   }

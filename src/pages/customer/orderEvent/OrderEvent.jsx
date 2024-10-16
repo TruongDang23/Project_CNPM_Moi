@@ -4,6 +4,8 @@ import Header from '../../../components/Header'
 import Bg from '../../../assets/bg-v1.png'
 import MainOrder from './MainOrder'
 
+import { OrderProvider } from '../../../context/OrderContext'
+
 import OrderData from '../../../data/orderData'
 
 function OrderEvent() {
@@ -14,7 +16,9 @@ function OrderEvent() {
       </Helmet>
       <Header />
       <OrderEventWrapper>
-        <MainOrder orderdata={OrderData} />
+        <OrderProvider>
+          <MainOrder/>
+        </OrderProvider>
       </OrderEventWrapper>
     </>
   )
