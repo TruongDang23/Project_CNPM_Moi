@@ -3,13 +3,10 @@ import Stepper from '@mui/material/Stepper'
 import Step from '@mui/material/Step'
 import StepLabel from '@mui/material/StepLabel'
 import Typography from '@mui/material/Typography'
-
 import { OrderContext } from '../../../context/OrderContext'
-
 import styled from 'styled-components'
 import Loading from '../../system/Loading'
 
-// Các component của từng bước
 import StepHall from './OrderStep/StepHall'
 import StepMC from './OrderStep/StepMC'
 import StepNC from './OrderStep/StepNC'
@@ -29,11 +26,8 @@ function MainOrderStepper() {
     useContext(OrderContext)
   const { LuuHoiTruong, LuuMC, LuuNhacCong, LuuCombo, LuuThiep } = markdata
   const [activeStep, setActiveStep] = useState(0)
-
-  // Test Loading:
   const [isLoading, setIsLoading] = useState(false)
 
-  // Hàm để chuyển đổi giữa các component theo step
   const renderStepContent = (step) => {
     switch (step) {
       case 0:
@@ -60,119 +54,89 @@ function MainOrderStepper() {
   }
 
   const handleReset = () => {
-    const { valid, message } = canCompleteOrder() // Sử dụng hàm kiểm tra từ context
+    const { valid, message } = canCompleteOrder()
     if (!valid) {
-      alert(message) // Hiển thị thông báo nếu không hợp lệ
+      alert(message)
       return
     } else {
-      alert('Đặt hàng thành công') // Hiển thị thông báo nếu hợp lệ
+      alert('Đặt hàng thành công')
     }
-    console.log(getAllSelections()) // Lấy thông tin đã chọn
+    console.log(getAllSelections())
   }
 
   const handleComplete = () => {
-    setIsLoading(true) // Bắt đầu loading
+    setIsLoading(true)
     setTimeout(() => {
-      setIsLoading(false) // Kết thúc loading sau 3 giây
-      handleReset() // Gọi hàm reset sau khi loading xong
-    }, 3000) // 3 giây
+      setIsLoading(false)
+      handleReset()
+    }, 3000)
   }
 
   return (
     <MainOrderStepperWrapper>
-      {isLoading ? (
-        <>
-          <Loading />
-          <CustomStepper activeStep={activeStep}>
-            {steps.map((label, index) => (
-              <Step key={index}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </CustomStepper>
-          <div className="order-stepper-content">
-            {renderStepContent(activeStep)}
-          </div>
-          <div className="order-stepper-action">
-            <button
-              color="inherit"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              id="btn-secoundary"
-            >
+      {isLoading && <Loading />}
+      <div className={isLoading ? 'blur-content' : ''}>
+        <CustomStepper activeStep={activeStep}>
+          {steps.map((label, index) => (
+            <Step key={index}>
+              <StepLabel>{label}</StepLabel>
+            </Step>
+          ))}
+        </CustomStepper>
+
+        <div className="order-stepper-content">
+          {renderStepContent(activeStep)}
+        </div>
+
+        <div className="order-stepper-action">
+          {activeStep > 0 && (
+            <button color="inherit" onClick={handleBack} id="btn-secoundary">
               Quay lại
             </button>
-            <button
-              id="btn-primary"
-              onClick={
-                activeStep === steps.length - 1 ? handleComplete : handleNext
-              }
-            >
-              {activeStep === steps.length - 1 ? 'Hoàn tất' : 'Tiếp'}
-            </button>
-          </div>
-        </>
-      ) : (
-        <>
-          <CustomStepper activeStep={activeStep}>
-            {steps.map((label, index) => (
-              <Step key={index}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </CustomStepper>
-
-          <div className="order-stepper-content">
-            {renderStepContent(activeStep)}
-          </div>
-
-          <div className="order-stepper-action">
-            <button
-              color="inherit"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              id="btn-secoundary"
-            >
-              Quay lại
-            </button>
-            <button
-              id="btn-primary"
-              onClick={
-                activeStep === steps.length - 1 ? handleComplete : handleNext
-              }
-            >
-              {activeStep === steps.length - 1 ? 'Hoàn tất' : 'Tiếp'}
-            </button>
-          </div>
-        </>
-      )}
+          )}
+          <button
+            id="btn-primary"
+            onClick={
+              activeStep === steps.length - 1 ? handleComplete : handleNext
+            }
+          >
+            {activeStep === steps.length - 1 ? 'Hoàn tất' : 'Tiếp'}
+          </button>
+        </div>
+      </div>
     </MainOrderStepperWrapper>
   )
 }
 
 const CustomStepper = styled(Stepper)(({ theme }) => ({
-  backgroundColor: 'transparent', // Làm nền trong suốt
-  padding: '20px', // Thêm padding
+  backgroundColor: 'transparent',
+  padding: '20px',
   '& .MuiStep-root': {
     '& .MuiStepLabel-label': {
       color: 'var(--primary-color)',
-      fontSize: '1.6rem' // Kích thước chữ của label
+      fontSize: '1.6rem'
     },
     '& .MuiStepIcon-root': {
       color: 'var(--primary-color)',
-      fontSize: '2.4rem' // Kích thước icon
+      fontSize: '2.4rem'
     }
   }
 }))
 
 const MainOrderStepperWrapper = styled.div`
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  height: 100%;
+
+  .blur-content {
+    filter: blur(5px);
+    pointer-events: none; /* Ngăn chặn tương tác với nội dung khi đang loading */
+  }
 
   .order-stepper-content {
     flex-grow: 1;
+    min-height: 400px;
   }
 
   .order-stepper-action {
@@ -180,6 +144,7 @@ const MainOrderStepperWrapper = styled.div`
     display: flex;
     justify-content: flex-end;
     gap: 10px;
+    width: 100%; /* Đảm bảo nó chiếm chiều rộng đầy đủ */
   }
 `
 

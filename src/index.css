@@ -8,18 +8,18 @@
 
 :root {
   /* CNPM moi */
-  --primary-color: #212121;
+  /* --primary-color: #212121;
   --secondary-color: #808080;
   --bold-color: #000;
   --hover-color-1: #3a3a3a;
-  --hover-color-2: #f5f5f5;
+  --hover-color-2: #f5f5f5; */
 
   /* LTTT */
-  /* --primary-color: #0b7285;
+  --primary-color: #0b7285;
   --secondary-color: #15aabf;
   --bold-color: #0b7285;
   --hover-color-1: #032127;
-  --hover-color-2: #c5f6fa; */
+  --hover-color-2: #c5f6fa;
 }
 
 html {

@@ -20,8 +20,8 @@ function Loading() {
 }
 
 const LoadingWrapper = styled.div`
-  background-color: rgba(200, 220, 240, 0.8) !important;
   .loader {
+    background-color: var(--hover-color-2) !important;
     position: absolute;
     top: calc(50% - 32px);
     left: calc(50% - 32px);
