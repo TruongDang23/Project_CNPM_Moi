@@ -1,15 +1,15 @@
 import styled from 'styled-components'
-import HorizontalLinearStepper from './HorizontalLinearStepper'
+import MainOrderStepper from './MainOrderStepper'
 
 function MainOrder() {
   return (
     <OrderEventWrapper className="container">
       <div className="order-event-heading">
         <h2>Đặt sự kiện</h2>
-        <button id="btn-cancel">Quay lại</button>
+        <button id="btn-cancel">Hủy</button>
       </div>
       <hr />
-      {/* <HorizontalLinearStepper /> */}
+      <MainOrderStepper />
     </OrderEventWrapper>
   )
 }
@@ -18,10 +18,16 @@ const OrderEventWrapper = styled.section`
   display: flex;
   flex-direction: column;
   width: 80%;
-  height: 550px;
+  height: 600px;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: #0000000f 0px 4px 20px 0px;
+
+  hr {
+    border: 0;
+    border-top: 2px solid var(--primary-color);
+    width: 100%;
+  }
 
   .order-event-heading {
     display: flex;
@@ -36,7 +42,7 @@ const OrderEventWrapper = styled.section`
       color: var(--primary-color);
       font-size: 2.4rem;
       margin-bottom: 0;
-      align-self: center; 
+      align-self: center;
     }
 
     #btn-cancel {
