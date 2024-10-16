@@ -30,6 +30,14 @@ const OrderEventWrapper = styled.main`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 768px) {
+    height: 100vh;
+  }
+
+  @media (max-width: 425px) {
+    height: 100%;
+  }
 `
 
 export default OrderEvent

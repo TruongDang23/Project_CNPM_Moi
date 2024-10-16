@@ -146,6 +146,20 @@ const MainOrderStepperWrapper = styled.div`
     gap: 10px;
     width: 100%; /* Đảm bảo nó chiếm chiều rộng đầy đủ */
   }
+
+  @media (max-width: 768px) {
+    .order-stepper-action {
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .order-stepper-action {
+      padding: 10px;
+    }
+  }
 `
 
 export default MainOrderStepper

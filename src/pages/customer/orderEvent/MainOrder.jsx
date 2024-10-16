@@ -9,7 +9,7 @@ function MainOrder() {
         <button id="btn-cancel">Hủy</button>
       </div>
       <hr />
-      <MainOrderStepper/>
+      <MainOrderStepper />
     </OrderEventWrapper>
   )
 }
@@ -49,6 +49,14 @@ const OrderEventWrapper = styled.section`
       margin-top: 0;
       align-self: center;
     }
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+
+  @media (max-width: 425px) {
+    height: 100%;
   }
 `
 
