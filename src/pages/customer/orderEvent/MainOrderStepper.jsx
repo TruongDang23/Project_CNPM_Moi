@@ -21,16 +21,17 @@ const steps = [
   'Chọn Thiệp'
 ]
 
-function MainOrderStepper() {
+function MainOrderStepper({ orderdata }) {
+  const { LuuHoiTruong, LuuMC, LuuNhacCong, LuuCombo, LuuThiep } = orderdata
   const [activeStep, setActiveStep] = useState(0)
 
   // Hàm để chuyển đổi giữa các component theo step
   const renderStepContent = (step) => {
     switch (step) {
       case 0:
-        return <StepHall />
+        return <StepHall luuHoiTruong={LuuHoiTruong} />
       case 1:
-        return <StepMC />
+        return <StepMC luuMC={LuuMC} />
       case 2:
         return <Typography>Chọn Nhạc Công</Typography>
       case 3:

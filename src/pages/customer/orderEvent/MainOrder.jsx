@@ -1,15 +1,15 @@
 import styled from 'styled-components'
 import MainOrderStepper from './MainOrderStepper'
 
-function MainOrder() {
+function MainOrder({ orderdata }) {
   return (
     <OrderEventWrapper className="container">
       <div className="order-event-heading">
-        <h2>Đặt sự kiện</h2>
+        <h2>Đặt dịch vụ</h2>
         <button id="btn-cancel">Hủy</button>
       </div>
       <hr />
-      <MainOrderStepper />
+      <MainOrderStepper orderdata={orderdata} />
     </OrderEventWrapper>
   )
 }

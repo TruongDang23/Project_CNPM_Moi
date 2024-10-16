@@ -153,6 +153,7 @@ select {
   border-radius: 8px;
   box-sizing: border-box;
   transition: border-color 0.3s, border-width;
+  color: var(--primary-color);
   &:focus {
     border-color: var(--primary-color);
     border-width: 2px;

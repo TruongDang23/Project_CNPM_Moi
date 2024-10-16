@@ -4,15 +4,17 @@ import Header from '../../../components/Header'
 import Bg from '../../../assets/bg-v1.png'
 import MainOrder from './MainOrder'
 
+import OrderData from '../../../data/orderData'
+
 function OrderEvent() {
   return (
     <>
       <Helmet>
-        <title>Đặt sự kiện </title>
+        <title>Đặt dich vụ </title>
       </Helmet>
       <Header />
       <OrderEventWrapper>
-        <MainOrder />
+        <MainOrder orderdata={OrderData} />
       </OrderEventWrapper>
     </>
   )
