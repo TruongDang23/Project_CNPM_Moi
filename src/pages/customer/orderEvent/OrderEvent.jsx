@@ -6,8 +6,6 @@ import MainOrder from './MainOrder'
 
 import { OrderProvider } from '../../../context/OrderContext'
 
-import OrderData from '../../../data/orderData'
-
 function OrderEvent() {
   return (
     <>
@@ -17,7 +15,7 @@ function OrderEvent() {
       <Header />
       <OrderEventWrapper>
         <OrderProvider>
-          <MainOrder/>
+          <MainOrder />
         </OrderProvider>
       </OrderEventWrapper>
     </>

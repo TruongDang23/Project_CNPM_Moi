@@ -1,17 +1,15 @@
-import React, { useContext, useState } from 'react'
-import Box from '@mui/material/Box'
+import { useContext, useState } from 'react'
 import Stepper from '@mui/material/Stepper'
 import Step from '@mui/material/Step'
 import StepLabel from '@mui/material/StepLabel'
-import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 
 import { OrderContext } from '../../../context/OrderContext'
 
 import styled from 'styled-components'
+import Loading from '../../system/Loading'
 
 // Các component của từng bước
-
 import StepHall from './OrderStep/StepHall'
 import StepMC from './OrderStep/StepMC'
 import StepNC from './OrderStep/StepNC'
@@ -27,9 +25,13 @@ const steps = [
 ]
 
 function MainOrderStepper() {
-  const { orderdata } = useContext(OrderContext)
-  const { LuuHoiTruong, LuuMC, LuuNhacCong, LuuCombo, LuuThiep } = orderdata
+  const { markdata, getAllSelections, canCompleteOrder } =
+    useContext(OrderContext)
+  const { LuuHoiTruong, LuuMC, LuuNhacCong, LuuCombo, LuuThiep } = markdata
   const [activeStep, setActiveStep] = useState(0)
+
+  // Test Loading:
+  const [isLoading, setIsLoading] = useState(false)
 
   // Hàm để chuyển đổi giữa các component theo step
   const renderStepContent = (step) => {
@@ -58,39 +60,92 @@ function MainOrderStepper() {
   }
 
   const handleReset = () => {
-    setActiveStep(0)
+    const { valid, message } = canCompleteOrder() // Sử dụng hàm kiểm tra từ context
+    if (!valid) {
+      alert(message) // Hiển thị thông báo nếu không hợp lệ
+      return
+    } else {
+      alert('Đặt hàng thành công') // Hiển thị thông báo nếu hợp lệ
+    }
+    console.log(getAllSelections()) // Lấy thông tin đã chọn
+  }
+
+  const handleComplete = () => {
+    setIsLoading(true) // Bắt đầu loading
+    setTimeout(() => {
+      setIsLoading(false) // Kết thúc loading sau 3 giây
+      handleReset() // Gọi hàm reset sau khi loading xong
+    }, 3000) // 3 giây
   }
 
   return (
     <MainOrderStepperWrapper>
-      <CustomStepper activeStep={activeStep}>
-        {steps.map((label, index) => (
-          <Step key={index}>
-            <StepLabel>{label}</StepLabel>
-          </Step>
-        ))}
-      </CustomStepper>
+      {isLoading ? (
+        <>
+          <Loading />
+          <CustomStepper activeStep={activeStep}>
+            {steps.map((label, index) => (
+              <Step key={index}>
+                <StepLabel>{label}</StepLabel>
+              </Step>
+            ))}
+          </CustomStepper>
+          <div className="order-stepper-content">
+            {renderStepContent(activeStep)}
+          </div>
+          <div className="order-stepper-action">
+            <button
+              color="inherit"
+              disabled={activeStep === 0}
+              onClick={handleBack}
+              id="btn-secoundary"
+            >
+              Quay lại
+            </button>
+            <button
+              id="btn-primary"
+              onClick={
+                activeStep === steps.length - 1 ? handleComplete : handleNext
+              }
+            >
+              {activeStep === steps.length - 1 ? 'Hoàn tất' : 'Tiếp'}
+            </button>
+          </div>
+        </>
+      ) : (
+        <>
+          <CustomStepper activeStep={activeStep}>
+            {steps.map((label, index) => (
+              <Step key={index}>
+                <StepLabel>{label}</StepLabel>
+              </Step>
+            ))}
+          </CustomStepper>
 
-      <div className="order-stepper-content">
-        {renderStepContent(activeStep)}
-      </div>
+          <div className="order-stepper-content">
+            {renderStepContent(activeStep)}
+          </div>
 
-      <div className="order-stepper-action">
-        <button
-          color="inherit"
-          disabled={activeStep === 0}
-          onClick={handleBack}
-          id="btn-secoundary"
-        >
-          Quay lại
-        </button>
-        <button
-          id="btn-primary"
-          onClick={activeStep === steps.length - 1 ? handleReset : handleNext}
-        >
-          {activeStep === steps.length - 1 ? 'Hoàn tất' : 'Tiếp'}
-        </button>
-      </div>
+          <div className="order-stepper-action">
+            <button
+              color="inherit"
+              disabled={activeStep === 0}
+              onClick={handleBack}
+              id="btn-secoundary"
+            >
+              Quay lại
+            </button>
+            <button
+              id="btn-primary"
+              onClick={
+                activeStep === steps.length - 1 ? handleComplete : handleNext
+              }
+            >
+              {activeStep === steps.length - 1 ? 'Hoàn tất' : 'Tiếp'}
+            </button>
+          </div>
+        </>
+      )}
     </MainOrderStepperWrapper>
   )
 }

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { OrderContext } from '../../../../context/OrderContext'
-import { useState, useContext } from 'react'
+import { useContext } from 'react'
 
 function StepThiep({ luuThiep }) {
   const { selectedThiep, setSelectedThiep } = useContext(OrderContext)

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { OrderContext } from '../../../../context/OrderContext'
-import { useState, useContext } from 'react'
+import { useContext } from 'react'
 
 function StepCombo({ luuCombo }) {
   const { selectedCombo, setSelectedCombo } = useContext(OrderContext)

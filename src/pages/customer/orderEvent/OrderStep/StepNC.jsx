@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { useState, useContext } from 'react'
+import { useContext } from 'react'
 import { OrderContext } from '../../../../context/OrderContext'
 
 function StepNC({ luuNhacCong }) {
