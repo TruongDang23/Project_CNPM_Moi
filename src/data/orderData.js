@@ -82,7 +82,7 @@ const OrderData = {
       TinhTrang: true,
       Gia: 1500000,
       HinhAnh:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRapo-IFhBNQMfIiJNcZCFQe2W8WS8FoUdvEg&s'
+        'https://wallpapers.com/images/hd/aesthetic-monika-doki-doki-literature-club-uyhl54uzqawf7cwl.jpg'
     },
     {
       MaMC: 'M002',
@@ -91,8 +91,7 @@ const OrderData = {
       KinhNghiem: 3,
       TinhTrang: true,
       Gia: 1500000,
-      HinhAnh:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQr0zAwlwlbN9_tV_K5VKf2BzK6Jq6-XynBEA&s'
+      HinhAnh: 'https://i.redd.it/xm4g630jq8771.jpg'
     }
   ],
   LuuNhacCong: [
@@ -104,8 +103,7 @@ const OrderData = {
       LoaiNhacCu: 'Guitar',
       TinhTrang: true,
       Gia: 2000000,
-      HinhAnh:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRapo-IFhBNQMfIiJNcZCFQe2W8WS8FoUdvEg&s'
+      HinhAnh: 'https://images8.alphacoders.com/129/1291221.jpg'
     },
     {
       MaNhacCong: 'N002',
@@ -115,23 +113,10 @@ const OrderData = {
       LoaiNhacCu: 'Piano',
       TinhTrang: true,
       Gia: 2000000,
-      HinhAnh:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQr0zAwlwlbN9_tV_K5VKf2BzK6Jq6-XynBEA&s'
+      HinhAnh: 'https://i.ytimg.com/vi/NrbR8gzyS5g/sddefault.jpg'
     }
   ],
   LuuCombo: [
-    //   "MaCombo": "C004",
-    // "TenCombo": "Combo 4",
-    // "LoaiCombo": "Combo Thịt Đỏ",
-    // "MoTa": "Sự kết hợp hài hòa",
-    // "Gia": 5000000,
-    // "DanhSachMonAn": [
-    //   "Bún chả",
-    //   "Bánh mì pate",
-    //   "Canh chua cá",
-    //   "Cơm gà",
-    //   "Bún riêu"
-    // ],
     {
       MaCombo: 'C001',
       TenCombo: 'Combo 1',
@@ -185,15 +170,6 @@ const OrderData = {
     }
   ],
   LuuThiep: [
-    //   "MaThiep": "T003",
-    // "LoaiThiep": "Sinh Nhật",
-    // "Gia": 3000,
-    // "HinhAnh": [
-    //   "https://assets.paperlust.co/uploads/design/1282/Floral_birthday_(Birthday_invitation)_pink_potrait_133x184.jpg",
-    //   "https://i.pinimg.com/originals/ff/16/8f/ff168fe3e16bcbbfb24bea63b4600bbb.jpg",
-    //   "https://static.vecteezy.com/system/resources/previews/000/620/974/original/birthday-invitation-card-vector.jpg",
-    //   "https://th.bing.com/th/id/R.a33b0ac896e39f9a17773a787106c245?rik=2jw1LJR8GWULFA&pid=ImgRaw&r=0"
-    // ]
     {
       MaThiep: 'T001',
       LoaiThiep: 'Sinh Nhật',

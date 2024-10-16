@@ -12,6 +12,9 @@ import styled from 'styled-components'
 
 import StepHall from './OrderStep/StepHall'
 import StepMC from './OrderStep/StepMC'
+import StepNC from './OrderStep/StepNC'
+import StepCombo from './OrderStep/StepCombo'
+import StepThiep from './OrderStep/StepThiep'
 
 const steps = [
   'Chọn hội trường',
@@ -33,11 +36,11 @@ function MainOrderStepper({ orderdata }) {
       case 1:
         return <StepMC luuMC={LuuMC} />
       case 2:
-        return <Typography>Chọn Nhạc Công</Typography>
+        return <StepNC luuNhacCong={LuuNhacCong} />
       case 3:
-        return <Typography>Chọn Thực Đơn</Typography>
+        return <StepCombo luuCombo={LuuCombo} />
       case 4:
-        return <Typography>Chọn Thiệp</Typography>
+        return <StepThiep luuThiep={LuuThiep} />
       default:
         return <Typography>Không có bước này</Typography>
     }
