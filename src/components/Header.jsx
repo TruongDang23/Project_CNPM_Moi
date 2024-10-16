@@ -8,7 +8,7 @@ import BookmarkIcon from '@mui/icons-material/Bookmark'
 import AvatarUser from './AvatarUser'
 
 function Header() {
-  const token = true // Change to true to see the logged in state: true or false
+  const token = false // Change to true to see the logged in state: true or false
 
   {
     if (token) {
@@ -49,7 +49,7 @@ function Header() {
           </div>
           <div className="nav-other">
             <a>
-              <StyledBadge badgeContent={4} color="error">
+              <StyledBadge badgeContent={8}>
                 <BookmarkIcon />
               </StyledBadge>
             </a>
@@ -67,9 +67,11 @@ const StyledBadge = styled(Badge)`
   transition: all 0.3s;
   ${'' /* giảm kích thước của badge */}
   .MuiBadge-badge {
-    font-size: 0.8rem;
+    font-size: 1rem;
     font-weight: 600;
     padding: 0 2px;
+    color: #fff;
+    background-color: var(--primary-color);
   }
   .MuiSvgIcon-root {
     width: 2.6rem;
