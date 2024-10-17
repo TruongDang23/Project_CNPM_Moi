@@ -32,14 +32,14 @@ function MCDetail({ selectedData }) {
 
   return (
     <MCDetailWrapper>
-      <h3>Chi tiết nhạc công</h3>
+      <h3>Chi tiết MC</h3>
       <form onSubmit={handleSubmit}>
         <div className="form-row">
           <div className="form-group">
             <label className="label">Mã MC:</label>
             <input
               className="input"
-              name="MaNhacCong"
+              name="MaMC"
               value={formData.MaMC || ''}
               onChange={handleInputChange}
               required
@@ -91,8 +91,6 @@ function MCDetail({ selectedData }) {
               <option value={false}>Không hoạt động</option>
             </select>
           </div>
-        </div>
-        <div className="form-row">
           <div className="form-group">
             <label className="label">Giá (VND):</label>
             <input

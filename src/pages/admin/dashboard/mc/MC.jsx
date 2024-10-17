@@ -15,7 +15,6 @@ function MC() {
   }
 
   // Lọc dữ liệu dựa trên giá trị filterText
-  // Lọc dữ liệu dựa trên giá trị filterText
   const filteredData = someMCData.filter((item) =>
     // Tìm kiếm theo tất cả các trường
     Object.values(item).some((field) => {

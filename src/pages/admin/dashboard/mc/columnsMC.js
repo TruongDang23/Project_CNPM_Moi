@@ -1,6 +1,6 @@
-export const columnsNC = [
+export const columnsMC = [
   {
-    name: 'Mã Nhạc Công',
+    name: 'Mã MC',
     selector: (row) => row.MaMC
   },
   {
