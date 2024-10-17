@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-// import Logo from '../assets/logo-v1.png'
-import Logo from '../assets/logo-v2.png'
+import Logo from '../assets/logo-v1.png'
+// import Logo from '../assets/logo-v2.png'
 import ListService from './ListService'
 
 import Badge from '@mui/material/Badge'
