@@ -1,10 +1,17 @@
-// import Login from '../src/pages/admin/login/Login.jsx'
-// import Welcome from './pages/system/welcome/Welcome.jsx'
-// import DashBoard from './pages/admin/dashboard/DashBoard.jsx'
+import { System } from './pages/system/index.jsx'
+import { Admin } from './pages/admin/index.jsx'
+import { Customer } from './pages/customer/index.jsx'
 import OrderEvent from './pages/customer/orderEvent/OrderEvent.jsx'
-
+  
 function App() {
-  return <OrderEvent />
+  return (
+    <>
+//       <System/>
+//       <Admin/>
+//       <Customer/>
+      <OrderEvent />
+    </>
+  )
 }
 
 export default App
