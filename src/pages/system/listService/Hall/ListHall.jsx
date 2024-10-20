@@ -7,6 +7,8 @@ import Footer from '../../../../components/Footer'
 import FilterSearch from './FilterSearch'
 import ResultSearch from './ResultSearch'
 
+import someHallData from '../../../../data/someHallData'
+
 function ListHall() {
   return (
     <>
@@ -19,7 +21,7 @@ function ListHall() {
       <ListHallWrapper>
         <FilterSearch />
         <ListHallMainWrapper className="container">
-          <ResultSearch />
+          <ResultSearch resultSearch={someHallData} />
         </ListHallMainWrapper>
       </ListHallWrapper>
       <Footer />

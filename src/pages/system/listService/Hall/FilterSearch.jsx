@@ -77,7 +77,7 @@ const FilterSearchWrapper = styled.section`
   input {
     flex: 1;
     padding: 10px;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     border: 1px solid var(--primary-color);
     border-radius: 5px;
     transition: border-color 0.3s ease;
@@ -92,7 +92,7 @@ const FilterSearchWrapper = styled.section`
   select {
     flex: 1;
     padding: 10px;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     border: 1px solid var(--primary-color);
     border-radius: 5px;
     transition: border-color 0.3s ease;
@@ -104,7 +104,7 @@ const FilterSearchWrapper = styled.section`
     }
 
     option {
-      padding: 10px;
+      padding: 5px;
     }
   }
 
