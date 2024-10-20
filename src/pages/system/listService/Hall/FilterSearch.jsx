@@ -68,7 +68,7 @@ const FilterSearchWrapper = styled.section`
   object-fit: cover;
   padding: 2rem 0;
   h1 {
-    font-size: 2.4rem;
+    font-size: 3rem;
     margin-bottom: 2rem;
     color: var(--primary-color);
     text-align: center;

@@ -1,7 +1,13 @@
 import styled from 'styled-components'
 
 function ResultSearch() {
-  return <div></div>
+  return (
+    <ResultSearchWrapper>
+      <h2>Kết quả tìm kiếm</h2>
+      <div className="hall-container">
+      </div>
+    </ResultSearchWrapper>
+  )
 }
 
 const ResultSearchWrapper = styled.section``

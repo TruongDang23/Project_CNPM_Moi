@@ -5,6 +5,7 @@ import Sticky from 'react-sticky-el'
 import Header from '../../../../components/Header'
 import Footer from '../../../../components/Footer'
 import FilterSearch from './FilterSearch'
+import ResultSearch from './ResultSearch'
 
 function ListHall() {
   return (
@@ -17,7 +18,9 @@ function ListHall() {
       </Sticky>
       <ListHallWrapper>
         <FilterSearch />
-        <ListHallMainWrapper className="container"></ListHallMainWrapper>
+        <ListHallMainWrapper className="container">
+          <ResultSearch />
+        </ListHallMainWrapper>
       </ListHallWrapper>
       <Footer />
     </>
