@@ -33,6 +33,7 @@ import CardGiftcardIcon from '@mui/icons-material/CardGiftcard'
 
 import HoiTruong from './hoitruong/HoiTruong'
 import Thiep from './thiep/Thiep'
+import Combo from './combo/Combo'
 
 const drawerWidth = 240
 
@@ -286,7 +287,7 @@ function DashBoard() {
           {content === 'Đơn đặt hàng' && <h1>page 3</h1>}
           {content === 'MC' && <h1>page 4</h1>}
           {content === 'Nhạc công' && <h1>page 5</h1>}
-          {content === 'Món ăn' && <h1>page 6</h1>}
+          {content === 'Món ăn' && <Combo />}
           {content === 'Thiệp mời' && <Thiep />}
         </Box>
       </Box>
