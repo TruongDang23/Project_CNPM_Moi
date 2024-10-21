@@ -1,7 +1,6 @@
 import mongoose from 'mongoose'
 import validator from 'validator'
 
-
 // Main document schema: Tạo schema cho MC
 const mcSchema = new mongoose.Schema({
   MaMC: {
@@ -67,7 +66,17 @@ const mcSchema = new mongoose.Schema({
         minlength: [10, 'Bình luận phải có ít nhất 10 ký tự']
       }
     }
-  ]
+  ],
+  HinhAnh: {
+    type: String,
+    required: [true, 'Hình ảnh là bắt buộc'],
+    validate: {
+      validator: function (v) {
+        return v.every((url) => validator.isURL(url)) // Đảm bảo danh sách hình ảnh tất cả là URL hợp lệ
+      },
+      message: 'Danh sách hình ảnh không hợp lệ'
+    }
+  }
 })
 
 const MC = mongoose.model('mc', mcSchema, 'MC')

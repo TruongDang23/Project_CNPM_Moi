@@ -1,13 +1,15 @@
 import styled from 'styled-components'
 import { useState, useEffect } from 'react'
 
-function HoiTruongDetail({ selectedData }) {
+function ComboDetail({ selectedData }) {
   const [formData, setFormData] = useState({})
+  const [newMonAn, setNewMonAn] = useState('')
+  const [danhSachMonAn, setDanhSachMonAn] = useState([])
 
-  // Sử dụng useEffect để cập nhật formData khi selectedData thay đổi
   useEffect(() => {
-    setFormData(selectedData || {}) // Cập nhật formData với selectedData mới
-  }, [selectedData]) // Chạy lại khi selectedData thay đổi
+    setFormData(selectedData || {})
+    setDanhSachMonAn(selectedData?.DanhSachMonAn || []) // Cập nhật danh sách món ăn nếu có sẵn
+  }, [selectedData])
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -17,40 +19,53 @@ function HoiTruongDetail({ selectedData }) {
     }))
   }
 
+  const handleAddMonAn = () => {
+    if (newMonAn.trim() !== '') {
+      setDanhSachMonAn((prev) => [...prev, newMonAn])
+      setNewMonAn('')
+    }
+  }
+
+  const handleRemoveMonAn = (index) => {
+    const updatedList = danhSachMonAn.filter((_, i) => i !== index)
+    setDanhSachMonAn(updatedList)
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault()
+    const updatedData = { ...formData, DanhSachMonAn: danhSachMonAn }
     // Xử lý submit ở đây
-    console.log(formData)
+    console.log(updatedData)
   }
 
   if (!selectedData)
     return (
-      <HoiTruongDetailWrapper>
+      <ComboDetailWrapper>
         <h1>Chọn một dòng để xem chi tiết.</h1>
-      </HoiTruongDetailWrapper>
+      </ComboDetailWrapper>
     )
 
   return (
-    <HoiTruongDetailWrapper>
+    <ComboDetailWrapper>
       <h3>Chi tiết hội trường</h3>
       <form onSubmit={handleSubmit}>
         <div className="form-row">
           <div className="form-group">
-            <label className="label">Mã hội trường:</label>
+            <label className="label">Mã combo:</label>
             <input
               className="input"
               name="MaHoiTruong"
-              value={formData.MaHoiTruong || ''}
+              value={formData.MaCombo || ''}
               onChange={handleInputChange}
               required
             />
           </div>
           <div className="form-group">
-            <label className="label">Tên hội trường:</label>
+            <label className="label">Tên combo:</label>
             <input
               className="input"
               name="TenHoiTruong"
-              value={formData.TenHoiTruong || ''}
+              value={formData.TenCombo || ''}
               onChange={handleInputChange}
               required
             />
@@ -58,98 +73,14 @@ function HoiTruongDetail({ selectedData }) {
         </div>
         <div className="form-row">
           <div className="form-group">
-            <label className="label">Sức chứa:</label>
+            <label className="label">Loại Combo:</label>
             <input
               className="input"
               name="SucChua"
-              value={formData.SucChua || ''}
+              value={formData.LoaiCombo || ''}
               onChange={handleInputChange}
               required
             />
-          </div>
-          <div className="form-group">
-            <label className="label">Wifi:</label>
-            <select
-              className="select"
-              name="Wifi"
-              value={formData.Wifi}
-              onChange={handleInputChange}
-            >
-              <option value="Có">Có</option>
-              <option value="Không">Không</option>
-            </select>
-          </div>
-        </div>
-        <div className="form-row">
-          <div className="form-group">
-            <label className="label">Máy lạnh:</label>
-            <select
-              className="select"
-              name="MayLanh"
-              value={formData.MayLanh}
-              onChange={handleInputChange}
-            >
-              <option value="Có">Có</option>
-              <option value="Không">Không</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <label className="label">Phòng kín:</label>
-            <select
-              className="select"
-              name="PhongKin"
-              value={formData.PhongKin}
-              onChange={handleInputChange}
-            >
-              <option value="Có">Có</option>
-              <option value="Không">Không</option>
-            </select>
-          </div>
-        </div>
-        <div className="form-row">
-          <div className="form-group">
-            <label className="label">Diện tích (m2):</label>
-            <input
-              className="input"
-              name="DienTich"
-              value={formData.DienTich || ''}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label className="label">Số phòng:</label>
-            <input
-              className="input"
-              name="SoPhong"
-              value={formData.SoPhong || ''}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-        </div>
-        <div className="form-row">
-          <div className="form-group">
-            <label className="label">Vị trí lầu:</label>
-            <input
-              className="input"
-              name="ViTriLau"
-              value={formData.ViTriLau || ''}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label className="label">Tình trạng:</label>
-            <select
-              className="select"
-              name="TinhTrang"
-              value={formData.TinhTrang}
-              onChange={handleInputChange}
-            >
-              <option value="Sẵn có">Sẵn có</option>
-              <option value="Đang bảo trì">Đang bảo trì</option>
-            </select>
           </div>
           <div className="form-group">
             <label className="label">Giá:</label>
@@ -172,6 +103,37 @@ function HoiTruongDetail({ selectedData }) {
             onChange={handleInputChange}
           />
         </div>
+
+        <div className="form-group list-combo">
+          <label className="label">Danh sách món ăn:</label>
+          <div className="mon-an-input">
+            <input
+              className="input"
+              type="text"
+              value={newMonAn}
+              onChange={(e) => setNewMonAn(e.target.value)}
+              placeholder="Thêm món ăn"
+            />
+            <button type="button" onClick={handleAddMonAn} id="btn-primary">
+              Thêm
+            </button>
+          </div>
+          <ul className="danh-sach-mon-an">
+            {danhSachMonAn.map((monAn, index) => (
+              <li key={index}>
+                {monAn}
+                <button
+                  type="button"
+                  onClick={() => handleRemoveMonAn(index)}
+                  id="btn-cancel"
+                >
+                  Xóa
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+
         <div className="form-group">
           <label className="label">Hình ảnh:</label>
           <input
@@ -205,11 +167,11 @@ function HoiTruongDetail({ selectedData }) {
           </button>
         </div>
       </form>
-    </HoiTruongDetailWrapper>
+    </ComboDetailWrapper>
   )
 }
 
-const HoiTruongDetailWrapper = styled.div`
+const ComboDetailWrapper = styled.div`
   color: var(--primary-color);
   font-size: 1.2rem;
   transition: all 0.4s;
@@ -223,6 +185,34 @@ const HoiTruongDetailWrapper = styled.div`
     button {
       float: right;
       margin-top: 10px;
+    }
+  }
+
+  .list-combo {
+    .mon-an-input {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .danh-sach-mon-an {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px 10px;
+        border: 1px solid var(--primary-color);
+        border-radius: 5px;
+        margin-bottom: 5px;
+
+        button {
+          font-size: 1rem !important;
+        }
+      }
     }
   }
 
@@ -260,7 +250,7 @@ const HoiTruongDetailWrapper = styled.div`
   .image-preview-wrapper {
     display: flex;
     gap: 10px;
-    margin-top: 15px;
+    margin-top: 60px;
 
     img {
       width: 100px;
@@ -271,4 +261,4 @@ const HoiTruongDetailWrapper = styled.div`
   }
 `
 
-export default HoiTruongDetail
+export default ComboDetail

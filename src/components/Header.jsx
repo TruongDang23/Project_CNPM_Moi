@@ -1,6 +1,6 @@
 import styled from 'styled-components'
-// import Logo from '../assets/logo-v1.png'
-import Logo from '../assets/logo-v2.png'
+import Logo from '../assets/logo-v1.png'
+// import Logo from '../assets/logo-v2.png'
 import ListService from './ListService'
 
 import Badge from '@mui/material/Badge'
@@ -43,7 +43,7 @@ function Header() {
               Trang chủ
             </a>
             <ListService />
-            <a href="/" className="link">
+            <a href="/customer/order-event" className="link">
               Đặt dịch vụ
             </a>
           </div>
@@ -91,7 +91,9 @@ const Navbar = styled.nav`
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #fff;
+  backdrop-filter: blur(10px);
+  ${'' /* background-color: #fff; */}
+  background-color: rgba(255, 255, 255, 0.8);
   border-bottom: 2px solid #f1f3f5;
   box-shadow: 0 2px 4px rgba(9, 8, 18, 0.07);
 

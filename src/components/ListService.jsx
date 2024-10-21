@@ -26,8 +26,8 @@ function ListService() {
     setOpen(false)
   }
 
-  const handleSearch = (e) => {
-    navigate('/')
+  const handleSearch = (e, path) => {
+    navigate(`${path}`)
     if (anchorRef.current && anchorRef.current.contains(e.target)) {
       return
     }
@@ -96,14 +96,14 @@ function ListService() {
                 >
                   <MenuItem
                     sx={{ fontSize: '16px', color: '#333' }}
-                    onClick={(e) => handleSearch(e)}
+                    onClick={(e) => handleSearch(e, '/list-hall')}
                   >
                     Danh sách Hội trường
                   </MenuItem>
 
                   <MenuItem
                     sx={{ fontSize: '16px', color: '#333' }}
-                    onClick={(e) => handleSearch(e)}
+                    onClick={(e) => handleSearch(e, '/list-mc')}
                   >
                     Danh sách MC
                   </MenuItem>
@@ -111,7 +111,7 @@ function ListService() {
                   <MenuItem
                     sx={{ fontSize: '16px', color: '#333' }}
                     onClick={(e) => {
-                      handleSearch(e)
+                      handleSearch(e, '/list-nc')
                     }}
                   >
                     Danh sách Nhạc công
@@ -120,16 +120,16 @@ function ListService() {
                   <MenuItem
                     sx={{ fontSize: '16px', color: '#333' }}
                     onClick={(e) => {
-                      handleSearch(e)
+                      handleSearch(e, '/list-combo')
                     }}
                   >
-                    Danh sách Món ăn
+                    Danh sách Combo món ăn
                   </MenuItem>
 
                   <MenuItem
                     sx={{ fontSize: '16px', color: '#333' }}
                     onClick={(e) => {
-                      handleSearch(e)
+                      handleSearch(e, '/list-thiep')
                     }}
                   >
                     Danh sách Thiệp mời

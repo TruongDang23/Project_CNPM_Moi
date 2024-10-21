@@ -69,7 +69,17 @@ const nhacCongSchema = new mongoose.Schema({
         minlength: [5, 'Bình luận phải có ít nhất 5 ký tự']
       }
     }
-  ]
+  ],
+  HinhAnh: {
+    type: String,
+    required: [true, 'Hình ảnh là bắt buộc'],
+    validate: {
+      validator: function (v) {
+        return v.every((url) => validator.isURL(url)) // Đảm bảo danh sách hình ảnh tất cả là URL hợp lệ
+      },
+      message: 'Danh sách hình ảnh không hợp lệ'
+    }
+  }
 })
 
 const NhacCong = mongoose.model('nhaccong', nhacCongSchema, 'NhacCong')

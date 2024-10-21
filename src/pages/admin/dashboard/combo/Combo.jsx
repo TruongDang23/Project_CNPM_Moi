@@ -1,12 +1,12 @@
 import styled from 'styled-components'
 import { useState } from 'react'
-import someHallData from '../../../../data/someHallData'
+import somCombodata from '../../../../data/someCombodata'
 import DataTable from 'react-data-table-component'
 
-import { columnsHT, customStyles } from './columnsHT'
-import HoiTruongDetail from './HoiTruongDetail'
+import { columnCombo, customStyles } from './columnCombo'
+import ComboDetail from './ComboDetail'
 
-function HoiTruong() {
+function Combo() {
   const [selectedRow, setSelectedRow] = useState(null)
   const [filterText, setFilterText] = useState('')
   // Hàm xử lý khi nhấn vào dòng
@@ -15,7 +15,7 @@ function HoiTruong() {
   }
 
   // Lọc dữ liệu dựa trên giá trị filterText
-  const filteredData = someHallData.filter((item) =>
+  const filteredData = somCombodata.filter((item) =>
     // Tìm kiếm theo tất cả các trường
     Object.values(item).some((field) => {
       if (typeof field === 'string') {
@@ -30,12 +30,11 @@ function HoiTruong() {
       return false
     })
   )
-
   return (
-    <HoiTruongWrapper>
-      <h2>Quản lý hội trường</h2>
-      <div className="hall-content">
-        <div className="hall-content-table">
+    <ComboWrapper>
+      <h2>Quản lý Combo món ăn</h2>
+      <div className="combo-content">
+        <div className="combo-content-table">
           <h3>Danh sách hội trường</h3>
           <div className="actions">
             <p>Tìm kiếm:</p>
@@ -47,7 +46,7 @@ function HoiTruong() {
             />
           </div>
           <DataTable
-            columns={columnsHT}
+            columns={columnCombo}
             data={filteredData} // Dữ liệu sau khi lọc
             onRowClicked={handleRowClicked}
             pagination // Tính năng phân trang
@@ -55,14 +54,14 @@ function HoiTruong() {
           />
         </div>
         <div className="hall-content-detail">
-          <HoiTruongDetail selectedData={selectedRow} />
+          <ComboDetail selectedData={selectedRow} />
         </div>
       </div>
-    </HoiTruongWrapper>
+    </ComboWrapper>
   )
 }
 
-const HoiTruongWrapper = styled.section`
+const ComboWrapper = styled.section`
   font-family: 'Source Sans 3', sans-serif;
   h2 {
     color: var(--primary-color);
@@ -72,13 +71,13 @@ const HoiTruongWrapper = styled.section`
     text-align: center;
     text-transform: uppercase;
   }
-  .hall-content {
+  .combo-content {
     margin: 20px;
     display: grid;
     grid-template-columns: 1fr 1fr; /* Chia cột thành 2 phần bằng nhau */
     gap: 20px; /* Khoảng cách giữa 2 cột */
 
-    .hall-content-table {
+    .combo-content-table {
       max-width: 700px;
       padding: 20px;
       background-color: #fff;
@@ -112,7 +111,7 @@ const HoiTruongWrapper = styled.section`
       }
     }
 
-    .hall-content-detail {
+    .combo-content-detail {
       padding: 20px;
       background-color: #fff;
       border-radius: 10px;
@@ -121,4 +120,4 @@ const HoiTruongWrapper = styled.section`
   }
 `
 
-export default HoiTruong
+export default Combo

@@ -30,7 +30,10 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import LibraryMusicIcon from '@mui/icons-material/LibraryMusic'
 import FoodBankIcon from '@mui/icons-material/FoodBank'
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard'
+
 import HoiTruong from './hoitruong/HoiTruong'
+import Thiep from './thiep/Thiep'
+import Combo from './combo/Combo'
 import NhacCong from './nhaccong/NhacCong'
 import MC from './mc/MC'
 
@@ -120,7 +123,7 @@ function DashBoard() {
   return (
     <>
       <Helmet>
-        <title>Instructor Dashboard</title>
+        <title>Dashboard Quản lý</title>
       </Helmet>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
@@ -281,13 +284,13 @@ function DashBoard() {
         </Drawer>
         <Box component="main" sx={{ flexGrow: 1 }}>
           <DrawerHeader />
-          {content === 'Tổng quan' && <h1>page 1  </h1>}
+          {content === 'Tổng quan' && <h1>page 1 </h1>}
           {content === 'Hội trường' && <HoiTruong />}
           {content === 'Đơn đặt hàng' && <h1>page 3</h1>}
+          {content === 'Món ăn' && <Combo />}
+          {content === 'Thiệp mời' && <Thiep />}
           {content === 'Nhạc công' && <NhacCong />}
           {content === 'MC' && <MC />}
-          {content === 'Món ăn' && <h1>page 6</h1>}
-          {content === 'Thiệp mời' && <h1>page 7</h1>}
         </Box>
       </Box>
     </>
