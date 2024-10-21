@@ -42,7 +42,7 @@ function Login() {
         const { userID } = res.data
         const userData = JSON.stringify({ userID })
         alert('Login successfully')
-        localStorage.setItem('userAuth', userData)
+        sessionStorage.setItem('userAuth', userData)
         // navigate(`/`)
       }
     } catch (error) {
