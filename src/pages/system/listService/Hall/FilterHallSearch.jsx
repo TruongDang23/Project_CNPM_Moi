@@ -1,19 +1,64 @@
 import styled from 'styled-components'
 import Bg from '../../../../assets/bg-v1.png'
+import { useState } from 'react'
 
-function FilterSearch() {
+function FilterHallSearch() {
+  const [searchTerm, setSearchTerm] = useState('')
+  const [capacity, setCapacity] = useState('')
+  const [wifi, setWifi] = useState('')
+  const [airConditioning, setAirConditioning] = useState('')
+  const [status, setStatus] = useState('')
+  const [priceOrder, setPriceOrder] = useState('')
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value)
+  }
+
+  const handleCapacityChange = (e) => {
+    setCapacity(e.target.value)
+  }
+
+  const handleWifiChange = (e) => {
+    setWifi(e.target.value)
+  }
+
+  const handleAirConditioningChange = (e) => {
+    setAirConditioning(e.target.value)
+  }
+
+  const handleStatusChange = (e) => {
+    setStatus(e.target.value)
+  }
+
+  const handlePriceOrderChange = (e) => {
+    setPriceOrder(e.target.value)
+  }
+
+  const handleClearFilters = () => {
+    setSearchTerm('')
+    setCapacity('')
+    setWifi('')
+    setAirConditioning('')
+    setStatus('')
+    setPriceOrder('')
+  }
   return (
     <FilterSearchWrapper>
       <h1>Danh sách hội trường</h1>
       <div className="filter-container">
         <div className="filter-find">
           <h3>Tìm kiếm:</h3>
-          <input type="text" placeholder="Tìm kiếm..." />
+          <input
+            type="text"
+            placeholder="Tìm kiếm..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+          />
           <button id="btn-primary">Tìm</button>
         </div>
         <div className="filter-option">
           <h3>Lọc theo:</h3>
-          <select defaultValue="">
+          <select value={capacity} onChange={handleCapacityChange}>
             <option value="" disabled hidden>
               Sức chứa
             </option>
@@ -22,7 +67,7 @@ function FilterSearch() {
             <option value="50">&#62; 50</option>
             <option value="100">&#62; 100</option>
           </select>
-          <select defaultValue="">
+          <select value={wifi} onChange={handleWifiChange}>
             <option value="" disabled hidden>
               Wi-Fi
             </option>
@@ -30,7 +75,10 @@ function FilterSearch() {
             <option value={1}>Có Wi-Fi</option>
             <option value={0}>Không Wi-Fi</option>
           </select>
-          <select defaultValue="">
+          <select
+            value={airConditioning}
+            onChange={handleAirConditioningChange}
+          >
             <option value="" disabled hidden>
               Máy lạnh
             </option>
@@ -38,7 +86,7 @@ function FilterSearch() {
             <option value={1}>Có máy lạnh</option>
             <option value={0}>Không máy lạnh</option>
           </select>
-          <select defaultValue="">
+          <select value={status} onChange={handleStatusChange}>
             <option value="" disabled hidden>
               Tình trạng
             </option>
@@ -46,7 +94,7 @@ function FilterSearch() {
             <option value={1}>Sẵn có</option>
             <option value={0}>Không sẵn có</option>
           </select>
-          <select defaultValue="">
+          <select value={priceOrder} onChange={handlePriceOrderChange}>
             <option value="" disabled hidden>
               Giá
             </option>
@@ -54,7 +102,9 @@ function FilterSearch() {
             <option value={1}>Tăng dần</option>
             <option value={-1}>Giảm dần</option>
           </select>
-          <button id="btn-cancel">Xóa bộ lọc</button>
+          <button id="btn-cancel" onClick={handleClearFilters}>
+            Xóa bộ lọc
+          </button>
         </div>
       </div>
     </FilterSearchWrapper>
@@ -164,4 +214,4 @@ const FilterSearchWrapper = styled.section`
   }
 `
 
-export default FilterSearch
+export default FilterHallSearch

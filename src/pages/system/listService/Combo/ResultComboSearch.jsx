@@ -1,13 +1,13 @@
 import styled from 'styled-components'
-import HallSearchCard from './HallSearchCard'
+import ComboSearchCard from './ComboSearchCard'
 
-function ResultSearch({ resultSearch }) {
+function ResultComboSearch({ resultSearch }) {
   return (
     <ResultSearchWrapper>
       <h2>Kết quả tìm kiếm: {resultSearch.length} kết quả</h2>
-      <div className="hall-container">
-        {resultSearch.map((hall) => {
-          return <HallSearchCard key={hall.MaHoiTruong} hall={hall} />
+      <div className="combo-container">
+        {resultSearch.map((combo) => {
+          return <ComboSearchCard key={combo.MaCombo} combo={combo} />
         })}
       </div>
     </ResultSearchWrapper>
@@ -22,11 +22,11 @@ const ResultSearchWrapper = styled.section`
     margin-bottom: 5rem;
     text-align: center;
   }
-  .hall-container {
+  .combo-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
   }
 `
 
-export default ResultSearch
+export default ResultComboSearch

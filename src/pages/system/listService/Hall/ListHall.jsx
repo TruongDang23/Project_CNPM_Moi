@@ -4,8 +4,8 @@ import Sticky from 'react-sticky-el'
 
 import Header from '../../../../components/Header'
 import Footer from '../../../../components/Footer'
-import FilterSearch from './FilterSearch'
-import ResultSearch from './ResultSearch'
+import FilterHallSearch from './FilterHallSearch'
+import ResultHallSearch from './ResultHallSearch'
 
 import someHallData from '../../../../data/someHallData'
 
@@ -19,9 +19,9 @@ function ListHall() {
         <Header />
       </Sticky>
       <ListHallWrapper>
-        <FilterSearch />
+        <FilterHallSearch />
         <ListHallMainWrapper className="container">
-          <ResultSearch resultSearch={someHallData} />
+          <ResultHallSearch resultSearch={someHallData} />
         </ListHallMainWrapper>
       </ListHallWrapper>
       <Footer />

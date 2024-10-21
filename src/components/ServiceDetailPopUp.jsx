@@ -55,7 +55,7 @@ const ServiceDetailPopUpWrapper = styled.div`
     padding: 30px;
     border-radius: 12px;
     width: 80%;
-    max-width: 600px;
+    max-width: 700px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     position: relative;
     display: flex;
@@ -73,6 +73,11 @@ const ServiceDetailPopUpWrapper = styled.div`
 
     .popup-img {
       width: 50%;
+
+      img {
+        width: 100%;
+        object-fit: cover;
+      }
     }
 
     .popup-info {
