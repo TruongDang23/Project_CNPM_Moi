@@ -33,9 +33,15 @@ const ServiceDetailPopUpWrapper = styled.div`
   z-index: 1000;
 
   h2 {
-    font-size: 2rem;
+    font-size: 2.4rem;
     color: var(--primary-color);
-    margin-bottom: 20px;
+    margin-bottom: 20px !important;
+  }
+
+  h3 {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    margin-bottom: 10px;
   }
 
   ul {
@@ -47,6 +53,7 @@ const ServiceDetailPopUpWrapper = styled.div`
       font-size: 1.6rem;
       margin-bottom: 10px;
       line-height: 1.2;
+      font-style: italic;
     }
   }
 
@@ -83,6 +90,39 @@ const ServiceDetailPopUpWrapper = styled.div`
     .popup-info {
       width: 50%;
       text-align: left;
+
+      .rating-list {
+        max-height: 200px;
+        overflow-y: auto;
+        border: 1px solid #ccc;
+        padding: 10px;
+        background-color: #f9f9f9;
+        border-radius: 5px;
+      }
+
+      form {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        input,
+        textarea {
+          width: 100%;
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+        }
+
+        .form-group {
+          display: flex;
+          gap: 5px;
+        }
+
+        button {
+          align-self: flex-end;
+        }
+      }
     }
   }
 `

@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import React, { useState, useEffect } from 'react'
+import { useState } from 'react'
 import ServiceDetailPopUp from '../../../../components/ServiceDetailPopUp'
 
 import 'react-responsive-carousel/lib/styles/carousel.min.css' // requires a loader
@@ -29,6 +29,11 @@ function HallSearchCard({ hall }) {
     setIsPopupOpen(false)
   }
 
+  const formatCurrency = (amount) => {
+    // Chuyển đổi số thành chuỗi và sử dụng regex để thêm dấu phẩy
+    return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + 'đ'
+  }
+
   return (
     <HallSearchCardWrapper>
       <div className="hall-img">
@@ -41,7 +46,7 @@ function HallSearchCard({ hall }) {
           <li>Tình trạng: {TinhTrang ? 'Còn trống' : 'Đã đặt'}</li>
 
           <li>
-            <strong>Giá: {Gia}đ</strong>
+            <strong>Giá: {formatCurrency(Gia)}</strong>
           </li>
         </ul>
       </div>
@@ -71,7 +76,7 @@ function HallSearchCard({ hall }) {
                   <strong>Tên hội trường:</strong> {TenHoiTruong}
                 </li>
                 <li>
-                  <strong>Giá:</strong> {Gia}đ
+                  <strong>Giá:</strong> {formatCurrency(Gia)}
                 </li>
                 <li>
                   <strong>Tình trạng:</strong>{' '}

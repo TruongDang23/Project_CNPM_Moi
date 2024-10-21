@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import React, { useState, useEffect } from 'react'
+import { useState } from 'react'
 import ServiceDetailPopUp from '../../../../components/ServiceDetailPopUp'
 
 import 'react-responsive-carousel/lib/styles/carousel.min.css' // requires a loader
@@ -15,6 +15,12 @@ function ComboSearchCard({ combo }) {
   const handleClosePopup = () => {
     setIsPopupOpen(false)
   }
+
+  const formatCurrency = (amount) => {
+    // Chuyển đổi số thành chuỗi và sử dụng regex để thêm dấu phẩy
+    return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + 'đ'
+  }
+
   return (
     <ComboSearchCardWrapper>
       <div className="combo-img">
@@ -25,7 +31,7 @@ function ComboSearchCard({ combo }) {
         <ul>
           <li>Loại combo: {LoaiCombo}</li>
           <li>
-            <strong>Giá: {Gia}đ</strong>
+            <strong>Giá: {formatCurrency(Gia)}</strong>
           </li>
         </ul>
       </div>
@@ -58,7 +64,7 @@ function ComboSearchCard({ combo }) {
                   <strong>Loại combo:</strong> {LoaiCombo}
                 </li>
                 <li>
-                  <strong>Giá:</strong> {Gia}đ
+                  <strong>Giá:</strong> {formatCurrency(Gia)}
                 </li>
                 <li>
                   <strong>Mô tả:</strong> {MoTa}

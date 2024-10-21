@@ -2,25 +2,38 @@ import styled from 'styled-components'
 import Bg from '../../../../assets/bg-v1.png'
 import { useState } from 'react'
 
-function FilterComboSearch() {
+function FilterNCSearch() {
   const [searchTerm, setSearchTerm] = useState('')
-  const [priceOrder, setPriceOrder] = useState('')
+  const [instrument, setInstrument] = useState('')
+  const [price, setPrice] = useState('')
+  const [status, setStatus] = useState('')
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value)
   }
 
-  const handlePriceOrderChange = (e) => {
-    setPriceOrder(e.target.value)
+  const handleInstrumentChange = (e) => {
+    setInstrument(e.target.value)
+  }
+
+  const handlePriceChange = (e) => {
+    setPrice(e.target.value)
+  }
+
+  const handleStatusChange = (e) => {
+    setStatus(e.target.value)
   }
 
   const handleClearFilters = () => {
     setSearchTerm('')
-    setPriceOrder('')
+    setInstrument('')
+    setPrice('')
+    setStatus('')
   }
+
   return (
     <FilterSearchWrapper>
-      <h1>Danh sách Combo món ăn</h1>
+      <h1>Danh sách nhạc công</h1>
       <div className="filter-container">
         <div className="filter-find">
           <h3>Tìm kiếm:</h3>
@@ -34,13 +47,24 @@ function FilterComboSearch() {
         </div>
         <div className="filter-option">
           <h3>Lọc theo:</h3>
-          <select value={priceOrder} onChange={handlePriceOrderChange}>
-            <option value="" disabled hidden>
-              Giá
-            </option>
+          <select value={instrument} onChange={handleInstrumentChange}>
+            <option value="">Chọn nhạc cụ</option>
+            <option value="Guitar">Guitar</option>
+            <option value="Piano">Piano</option>
+            <option value="Violin">Violin</option>
+            <option value="Saxophone">Saxophone</option>
+          </select>
+          <select value={price} onChange={handlePriceChange}>
+            <option value="">Chọn mức giá</option>
             <option value="all">Bỏ lọc giá</option>
             <option value={1}>Tăng dần</option>
             <option value={-1}>Giảm dần</option>
+          </select>
+          <select value={status} onChange={handleStatusChange}>
+            <option value="">Chọn tình trạng</option>
+            <option value="all">Bỏ lọc tình trạng</option>
+            <option value="true">Sẵn sàng</option>
+            <option value="false">Không sẵn thuê</option>
           </select>
           <button id="btn-cancel" onClick={handleClearFilters}>
             Xóa bộ lọc
@@ -154,4 +178,4 @@ const FilterSearchWrapper = styled.section`
   }
 `
 
-export default FilterComboSearch
+export default FilterNCSearch
