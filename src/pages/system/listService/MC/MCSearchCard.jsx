@@ -6,17 +6,8 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css' // requires a loa
 import { Carousel } from 'react-responsive-carousel'
 import Snackbar from '@mui/material/Snackbar'
 
-function NCSearchCard({ nc }) {
-  const {
-    HoTen,
-    SDT,
-    KinhNghiem,
-    LoaiNhacCu,
-    TinhTrang,
-    Gia,
-    DanhGia,
-    HinhAnh
-  } = nc
+function MCSearchCard({ mc }) {
+  const { HoTen, SDT, KinhNghiem, TinhTrang, Gia, DanhGia, HinhAnh } = mc
   const [newRating, setNewRating] = useState({
     HoTen: '',
     SoSao: '',
@@ -57,30 +48,29 @@ function NCSearchCard({ nc }) {
     // Chuyển đổi số thành chuỗi và sử dụng regex để thêm dấu phẩy
     return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + 'đ'
   }
-
   return (
-    <NCSearchCardWrapper>
-      <div className="nc-img">
+    <MCSearchCardWrapper>
+      <div className="mc-img">
         <img src={HinhAnh} alt={HoTen} />
       </div>
-      <div className="nc-info">
+      <div className="mc-info">
         <h3>{HoTen}</h3>
         <ul>
           <li>Số điện thoại: {SDT}</li>
           <li>Kinh nghiệm: {!KinhNghiem ? 'Chưa có' : KinhNghiem}</li>
-          <li>Loại nhạc cụ: {LoaiNhacCu}</li>
           <li>Tình trạng: {TinhTrang ? 'Còn trống' : 'Đã đặt'}</li>
           <li>
             <strong>Giá: {formatCurrency(Gia)}</strong>
           </li>
         </ul>
       </div>
-      <div className="nc-button">
+      <div className="mc-button">
         <button id="btn-primary">Lưu</button>
         <button id="btn-secoundary" onClick={handleViewClick}>
           Xem
         </button>
       </div>
+
       {isPopupOpen && (
         <ServiceDetailPopUp onClose={handleClosePopup}>
           <h2>{HoTen}</h2>
@@ -93,7 +83,7 @@ function NCSearchCard({ nc }) {
             <div className="popup-info">
               <ul>
                 <li>
-                  <strong>Tên nhạc công:</strong> {HoTen}
+                  <strong>Tên MC:</strong> {HoTen}
                 </li>
                 <li>
                   <strong>Số điện thoại: </strong>
@@ -102,9 +92,6 @@ function NCSearchCard({ nc }) {
                 <li>
                   <strong>Kinh nghiệm: </strong>
                   {!KinhNghiem ? 'Chưa có' : KinhNghiem}
-                </li>
-                <li>
-                  <strong>Loại nhạc cụ:</strong> {LoaiNhacCu}
                 </li>
                 <li>
                   <strong>Tình trạng: </strong>
@@ -203,18 +190,18 @@ function NCSearchCard({ nc }) {
           />
         </ServiceDetailPopUp>
       )}
-    </NCSearchCardWrapper>
+    </MCSearchCardWrapper>
   )
 }
 
-const NCSearchCardWrapper = styled.div`
+const MCSearchCardWrapper = styled.div`
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   margin-bottom: 20px;
 
-  .nc-img {
+  .mc-img {
     img {
       width: 100%;
       height: 200px;
@@ -222,7 +209,7 @@ const NCSearchCardWrapper = styled.div`
     }
   }
 
-  .nc-info {
+  .mc-info {
     padding: 20px;
 
     h3 {
@@ -247,7 +234,7 @@ const NCSearchCardWrapper = styled.div`
     }
   }
 
-  .nc-button {
+  .mc-button {
     display: flex;
     padding: 20px;
     gap: 10px;
@@ -262,4 +249,4 @@ const NCSearchCardWrapper = styled.div`
   }
 `
 
-export default NCSearchCard
+export default MCSearchCard

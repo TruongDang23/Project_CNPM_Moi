@@ -4,6 +4,7 @@ import Welcome from './welcome/Welcome'
 import ListHall from './listService/Hall/ListHall'
 import ListCombo from './listService/Combo/ListCombo'
 import ListNC from './listService/NC/ListNC'
+import ListMC from './listService/MC/ListMC'
 
 export function System() {
   return (
@@ -14,6 +15,7 @@ export function System() {
         <Route path="/list-hall" element={<ListHall />} />
         <Route path="/list-combo" element={<ListCombo />} />
         <Route path="/list-nc" element={<ListNC />} />
+        <Route path="/list-mc" element={<ListMC />} />
       </Routes>
     </>
   )
