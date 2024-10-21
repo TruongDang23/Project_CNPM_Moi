@@ -121,7 +121,7 @@ function DashBoard() {
   return (
     <>
       <Helmet>
-        <title>Instructor Dashboard</title>
+        <title>Dashboard Quản lý</title>
       </Helmet>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
