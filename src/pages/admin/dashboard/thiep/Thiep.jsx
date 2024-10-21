@@ -1,12 +1,12 @@
 import styled from 'styled-components'
 import { useState } from 'react'
-import someHallData from '../../../../data/someHallData'
+import someThiepData from '../../../../data/someThiepData'
 import DataTable from 'react-data-table-component'
 
-import { columnsHT, customStyles } from './columnsHT'
-import HoiTruongDetail from './HoiTruongDetail'
+import { columnsThiep, customStyles } from './columnThiep'
+import ThiepDetail from './ThiepDetail'
 
-function HoiTruong() {
+function Thiep() {
   const [selectedRow, setSelectedRow] = useState(null)
   const [filterText, setFilterText] = useState('')
   // Hàm xử lý khi nhấn vào dòng
@@ -15,7 +15,7 @@ function HoiTruong() {
   }
 
   // Lọc dữ liệu dựa trên giá trị filterText
-  const filteredData = someHallData.filter((item) =>
+  const filteredData = someThiepData.filter((item) =>
     // Tìm kiếm theo tất cả các trường
     Object.values(item).some((field) => {
       if (typeof field === 'string') {
@@ -32,10 +32,10 @@ function HoiTruong() {
   )
 
   return (
-    <HoiTruongWrapper>
+    <ThiepWrapper>
       <h2>Quản lý hội trường</h2>
-      <div className="hall-content">
-        <div className="hall-content-table">
+      <div className="thiep-content">
+        <div className="thiep-content-table">
           <h3>Danh sách hội trường</h3>
           <div className="actions">
             <p>Tìm kiếm:</p>
@@ -47,22 +47,22 @@ function HoiTruong() {
             />
           </div>
           <DataTable
-            columns={columnsHT}
+            columns={columnsThiep}
             data={filteredData} // Dữ liệu sau khi lọc
             onRowClicked={handleRowClicked}
             pagination // Tính năng phân trang
             customStyles={customStyles} // Tùy chỉnh giao diện
           />
         </div>
-        <div className="hall-content-detail">
-          <HoiTruongDetail selectedData={selectedRow} />
+        <div className="thiep-content-detail">
+          <ThiepDetail selectedData={selectedRow} />
         </div>
       </div>
-    </HoiTruongWrapper>
+    </ThiepWrapper>
   )
 }
 
-const HoiTruongWrapper = styled.section`
+const ThiepWrapper = styled.section`
   font-family: 'Source Sans 3', sans-serif;
   h2 {
     color: var(--primary-color);
@@ -72,13 +72,13 @@ const HoiTruongWrapper = styled.section`
     text-align: center;
     text-transform: uppercase;
   }
-  .hall-content {
+  .thiep-content {
     margin: 20px;
     display: grid;
     grid-template-columns: 1fr 1fr; /* Chia cột thành 2 phần bằng nhau */
     gap: 20px; /* Khoảng cách giữa 2 cột */
 
-    .hall-content-table {
+    .thiep-content-table {
       max-width: 700px;
       padding: 20px;
       background-color: #fff;
@@ -112,7 +112,7 @@ const HoiTruongWrapper = styled.section`
       }
     }
 
-    .hall-content-detail {
+    .thiep-content-detail {
       padding: 20px;
       background-color: #fff;
       border-radius: 10px;
@@ -121,4 +121,4 @@ const HoiTruongWrapper = styled.section`
   }
 `
 
-export default HoiTruong
+export default Thiep

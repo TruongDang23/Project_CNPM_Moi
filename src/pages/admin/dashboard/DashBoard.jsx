@@ -30,7 +30,9 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import LibraryMusicIcon from '@mui/icons-material/LibraryMusic'
 import FoodBankIcon from '@mui/icons-material/FoodBank'
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard'
+
 import HoiTruong from './hoitruong/HoiTruong'
+import Thiep from './thiep/Thiep'
 
 const drawerWidth = 240
 
@@ -279,13 +281,13 @@ function DashBoard() {
         </Drawer>
         <Box component="main" sx={{ flexGrow: 1 }}>
           <DrawerHeader />
-          {content === 'Tổng quan' && <h1>page 1  </h1>}
+          {content === 'Tổng quan' && <h1>page 1 </h1>}
           {content === 'Hội trường' && <HoiTruong />}
           {content === 'Đơn đặt hàng' && <h1>page 3</h1>}
           {content === 'MC' && <h1>page 4</h1>}
           {content === 'Nhạc công' && <h1>page 5</h1>}
           {content === 'Món ăn' && <h1>page 6</h1>}
-          {content === 'Thiệp mời' && <h1>page 7</h1>}
+          {content === 'Thiệp mời' && <Thiep />}
         </Box>
       </Box>
     </>
