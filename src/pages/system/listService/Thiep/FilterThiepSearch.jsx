@@ -27,7 +27,7 @@ function FilterThiepSearch() {
 
   return (
     <FilterSearchWrapper>
-      <h1>Danh sách hội trường</h1>
+      <h1>Danh sách Thiệp mời</h1>
       <div className="filter-container">
         <div className="filter-find">
           <h3>Tìm kiếm:</h3>

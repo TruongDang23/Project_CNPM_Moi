@@ -43,7 +43,7 @@ function Header() {
               Trang chủ
             </a>
             <ListService />
-            <a href="/" className="link">
+            <a href="/customer/order-event" className="link">
               Đặt dịch vụ
             </a>
           </div>

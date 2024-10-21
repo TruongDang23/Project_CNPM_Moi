@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import { Helmet } from 'react-helmet'
 import Sticky from 'react-sticky-el'
 
@@ -29,8 +29,19 @@ function ListHall() {
   )
 }
 
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`
+
 const ListHallMainWrapper = styled.section``
 
-const ListHallWrapper = styled.main``
+const ListHallWrapper = styled.main`
+  animation: ${fadeIn} 1s ease-in-out;
+`
 
 export default ListHall

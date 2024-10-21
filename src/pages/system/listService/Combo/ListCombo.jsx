@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import { Helmet } from 'react-helmet'
 import Sticky from 'react-sticky-el'
 
@@ -29,7 +29,18 @@ function ListCombo() {
   )
 }
 
-const ListComboWrapper = styled.main``
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`
+
+const ListComboWrapper = styled.main`
+  animation: ${fadeIn} 1s ease-in-out;
+`
 const ListComboMainWrapper = styled.section``
 
 export default ListCombo

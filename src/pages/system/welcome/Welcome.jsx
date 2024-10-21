@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import { Helmet } from 'react-helmet'
 import Sticky from 'react-sticky-el'
 
@@ -33,10 +33,20 @@ function Welcome() {
   )
 }
 
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`
+
 const WelcomMainWrapper = styled.section``
 
 const WelcomeWrapper = styled.main`
   height: auto;
+  animation: ${fadeIn} 1s ease-in-out;
 `
 
 export default Welcome

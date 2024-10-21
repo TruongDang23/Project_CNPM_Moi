@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import { Helmet } from 'react-helmet'
 import Header from '../../../components/Header'
 import Bg from '../../../assets/bg-v1.png'
@@ -22,6 +22,15 @@ function OrderEvent() {
   )
 }
 
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`
+
 const OrderEventWrapper = styled.main`
   height: 90vh;
   background-image: url(${Bg});
@@ -30,6 +39,7 @@ const OrderEventWrapper = styled.main`
   display: flex;
   align-items: center;
   justify-content: center;
+  animation: ${fadeIn} 1s ease-in-out;
 
   @media (max-width: 768px) {
     height: 100vh;

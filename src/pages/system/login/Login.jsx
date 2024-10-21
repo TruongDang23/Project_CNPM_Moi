@@ -11,7 +11,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import { Link, useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import { Helmet } from 'react-helmet' // dùng để thay đổi title của trang
 import axios from 'axios'
 import endpoint from '../../../constance/endpoint'
@@ -145,7 +145,17 @@ function Login() {
   )
 }
 
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`
+
 const LoginWrapper = styled.section`
+  animation: ${fadeIn} 1s ease-in-out;
   .wrapper {
     position: relative;
     width: 100%;

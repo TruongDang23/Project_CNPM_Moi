@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import { Helmet } from 'react-helmet'
 import Sticky from 'react-sticky-el'
 
@@ -29,7 +29,18 @@ function ListNC() {
   )
 }
 
-const ListNCWrapper = styled.main``
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`
+
+const ListNCWrapper = styled.main`
+  animation: ${fadeIn} 1s ease-in-out;
+`
 const ListNCMainWrapper = styled.section``
 
 export default ListNC
