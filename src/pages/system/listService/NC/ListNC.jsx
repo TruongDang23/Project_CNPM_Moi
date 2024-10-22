@@ -7,7 +7,7 @@ import Footer from '../../../../components/Footer'
 import FilterNCSearch from './FilterNCSearch'
 import ResultNCSearch from './ResultNCSearch'
 
-import someNCdata from '../../../../data/someNCdata'
+import someNCdata from '../../../../data/someNCData'
 
 function ListNC() {
   return (

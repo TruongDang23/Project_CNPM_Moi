@@ -1,4 +1,4 @@
-const someNCdata = [
+const someNCData = [
   {
     MaNhacCong: 'N001',
     HoTen: 'Nguyễn Văn A',
@@ -141,4 +141,4 @@ const someNCdata = [
   }
 ]
 
-export default someNCdata
+export default someNCData
