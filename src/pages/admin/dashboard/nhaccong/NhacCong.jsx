@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { useState } from 'react'
-import someNCData from '../../../../data/someNCData'
+import someNCData from '../../../../data/NCData'
 import DataTable from 'react-data-table-component'
 
 import { columnsNC, customStyles } from './columnsNC'
