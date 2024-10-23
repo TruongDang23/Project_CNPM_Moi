@@ -39,7 +39,7 @@ function Login() {
       else if (res.data === 'not found')
         setMessage('Tài khoản hoặc mật khẩu không đúng')
       else {
-        const { userID } = res.data
+        const userID = res.data
         const userData = JSON.stringify({ userID })
         alert('Login successfully')
         sessionStorage.setItem('userAuth', userData)
