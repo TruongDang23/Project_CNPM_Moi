@@ -2,7 +2,7 @@
 import express from 'express'
 import cors from 'cors'
 
-const adminRoutes = (connMongo) => {
+const adminRoutes = () => {
   //Khởi tạo tham số router và cấp quyền CORS
   const router = express.Router()
   router.use(cors())

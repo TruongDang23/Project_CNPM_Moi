@@ -10,7 +10,7 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp'
 import CloseIcon from '@mui/icons-material/Close'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styled, { keyframes } from 'styled-components'
 import { Helmet } from 'react-helmet' // dùng để thay đổi title của trang
 import axios from 'axios'
@@ -43,7 +43,7 @@ function Login() {
         const userData = JSON.stringify({ userID })
         alert('Login successfully')
         sessionStorage.setItem('userAuth', userData)
-        // navigate(`/`)
+        navigate(`/`)
       }
     } catch (error) {
       alert('An error occurred while trying to log in.')

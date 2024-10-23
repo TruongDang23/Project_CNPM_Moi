@@ -3,15 +3,14 @@ import cors from 'cors'
 import express from 'express'
 import bodyParser from 'body-parser'
 
-import mongo from './connMongo.js'
-const connMongo = mongo()
-
 // Import routes
 import adminRoutes from './routes/admin.js'
 import systemRoutes from './routes/system.js'
+import hoitruongRoutes from './routes/hoitruong.js'
 
-const admin = adminRoutes(connMongo) //Truyền các connection cần thiết vào các Route
-const system = systemRoutes(connMongo)
+const admin = adminRoutes() //Truyền các connection cần thiết vào các Route
+const system = systemRoutes()
+const hoitruong = hoitruongRoutes()
 
 const app = express()
 const port = 3000
@@ -20,7 +19,8 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 // Use routes
-app.use('/ad', admin) // All admin routes will have a prefix of /ad
+app.use('/admin', admin) // All admin routes will have a prefix of /ad
+app.use('/hall', hoitruong)
 app.use('/', system)
 
 // Cấu hình CORS
