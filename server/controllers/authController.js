@@ -1,6 +1,7 @@
 // this is the controller for the authentication routes
 import taikhoan from '../models/taikhoan.js'
 import catchAsync from '../utils/catchAsync.js'
+import AppError from '../utils/appError.js'
 
 const login = catchAsync(async (req, res, next) => {
   const data = req.body
@@ -12,7 +13,7 @@ const login = catchAsync(async (req, res, next) => {
     if (result.length != 0) res.send(result[0].MaTK)
     else res.send('not found')
   } catch (err) {
-    res.send('error')
+    next(new AppError('error', 400))
   }
 })
 
