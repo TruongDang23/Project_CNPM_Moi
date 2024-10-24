@@ -1,5 +1,7 @@
 import mongoose from 'mongoose'
 import validator from 'validator'
+import bcrypt from 'bcryptjs'
+import crypto from 'crypto'
 
 const taikhoanSchema = new mongoose.Schema({
   // Định nghĩa các thuộc tính
@@ -32,7 +34,7 @@ const taikhoanSchema = new mongoose.Schema({
         'Mật khẩu phải chứa ít nhất 1 chữ thường, 1 chữ hoa, 1 số và 1 ký tự đặc biệt'
     }
   },
-  Username: {
+  UserName: {
     type: String,
     required: [true, 'Tên đăng nhập là bắt buộc'],
     unique: true,
@@ -45,6 +47,20 @@ const taikhoanSchema = new mongoose.Schema({
     }
   }
 })
+
+// Middleware mã hóa mật khẩu trước khi lưu vào database
+taikhoanSchema.pre('save', async function (next) {
+  this.Pass = await bcrypt.hash(this.Pass, 12)
+  next()
+})
+
+// Middleware so sánh mật khẩu
+taikhoanSchema.methods.correctPassword = async function (
+  candidatePassword,
+  userPassword
+) {
+  return await bcrypt.compare(candidatePassword, userPassword)
+}
 
 const TaiKhoan = mongoose.model('taikhoan', taikhoanSchema, 'TaiKhoan')
 //đối số thứ 1: tên của model, ví dụ bạn muốn gọi đến userID trong model này thì sẽ gọi bằng: user.userID

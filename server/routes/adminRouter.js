@@ -5,5 +5,6 @@ import authController from '../controllers/authController.js'
 const adminRouter = express.Router()
 
 adminRouter.post('/login', authController.login)
+adminRouter.post('/signup', authController.signup)
 
 export default adminRouter
