@@ -45,6 +45,12 @@ const taikhoanSchema = new mongoose.Schema({
       },
       message: 'Tên đăng nhập chỉ được chứa các ký tự chữ và số'
     }
+  },
+  Role: {
+    type: String,
+    required: true,
+    enum: ['admin', 'user'],
+    default: 'user'
   }
 })
 

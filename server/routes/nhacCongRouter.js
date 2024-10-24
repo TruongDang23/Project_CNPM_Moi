@@ -7,6 +7,7 @@ const nhacCongRouter = express.Router()
 nhacCongRouter.get(
   '/',
   authController.protect,
+  authController.restrictTo('admin'),
   nhacCongController.getAllNhacCong
 )
 
