@@ -31,7 +31,7 @@ function Login() {
       setMessage('')
     }
     try {
-      const res = await axios.post(`http://${endpoint}/login`, {
+      const res = await axios.post(`http://${endpoint}/admin/login`, {
         username,
         pass
       })
