@@ -36,6 +36,7 @@ import Thiep from './thiep/Thiep'
 import Combo from './combo/Combo'
 import NhacCong from './nhaccong/NhacCong'
 import MC from './mc/MC'
+import TongQuan from './tongquan/TongQuan'
 
 const drawerWidth = 240
 
@@ -284,7 +285,7 @@ function DashBoard() {
         </Drawer>
         <Box component="main" sx={{ flexGrow: 1 }}>
           <DrawerHeader />
-          {content === 'Tổng quan' && <h1>page 1 </h1>}
+          {content === 'Tổng quan' && <TongQuan/>}
           {content === 'Hội trường' && <HoiTruong />}
           {content === 'Đơn đặt hàng' && <h1>page 3</h1>}
           {content === 'Món ăn' && <Combo />}

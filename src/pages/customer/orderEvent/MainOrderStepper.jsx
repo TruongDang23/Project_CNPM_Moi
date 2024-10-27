@@ -30,18 +30,18 @@ function MainOrderStepper() {
 
   const renderStepContent = (step) => {
     switch (step) {
-      case 0:
-        return <StepHall luuHoiTruong={LuuHoiTruong} />
-      case 1:
-        return <StepMC luuMC={LuuMC} />
-      case 2:
-        return <StepNC luuNhacCong={LuuNhacCong} />
-      case 3:
-        return <StepCombo luuCombo={LuuCombo} />
-      case 4:
-        return <StepThiep luuThiep={LuuThiep} />
-      default:
-        return <Typography>Không có bước này</Typography>
+    case 0:
+      return <StepHall luuHoiTruong={LuuHoiTruong} />
+    case 1:
+      return <StepMC luuMC={LuuMC} />
+    case 2:
+      return <StepNC luuNhacCong={LuuNhacCong} />
+    case 3:
+      return <StepCombo luuCombo={LuuCombo} />
+    case 4:
+      return <StepThiep luuThiep={LuuThiep} />
+    default:
+      return <Typography>Không có bước này</Typography>
     }
   }
 
