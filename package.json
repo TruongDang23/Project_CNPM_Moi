@@ -23,6 +23,7 @@
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.26.2",
     "react-sticky-el": "^2.1.1",
+    "recharts": "^2.13.0",
     "styled-components": "^6.1.13"
   },
   "devDependencies": {
