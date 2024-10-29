@@ -10,18 +10,16 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp'
 import CloseIcon from '@mui/icons-material/Close'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import styled, { keyframes } from 'styled-components'
 import { Helmet } from 'react-helmet' // dùng để thay đổi title của trang
-import axios from 'axios'
-import endpoint from '../../../constance/endpoint'
+import APIClient from '../../../api/client'
 
 function Login() {
   const navigate = useNavigate()
   const [username, setUsername] = useState('')
   const [pass, setPass] = useState('')
   const [message, setMessage] = useState('')
-  const [isLogin, setIsLogin] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
 
   const handleLogin = async () => {
@@ -30,28 +28,22 @@ function Login() {
     } else {
       setMessage('')
     }
-    try {
-      const res = await axios.post(`http://${endpoint}/admin/login`, {
-        username,
-        pass
-      })
-      if (res.data === 'error') setMessage('An error occurred when login!')
-      else if (res.data === 'not found')
-        setMessage('Tài khoản hoặc mật khẩu không đúng')
-      else {
-        const userID = res.data
-        const userData = JSON.stringify({ userID })
-        alert('Login successfully')
-        sessionStorage.setItem('userAuth', userData)
-        // navigate(`/`)
-      }
-    } catch (error) {
-      alert('An error occurred while trying to log in.')
-      //console.error(error)
+    const client = new APIClient("system")
+    const result = await client.authenticate({
+      username,
+      pass
+    })
+
+    if (result.status == 401)
+      setMessage('Tên đăng nhập hoặc mật khẩu không chính xác')
+    if (result.status == 200) {
+      sessionStorage.setItem('userAuth', result.data.token)
+      alert('Login successfully')
+      navigate(`/`)
     }
   }
 
-  const handleCancel = () => {
+  const handleCancel = async () => {
     // Load lại trang
     window.location.reload()
   }

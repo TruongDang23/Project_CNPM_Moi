@@ -1,31 +1,10 @@
-//API route system
 //import express framework (bắt buộc)
 import express from 'express'
-import cors from 'cors'
-import taikhoan from '../models/taikhoan.js'
+import authController from '../controllers/authController.js'
 
-const systemRoutes = (connMongo) => {
-  //Khởi tạo tham số router và cấp quyền CORS
-  const router = express.Router()
-  router.use(cors())
-  router.use(express.json())
+const systemRouter = express.Router()
 
-  // router.post('/login', async (req, res) => {
-  //   const data = req.body
-  //   try {
-  //     await connMongo
-  //     const result = await taikhoan.find({
-  //       UserName: data.username,
-  //       Pass: data.pass
-  //     })
-  //     if (result.length != 0) res.send(result[0].MaTK)
-  //     else res.send('not found')
-  //   } catch (err) {
-  //     res.send('error')
-  //   }
-  // })
+systemRouter.post('/login', authController.login)
+systemRouter.post('/signup', authController.signup)
 
-  return router
-}
-
-export default systemRoutes
+export default systemRouter
