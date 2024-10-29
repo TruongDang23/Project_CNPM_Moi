@@ -7,6 +7,7 @@ import bodyParser from 'body-parser'
 import adminRouter from './routes/adminRouter.js'
 import nhacCongRouter from './routes/nhacCongRouter.js'
 import hoiTruongRouter from './routes/hoiTruongRouter.js'
+import systemRouter from './routes/system.js'
 
 const app = express()
 
@@ -29,4 +30,5 @@ app.use((req, res, next) => {
 app.use('/api/admin', adminRouter) // All admin routes will have a prefix of /ad
 app.use('/api/nhaccong', nhacCongRouter) // All nhaccong routes will have a prefix of /nhaccong
 app.use('/api/hoitruong', hoiTruongRouter)
+app.use('/api/system', systemRouter)
 export default app
