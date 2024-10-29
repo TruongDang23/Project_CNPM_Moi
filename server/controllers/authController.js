@@ -17,11 +17,7 @@ const createSendToken = (user, statusCode, res) => {
   // Remove password from output
   user.Pass = undefined
   res.status(statusCode).json({
-    status: 'success',
-    token,
-    data: {
-      user
-    }
+    token
   })
 }
 
@@ -39,7 +35,6 @@ const signup = catchAsync(async (req, res, next) => {
 
 const login = catchAsync(async (req, res, next) => {
   const { username, pass } = req.body
-
   // 1) Check if email and password exist
   if (!username || !pass) {
     return next(new AppError('Please provide username and password!', 400))
