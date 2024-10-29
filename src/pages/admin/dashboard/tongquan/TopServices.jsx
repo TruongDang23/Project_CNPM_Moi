@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-function TopServices({data}) {
+import styled from 'styled-components'
+function TopServices({ data }) {
   return (
     <TopServicesWrapper>
       <h3>Những hội trường và dịch vụ đứng đầu:</h3>
@@ -8,12 +8,14 @@ function TopServices({data}) {
           <li key={index}>
             <span className="service-name">{service.name}</span>
             <span className="service-orders">{service.orders} lượt đặt</span>
-            <span className="service-success">Thành công: <SuccessRate>{service.successRate}</SuccessRate></span>
+            <span className="service-success">
+              Thành công: <SuccessRate>{service.successRate}</SuccessRate>
+            </span>
           </li>
         ))}
       </ul>
     </TopServicesWrapper>
-  );
+  )
 }
 
 const TopServicesWrapper = styled.div`
@@ -32,6 +34,20 @@ const TopServicesWrapper = styled.div`
     list-style-type: none;
     padding: 0;
     margin: 0;
+
+    
+    ${'' /* Tạo một đường line giữa hai cột */}
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 1px;
+      background-color: #e0e0e0;
+    }
   }
 
   li {
@@ -57,14 +73,13 @@ const TopServicesWrapper = styled.div`
       text-align: right;
     }
   }
-`;
+`
 
 const SuccessRate = styled.span`
   background-color: #d4edda;
   color: #28a745;
   padding: 2px 8px;
   border-radius: 5px;
-`;
+`
 
-
-export default TopServices;
+export default TopServices
