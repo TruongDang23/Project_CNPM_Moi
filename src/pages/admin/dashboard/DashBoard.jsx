@@ -37,6 +37,7 @@ import Combo from './combo/Combo'
 import NhacCong from './nhaccong/NhacCong'
 import MC from './mc/MC'
 import TongQuan from './tongquan/TongQuan'
+import DonDatHang from './dondathang/DonDatHang'
 
 const drawerWidth = 240
 
@@ -287,7 +288,7 @@ function DashBoard() {
           <DrawerHeader />
           {content === 'Tổng quan' && <TongQuan/>}
           {content === 'Hội trường' && <HoiTruong />}
-          {content === 'Đơn đặt hàng' && <h1>page 3</h1>}
+          {content === 'Đơn đặt hàng' && <DonDatHang/>}
           {content === 'Món ăn' && <Combo />}
           {content === 'Thiệp mời' && <Thiep />}
           {content === 'Nhạc công' && <NhacCong />}

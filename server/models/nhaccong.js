@@ -71,7 +71,7 @@ const nhacCongSchema = new mongoose.Schema({
     }
   ],
   HinhAnh: {
-    type: String,
+    type: [String],
     required: [true, 'Hình ảnh là bắt buộc'],
     validate: {
       validator: function (v) {
@@ -79,6 +79,10 @@ const nhacCongSchema = new mongoose.Schema({
       },
       message: 'Danh sách hình ảnh không hợp lệ'
     }
+  },
+  Active: {
+    type: Boolean,
+    default: true
   }
 })
 
