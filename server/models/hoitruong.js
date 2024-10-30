@@ -62,6 +62,10 @@ const hoitruongSchema = new mongoose.Schema({
     type: Boolean,
     default: true
   },
+  Active: {
+    type: Boolean,
+    default: true
+  },
   HinhAnh: {
     type: [String],
     validate: {

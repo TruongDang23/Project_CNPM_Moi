@@ -1,8 +1,10 @@
 import styled from 'styled-components'
 import { useState, useEffect } from 'react'
+import APIClient from '../../../../api/client'
 
 function HoiTruongDetail({ selectedData }) {
   const [formData, setFormData] = useState({})
+  const apiClient = new APIClient('hoitruong')
 
   // Sử dụng useEffect để cập nhật formData khi selectedData thay đổi
   useEffect(() => {
@@ -20,7 +22,50 @@ function HoiTruongDetail({ selectedData }) {
   const handleSubmit = (e) => {
     e.preventDefault()
     // Xử lý submit ở đây
-    console.log(formData)
+  }
+
+  const addHall = () => {
+    apiClient
+      .create(formData)
+      .then((response) => {
+        if (response.status == 201)
+          alert('Tạo mới hội trường thành công')
+      })
+      .catch((error) => {
+        if (error.status == 404)
+          alert('Tạo mới hội trường không thành công')
+        // eslint-disable-next-line no-console
+        console.error(error)
+      })
+  }
+
+  const updateHall = () => {
+    apiClient
+      .update(formData._id, formData)
+      .then((response) => {
+        if (response.status == 200)
+          alert('Cập nhật thành công')
+      })
+      .catch((error) => {
+        alert('Lỗi trong quá trình cập nhật hội trường')
+        // eslint-disable-next-line no-console
+        console.error(error)
+      })
+  }
+
+  const deleteHall = () => {
+    apiClient
+      .delete(formData.MaHoiTruong)
+      .then((response) => {
+        if (response.status == 204)
+          alert('Xóa hội trường thành công')
+      })
+      .catch((error) => {
+        if (error.status == 404)
+          alert('Không tìm thấy hội trường với ID này')
+        // eslint-disable-next-line no-console
+        console.error(error)
+      })
   }
 
   if (!selectedData)
@@ -75,8 +120,8 @@ function HoiTruongDetail({ selectedData }) {
               value={formData.Wifi}
               onChange={handleInputChange}
             >
-              <option value="Có">Có</option>
-              <option value="Không">Không</option>
+              <option value="true">Có</option>
+              <option value="false">Không</option>
             </select>
           </div>
         </div>
@@ -194,13 +239,13 @@ function HoiTruongDetail({ selectedData }) {
             ))}
         </div>
         <div className="button-row">
-          <button id="btn-primary" type="submit">
+          <button id="btn-primary" type="submit" onClick={addHall}>
             Thêm
           </button>
-          <button id="btn-secoundary" type="submit">
+          <button id="btn-secoundary" type="submit" onClick={updateHall}>
             Cập nhật
           </button>
-          <button id="btn-cancel" type="button" onClick={() => setFormData({})}>
+          <button id="btn-cancel" type="button" onClick={deleteHall}>
             Xóa
           </button>
         </div>

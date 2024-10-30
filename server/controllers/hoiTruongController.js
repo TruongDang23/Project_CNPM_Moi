@@ -3,12 +3,9 @@ import catchAsync from '../utils/catchAsync.js'
 import AppError from '../utils/appError.js'
 
 const getAll = catchAsync(async (req, res, next) => {
-  const hoitruong = await HoiTruong.find()
+  const hoitruong = await HoiTruong.find().sort({ MaHoiTruong: 1 })
   res.status(200).json({
-    status: 'success',
-    data: {
-      hoitruong
-    }
+    hoitruong
   })
 })
 
@@ -49,12 +46,10 @@ const create = catchAsync(async (req, res, next) => {
     HinhAnh:      req.body.HinhAnh
   })
 
-  res.status(201).json({
-    status: 'success',
-    data: {
-      nhaccong: newHoiTruong
-    }
-  })
+  if (!newHoiTruong) {
+    return next(new AppError('Tạo mới hội trường không thành công', 404))
+  }
+  res.status(201).send()
 })
 
 const update = catchAsync(async (req, res, next) => {
@@ -70,13 +65,7 @@ const update = catchAsync(async (req, res, next) => {
   if (!updateHoiTruong) {
     return next(new AppError('Không tìm thấy hội trường với mã này', 404))
   }
-
-  res.status(200).json({
-    status: 'success',
-    data: {
-      nhaccong: updateHoiTruong
-    }
-  })
+  res.status(200).send()
 })
 
 const deleteByID = catchAsync(async (req, res, next) => {
@@ -94,10 +83,7 @@ const deleteByID = catchAsync(async (req, res, next) => {
     return next(new AppError('Không tìm thấy hội trường với ID này', 404))
   }
 
-  res.status(204).json({
-    status: 'success',
-    data: null // 204 No Content, không cần trả về dữ liệu
-  })
+  res.status(204).send()
 })
 
 export default {
