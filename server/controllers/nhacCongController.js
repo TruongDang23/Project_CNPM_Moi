@@ -6,9 +6,7 @@ const getAllNhacCong = catchAsync(async (req, res, next) => {
   const nhaccong = await NhacCong.find()
   res.status(200).json({
     status: 'success',
-    data: {
-      nhaccong
-    }
+    nhaccong
   })
 })
 

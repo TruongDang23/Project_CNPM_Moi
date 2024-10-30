@@ -16,42 +16,52 @@ export default class APIClient {
         pass: account.pass
       })
       return data
-    }
-    catch (error) {
+    } catch (error) {
       return error
     }
   }
 
-  async reauthenticate() {
-
-  }
+  async reauthenticate() {}
 
   async find() {
     const token = sessionStorage.getItem('userAuth')
     console.log(token)
-    const data = await axios.get(`${this.api}/`, { })
+    const data = await axios.get(`${this.api}/`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    console.log(data)
     return data
   }
 
   async findByID(id) {
-    const data = await axios.get(`${this.api}/:${id}`, { })
+    const token = sessionStorage.getItem('userAuth')
+    const data = await axios.get(`${this.api}/:${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
     return data
   }
 
   async create() {
-    const data = await axios.post(`${this.api}/`, { })
+    const token = sessionStorage.getItem('userAuth')
+    const data = await axios.post(`${this.api}/`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
     return data // data = true/false
   }
 
   async update(id) {
-    const data = await axios.patch(`${this.api}/${id}`, { })
+    const data = await axios.patch(`${this.api}/${id}`, {})
     return data // data = true/false
   }
 
   async delete(id) {
-    const data = await axios.delete(`${this.api}/:${id}`, { })
+    const data = await axios.delete(`${this.api}/:${id}`, {})
     return data // data = true/false
   }
 }
-
-
