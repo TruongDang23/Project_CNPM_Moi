@@ -1,14 +1,40 @@
 import styled from 'styled-components'
 import { useState, useEffect } from 'react'
+import APIClient from '../../../../api/client'
 
-function NhacCongDetail({ selectedData }) {
+import Dialog from '@mui/material/Dialog'
+import DialogTitle from '@mui/material/DialogTitle'
+import DialogContent from '@mui/material/DialogContent'
+import DialogActions from '@mui/material/DialogActions'
+
+function NhacCongDetail({ selectedData, onActionComplete }) {
+  const apiClient = new APIClient('nhaccong')
   const [formData, setFormData] = useState({})
+
+  // Dialog state
+  const [dialogOpen, setDialogOpen] = useState(false) // Trạng thái hiển thị Dialog
+  const [dialogMessage, setDialogMessage] = useState('') // Nội dung thông báo từ server
+  const [dialogTitle, setDialogTitle] = useState('') // Tiêu đề của Dialog
+
+  // Các hàm xử lí mở, đóng Dialog
+  // Hàm hiển thị Dialog
+  const showDialog = (title, message) => {
+    setDialogTitle(title)
+    setDialogMessage(message)
+    setDialogOpen(true)
+  }
+
+  // Hàm đóng Dialog
+  const closeDialog = () => {
+    setDialogOpen(false)
+  }
 
   // Sử dụng useEffect để cập nhật formData khi selectedData thay đổi
   useEffect(() => {
     setFormData(selectedData || {}) // Cập nhật formData với selectedData mới
   }, [selectedData]) // Chạy lại khi selectedData thay đổi
 
+  // hàm này sẽ xử lý sự kiện thay đổi giá trị của input
   const handleInputChange = (e) => {
     const { name, value } = e.target
     setFormData((prevData) => ({
@@ -23,12 +49,63 @@ function NhacCongDetail({ selectedData }) {
     console.log(formData)
   }
 
-  if (!selectedData)
-    return (
-      <NhacCongDetailWrapper>
-        <h1>Chọn một nhạc công để xem chi tiết.</h1>
-      </NhacCongDetailWrapper>
-    )
+  // Hàm xử lý sự kiện thêm mới
+  const handleCreate = async (e) => {
+    e.preventDefault()
+    try {
+      const response = await apiClient.create(formData) // Gửi dữ liệu mới qua API
+      showDialog('Thêm thành công', 'Nhạc công đã được thêm vào thành công.')
+      setFormData({}) // Xóa dữ liệu form sau khi thêm thành công
+      onActionComplete() // Gọi hàm tải lại dữ liệu
+    } catch (error) {
+      showDialog(
+        'Lỗi khi thêm',
+        error.response?.data?.message || 'Đã xảy ra lỗi.'
+      )
+    }
+  }
+
+  // Hàm xử lý sự kiện cập nhật
+  const handleUpdate = async (e) => {
+    e.preventDefault()
+    if (!formData.MaNhacCong)
+      return showDialog('Lỗi', 'Vui lòng chọn một nhạc công để cập nhật.')
+    try {
+      const response = await apiClient.update(formData.MaNhacCong, formData)
+      showDialog('Cập nhật thành công', 'Thông tin nhạc công đã được cập nhật.')
+      onActionComplete() // Gọi hàm tải lại dữ liệu
+    } catch (error) {
+      showDialog(
+        'Lỗi khi cập nhật',
+        error.response?.data?.message || 'Đã xảy ra lỗi.'
+      )
+    }
+  }
+
+  // Hàm xử lý sự kiện xóa
+  const handleDelete = async (e) => {
+    e.preventDefault()
+    if (!formData.MaNhacCong)
+      return showDialog('Lỗi', 'Vui lòng chọn một nhạc công để xóa.')
+    try {
+      await apiClient.delete(formData.MaNhacCong)
+      showDialog('Xóa thành công', 'Nhạc công đã được xóa.')
+      setFormData({})
+      onActionComplete() // Gọi hàm tải lại dữ liệu
+    } catch (error) {
+      showDialog(
+        'Lỗi khi xóa',
+        error.response?.data?.message || 'Đã xảy ra lỗi.'
+      )
+    }
+  }
+
+  // if (!selectedData)
+  //   return (
+  //     <NhacCongDetailWrapper>
+  //       <h1>Chọn một nhạc công để xem chi tiết.</h1>
+  //     </NhacCongDetailWrapper>
+  //   )
 
   return (
     <NhacCongDetailWrapper>
@@ -36,12 +113,15 @@ function NhacCongDetail({ selectedData }) {
       <form onSubmit={handleSubmit}>
         <div className="form-row">
           <div className="form-group">
-            <label className="label">Mã nhạc công:</label>
+            <label className="label" disabled>
+              Mã nhạc công:
+            </label>
             <input
-              className="input"
+              className="input disabled"
               name="MaNhacCong"
               value={formData.MaNhacCong || ''}
               onChange={handleInputChange}
+              disabled
               required
             />
           </div>
@@ -115,25 +195,80 @@ function NhacCongDetail({ selectedData }) {
           </div>
         </div>
 
+        <div className="form-group">
+          <label className="label">Hình ảnh:</label>
+          <input
+            className="input"
+            type="text"
+            name="HinhAnh"
+            placeholder="Link ảnh"
+            value={formData.HinhAnh || ''}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <div className="image-preview-wrapper">
+          {formData.HinhAnh &&
+            Array.isArray(formData.HinhAnh) &&
+            formData.HinhAnh.map((img, index) => (
+              <img key={index} src={img} alt="Hội trường" />
+            ))}
+        </div>
+
         <div className="button-row">
-          <button className="button" type="submit">
+          <button id="btn-primary" type="submit" onClick={handleCreate}>
             Thêm
           </button>
-          <button className="button update" type="submit">
+          <button id="btn-secoundary" type="submit" onClick={handleUpdate}>
             Cập nhật
           </button>
-          <button
-            className="button delete"
-            type="button"
-            onClick={() => setFormData({})}
-          >
+          <button id="btn-cancel" type="button" onClick={handleDelete}>
             Xóa
           </button>
         </div>
       </form>
+
+      {/* Dialog hiển thị thông báo */}
+      <StyledDialog open={dialogOpen} onClose={closeDialog}>
+        <StyledDialogTitle>{dialogTitle}</StyledDialogTitle>
+        <StyledDialogContent>
+          <p>{dialogMessage}</p>
+        </StyledDialogContent>
+        <StyledDialogActions>
+          <button id="btn-primary" onClick={closeDialog}>
+            Đóng
+          </button>
+        </StyledDialogActions>
+      </StyledDialog>
     </NhacCongDetailWrapper>
   )
 }
+
+// Custom Dialog
+const StyledDialog = styled(Dialog)`
+  & .MuiPaper-root {
+    text-align: center;
+    background-color: #f3f4f6;
+    border-radius: 8px;
+    padding: 16px;
+  }
+`
+
+const StyledDialogTitle = styled(DialogTitle)`
+  font-size: 2rem;
+  text-transform: uppercase;
+  color: var(--primary-color);
+  font-weight: bold;
+`
+
+const StyledDialogContent = styled(DialogContent)`
+  font-size: 1.6rem;
+  color: var(--primary-color);
+`
+
+const StyledDialogActions = styled(DialogActions)`
+  justify-content: center;
+`
 
 // Styled-component for NhacCongDetailWrapper
 const NhacCongDetailWrapper = styled.div`
@@ -172,44 +307,14 @@ const NhacCongDetailWrapper = styled.div`
     border-radius: 5px;
   }
 
+  .input.disabled {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    cursor: not-allowed;
+  }
+
   .textarea {
     min-height: 100px;
-  }
-
-  .button {
-    padding: 10px 30px;
-    background-color: var(--primary-color);
-    text-transform: uppercase;
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
-
-    &:hover {
-      background-color: var(--hover-color-1);
-      transition: all 0.4s;
-    }
-  }
-
-  .button.update {
-    background-color: var(--hover-color-2);
-    color: var(--primary-color);
-
-    &:hover {
-      color: #fff;
-      background-color: var(--bold-color);
-    }
-  }
-
-  .button.delete {
-    background-color: #f44336;
-
-    &:hover {
-      background-color: #d32f2f;
-    }
   }
 
   .button-row {
@@ -231,6 +336,6 @@ const NhacCongDetailWrapper = styled.div`
       border-radius: 5px;
     }
   }
-`;
+`
 
-export default NhacCongDetail;
+export default NhacCongDetail

@@ -6,9 +6,7 @@ const getAllNhacCong = catchAsync(async (req, res, next) => {
   const nhaccong = await NhacCong.find()
   res.status(200).json({
     status: 'success',
-    data: {
-      nhaccong
-    }
+    nhaccong
   })
 })
 
@@ -54,8 +52,8 @@ const createNhacCong = catchAsync(async (req, res, next) => {
 })
 
 const updateNhacCong = catchAsync(async (req, res, next) => {
-  const updatedNhacCong = await NhacCong.findByIdAndUpdate(
-    req.params.id,
+  const updatedNhacCong = await NhacCong.findOneAndUpdate(
+    { MaNhacCong: req.params.id },
     req.body,
     {
       new: true, // Trả về document mới sau khi cập nhật

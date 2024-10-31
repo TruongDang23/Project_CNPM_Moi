@@ -15,15 +15,12 @@ export default class APIClient {
         pass: account.pass
       })
       return data
-    }
-    catch (error) {
+    } catch (error) {
       return error
     }
   }
 
-  async reauthenticate() {
-
-  }
+  async reauthenticate() {}
 
   async find() {
     try {
@@ -47,7 +44,7 @@ export default class APIClient {
     })
     return data
   }
-
+  
   async create(newData) {
     const data = await axios.post(`${this.api}/`,
       newData,
@@ -79,5 +76,3 @@ export default class APIClient {
     return data
   }
 }
-
-
