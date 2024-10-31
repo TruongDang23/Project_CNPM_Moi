@@ -1,8 +1,29 @@
 import styled from 'styled-components'
 import { useState, useEffect } from 'react'
+import APIClient from '../../../../api/client'
+import Dialog from '@mui/material/Dialog'
+import DialogTitle from '@mui/material/DialogTitle'
+import DialogContent from '@mui/material/DialogContent'
+import DialogActions from '@mui/material/DialogActions'
 
-function HoiTruongDetail({ selectedData }) {
+function HoiTruongDetail({ selectedData, setReload }) {
   const [formData, setFormData] = useState({})
+  const apiClient = new APIClient('hoitruong')
+  const [dialogOpen, setDialogOpen] = useState(false) // Trạng thái hiển thị Dialog
+  const [dialogMessage, setDialogMessage] = useState('') // Nội dung thông báo từ server
+  const [dialogTitle, setDialogTitle] = useState('') // Tiêu đề của Dialog
+
+  // Các hàm xử lí mở, đóng Dialog
+  // Hàm hiển thị Dialog
+  const showDialog = (title, message) => {
+    setDialogTitle(title)
+    setDialogMessage(message)
+    setDialogOpen(true)
+  }
+  // Hàm đóng Dialog
+  const closeDialog = () => {
+    setDialogOpen(false)
+  }
 
   // Sử dụng useEffect để cập nhật formData khi selectedData thay đổi
   useEffect(() => {
@@ -20,7 +41,62 @@ function HoiTruongDetail({ selectedData }) {
   const handleSubmit = (e) => {
     e.preventDefault()
     // Xử lý submit ở đây
-    console.log(formData)
+  }
+
+  const addHall = () => {
+    apiClient
+      .create(formData)
+      .then((response) => {
+        if (response.status == 201) {
+          alert('Tạo mới hội trường thành công')
+          setReload(prevReload => !prevReload)
+        }
+      })
+      .catch((error) => {
+        if (error.status == 404)
+          showDialog(
+            'Lỗi khi tạo mới hội trường',
+            error.response?.data?.message || 'Đã xảy ra lỗi.')
+        // eslint-disable-next-line no-console
+        console.error(error)
+      })
+  }
+
+  const updateHall = () => {
+    apiClient
+      .update(formData._id, formData)
+      .then((response) => {
+        if (response.status == 200) {
+          alert('Cập nhật thành công')
+          setReload(prevReload => !prevReload)
+        }
+      })
+      .catch((error) => {
+        showDialog(
+          'Lỗi khi cập nhật hội trường',
+          error.response?.data?.message || 'Đã xảy ra lỗi.')
+        // eslint-disable-next-line no-console
+        console.error(error)
+      })
+  }
+
+  const deleteHall = () => {
+    apiClient
+      .delete(formData.MaHoiTruong)
+      .then((response) => {
+        if (response.status == 204) {
+          alert('Xóa hội trường thành công')
+          setReload(prevReload => !prevReload)
+        }
+      })
+      .catch((error) => {
+        if (error.status == 404)
+          showDialog(
+            'Lỗi khi xóa',
+            error.response?.data?.message || 'Đã xảy ra lỗi.')
+        // eslint-disable-next-line no-console
+        console.error(error)
+      })
   }
 
   if (!selectedData)
@@ -75,8 +151,8 @@ function HoiTruongDetail({ selectedData }) {
               value={formData.Wifi}
               onChange={handleInputChange}
             >
-              <option value="Có">Có</option>
-              <option value="Không">Không</option>
+              <option value="true">Có</option>
+              <option value="false">Không</option>
             </select>
           </div>
         </div>
@@ -89,8 +165,8 @@ function HoiTruongDetail({ selectedData }) {
               value={formData.MayLanh}
               onChange={handleInputChange}
             >
-              <option value="Có">Có</option>
-              <option value="Không">Không</option>
+              <option value="true">Có</option>
+              <option value="false">Không</option>
             </select>
           </div>
           <div className="form-group">
@@ -101,8 +177,8 @@ function HoiTruongDetail({ selectedData }) {
               value={formData.PhongKin}
               onChange={handleInputChange}
             >
-              <option value="Có">Có</option>
-              <option value="Không">Không</option>
+              <option value="true">Có</option>
+              <option value="false">Không</option>
             </select>
           </div>
         </div>
@@ -194,20 +270,56 @@ function HoiTruongDetail({ selectedData }) {
             ))}
         </div>
         <div className="button-row">
-          <button id="btn-primary" type="submit">
+          <button id="btn-primary" type="submit" onClick={addHall}>
             Thêm
           </button>
-          <button id="btn-secoundary" type="submit">
+          <button id="btn-secoundary" type="submit" onClick={updateHall}>
             Cập nhật
           </button>
-          <button id="btn-cancel" type="button" onClick={() => setFormData({})}>
+          <button id="btn-cancel" type="button" onClick={deleteHall}>
             Xóa
           </button>
         </div>
       </form>
+
+      {/* Dialog hiển thị thông báo */}
+      <StyledDialog open={dialogOpen} onClose={closeDialog}>
+        <StyledDialogTitle>{dialogTitle}</StyledDialogTitle>
+        <StyledDialogContent>
+          <p>{dialogMessage}</p>
+        </StyledDialogContent>
+        <StyledDialogActions>
+          <button id="btn-primary" onClick={closeDialog}>
+            Đóng
+          </button>
+        </StyledDialogActions>
+      </StyledDialog>
     </HoiTruongDetailWrapper>
   )
 }
+
+// Custom Dialog
+const StyledDialog = styled(Dialog)`
+  & .MuiPaper-root {
+    text-align: center;
+    background-color: #f3f4f6;
+    border-radius: 8px;
+    padding: 16px;
+  }
+`
+const StyledDialogTitle = styled(DialogTitle)`
+  font-size: 2rem;
+  text-transform: uppercase;
+  color: var(--primary-color);
+  font-weight: bold;
+`
+const StyledDialogContent = styled(DialogContent)`
+  font-size: 1.6rem;
+  color: var(--primary-color);
+`
+const StyledDialogActions = styled(DialogActions)`
+  justify-content: center;
+`
 
 const HoiTruongDetailWrapper = styled.div`
   color: var(--primary-color);
