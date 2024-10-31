@@ -100,12 +100,12 @@ function NhacCongDetail({ selectedData, onActionComplete }) {
     }
   }
 
-  if (!selectedData)
-    return (
-      <NhacCongDetailWrapper>
-        <h1>Chọn một nhạc công để xem chi tiết.</h1>
-      </NhacCongDetailWrapper>
-    )
+  // if (!selectedData)
+  //   return (
+  //     <NhacCongDetailWrapper>
+  //       <h1>Chọn một nhạc công để xem chi tiết.</h1>
+  //     </NhacCongDetailWrapper>
+  //   )
 
   return (
     <NhacCongDetailWrapper>
