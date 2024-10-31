@@ -6,9 +6,8 @@ import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
-import Button from '@mui/material/Button'
 
-function NhacCongDetail({ selectedData }) {
+function NhacCongDetail({ selectedData, onActionComplete }) {
   const apiClient = new APIClient('nhaccong')
   const [formData, setFormData] = useState({})
 
@@ -57,6 +56,7 @@ function NhacCongDetail({ selectedData }) {
       const response = await apiClient.create(formData) // Gửi dữ liệu mới qua API
       showDialog('Thêm thành công', 'Nhạc công đã được thêm vào thành công.')
       setFormData({}) // Xóa dữ liệu form sau khi thêm thành công
+      onActionComplete() // Gọi hàm tải lại dữ liệu
     } catch (error) {
       showDialog(
         'Lỗi khi thêm',
@@ -73,6 +73,7 @@ function NhacCongDetail({ selectedData }) {
     try {
       const response = await apiClient.update(formData.MaNhacCong, formData)
       showDialog('Cập nhật thành công', 'Thông tin nhạc công đã được cập nhật.')
+      onActionComplete() // Gọi hàm tải lại dữ liệu
     } catch (error) {
       showDialog(
         'Lỗi khi cập nhật',
@@ -90,6 +91,7 @@ function NhacCongDetail({ selectedData }) {
       await apiClient.delete(formData.MaNhacCong)
       showDialog('Xóa thành công', 'Nhạc công đã được xóa.')
       setFormData({})
+      onActionComplete() // Gọi hàm tải lại dữ liệu
     } catch (error) {
       showDialog(
         'Lỗi khi xóa',

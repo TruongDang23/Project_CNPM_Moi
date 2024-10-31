@@ -13,16 +13,22 @@ function NhacCong() {
 
   const [ncData, setNcData] = useState([])
 
-  useEffect(() => {
+  // Hàm tải lại dữ liệu từ API
+  const fetchData = () => {
     const apiClient = new APIClient('nhaccong')
     apiClient
       .find()
       .then((response) => {
-        setNcData(response.data.nhaccong || []) // Gán dữ liệu vào state
+        setNcData(response.data.nhaccong || [])
       })
       .catch((error) => {
         console.error(error)
       })
+  }
+
+  // Lấy dữ liệu lần đầu khi component được mount
+  useEffect(() => {
+    fetchData()
   }, [])
 
   // Hàm xử lý khi nhấn vào dòng
@@ -71,7 +77,10 @@ function NhacCong() {
           />
         </div>
         <div className="hall-content-detail">
-          <NhacCongDetail selectedData={selectedRow} />
+          <NhacCongDetail
+            selectedData={selectedRow}
+            onActionComplete={fetchData}
+          />
         </div>
       </div>
     </NhacCongWrapper>
