@@ -45,23 +45,44 @@ export default class APIClient {
     return data
   }
 
-  async create() {
+  // async create() {
+  //   const token = sessionStorage.getItem('userAuth')
+  //   const data = await axios.post(`${this.api}/`, {
+  //     headers: {
+  //       Authorization: `Bearer ${token}`
+  //     }
+  //   })
+  //   console.log(data)
+  //   return data // data = true/false
+  // }
+
+  async create(data) {
     const token = sessionStorage.getItem('userAuth')
-    const data = await axios.post(`${this.api}/`, {
+    const result = await axios.post(`${this.api}/`, data, {
       headers: {
         Authorization: `Bearer ${token}`
       }
     })
-    return data // data = true/false
+    return result
   }
 
-  async update(id) {
-    const data = await axios.patch(`${this.api}/${id}`, {})
-    return data // data = true/false
+  async update(id, data) {
+    const token = sessionStorage.getItem('userAuth')
+    const result = await axios.patch(`${this.api}/${id}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    return result
   }
 
   async delete(id) {
-    const data = await axios.delete(`${this.api}/:${id}`, {})
-    return data // data = true/false
+    const token = sessionStorage.getItem('userAuth')
+    const result = await axios.delete(`${this.api}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    return result
   }
 }

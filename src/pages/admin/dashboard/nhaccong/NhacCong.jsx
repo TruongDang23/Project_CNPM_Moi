@@ -1,6 +1,7 @@
+import { useEffect, useState } from 'react'
+import APIClient from '../../../../api/client'
+
 import styled from 'styled-components'
-import { useState } from 'react'
-import someNCData from '../../../../data/NCData'
 import DataTable from 'react-data-table-component'
 
 import { columnsNC, customStyles } from './columnsNC'
@@ -9,14 +10,28 @@ import NhacCongDetail from './NhacCongDetail'
 function NhacCong() {
   const [selectedRow, setSelectedRow] = useState(null)
   const [filterText, setFilterText] = useState('')
+
+  const [ncData, setNcData] = useState([])
+
+  useEffect(() => {
+    const apiClient = new APIClient('nhaccong')
+    apiClient
+      .find()
+      .then((response) => {
+        setNcData(response.data.nhaccong || []) // Gán dữ liệu vào state
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }, [])
+
   // Hàm xử lý khi nhấn vào dòng
   const handleRowClicked = (row) => {
     setSelectedRow(row) // Lưu dòng được chọn
   }
 
   // Lọc dữ liệu dựa trên giá trị filterText
-  // Lọc dữ liệu dựa trên giá trị filterText
-  const filteredData = someNCData.filter((item) =>
+  const filteredData = ncData.filter((item) =>
     // Tìm kiếm theo tất cả các trường
     Object.values(item).some((field) => {
       if (typeof field === 'string') {
