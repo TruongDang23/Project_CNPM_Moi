@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+import APIClient from '../../../../api/client'
 import styled, { keyframes } from 'styled-components'
 import { Helmet } from 'react-helmet'
 import Sticky from 'react-sticky-el'
@@ -7,9 +9,21 @@ import Footer from '../../../../components/Footer'
 import FilterNCSearch from './FilterNCSearch'
 import ResultNCSearch from './ResultNCSearch'
 
-import someNCdata from '../../../../data/NCData'
-
 function ListNC() {
+  const [ncData, setNcData] = useState([])
+
+  useEffect(() => {
+    const apiClient = new APIClient('nhaccong')
+    apiClient
+      .find()
+      .then((response) => {
+        setNcData(response.data.nhaccong || []) // Gán dữ liệu vào state
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }, [])
+
   return (
     <>
       <Helmet>
@@ -21,7 +35,7 @@ function ListNC() {
       <ListNCWrapper>
         <FilterNCSearch />
         <ListNCMainWrapper className="container">
-          <ResultNCSearch resultSearch={someNCdata} />
+          <ResultNCSearch resultSearch={ncData} />
         </ListNCMainWrapper>
       </ListNCWrapper>
       <Footer />
