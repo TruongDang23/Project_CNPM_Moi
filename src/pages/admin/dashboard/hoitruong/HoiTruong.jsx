@@ -10,6 +10,7 @@ function HoiTruong() {
   const [selectedRow, setSelectedRow] = useState(null)
   const [filterText, setFilterText] = useState('')
   const [someHallData, setHallData] = useState([])
+  const [reload, setReload] = useState(true)
 
   useEffect(() => {
     const apiClient = new APIClient('hoitruong')
@@ -22,7 +23,7 @@ function HoiTruong() {
         // eslint-disable-next-line no-console
         console.error(error)
       })
-  }, [])
+  }, [reload])
 
   // Hàm xử lý khi nhấn vào dòng
   const handleRowClicked = (row) => {
@@ -70,7 +71,7 @@ function HoiTruong() {
           />
         </div>
         <div className="hall-content-detail">
-          <HoiTruongDetail selectedData={selectedRow} />
+          <HoiTruongDetail selectedData={selectedRow} setReload={setReload}/>
         </div>
       </div>
     </HoiTruongWrapper>
