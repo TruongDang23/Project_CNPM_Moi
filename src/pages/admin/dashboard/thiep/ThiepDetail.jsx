@@ -310,8 +310,10 @@ const ThiepDetailWrapper = styled.div`
 
   .image-preview-wrapper {
     display: flex;
-    gap: 10px;
-    margin-top: 15px;
+    gap: 10px;    
+    flex-wrap: wrap;
+    margin-top: 60px;
+    max-width: 700px;
 
     img {
       width: 100px;
