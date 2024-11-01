@@ -5,6 +5,7 @@ import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
+import CancelIcon from '@mui/icons-material/Cancel'
 
 function HoiTruongDetail({ selectedData, setReload }) {
   const [formData, setFormData] = useState({})
@@ -12,6 +13,8 @@ function HoiTruongDetail({ selectedData, setReload }) {
   const [dialogOpen, setDialogOpen] = useState(false) // Trạng thái hiển thị Dialog
   const [dialogMessage, setDialogMessage] = useState('') // Nội dung thông báo từ server
   const [dialogTitle, setDialogTitle] = useState('') // Tiêu đề của Dialog
+  const [newHinhAnh, setNewHinhAnh] = useState('')
+  const [danhSachHinhAnh, setDanhSachHinhAnh] = useState([])
 
   // Các hàm xử lí mở, đóng Dialog
   // Hàm hiển thị Dialog
@@ -23,6 +26,31 @@ function HoiTruongDetail({ selectedData, setReload }) {
   // Hàm đóng Dialog
   const closeDialog = () => {
     setDialogOpen(false)
+  }
+
+  const handleInputImage = (e) => {
+    setNewHinhAnh(e.target.value)
+  }
+
+  const handleAddHinhAnh = () => {
+    if (newHinhAnh.trim() !== '') {
+      setDanhSachHinhAnh((prev) => [...prev, newHinhAnh])
+      setNewHinhAnh('')
+      setFormData((prev) => ({
+        ...prev,
+        HinhAnh: [
+          ...prev.HinhAnh || [],
+          newHinhAnh
+        ]
+      }))
+    }
+  }
+
+  const handleRemoveHinhAnh = (index) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      HinhAnh: prevFormData.HinhAnh.filter((_, i) => i !== index)
+    }))
   }
 
   // Sử dụng useEffect để cập nhật formData khi selectedData thay đổi
@@ -262,10 +290,10 @@ function HoiTruongDetail({ selectedData, setReload }) {
             type="text"
             name="HinhAnh"
             placeholder="Link ảnh"
-            value={formData.HinhAnh || ''}
-            onChange={handleInputChange}
+            value={newHinhAnh || ''}
+            onChange={handleInputImage}
           />
-          <button id="btn-secoundary" type="button">
+          <button id="btn-secoundary" type="button" onClick={handleAddHinhAnh}>
             Chèn
           </button>
         </div>
@@ -273,7 +301,16 @@ function HoiTruongDetail({ selectedData, setReload }) {
           {formData.HinhAnh &&
             Array.isArray(formData.HinhAnh) &&
             formData.HinhAnh.map((img, index) => (
-              <img key={index} src={img} alt="Hội trường" />
+              // <img key={index} src={img} alt="Hội trường" />
+              <div className="image-container" key={index}>
+                <img src={img} alt="Combo món ăn" />
+                <span
+                  className="delete-icon"
+                  onClick={() => handleRemoveHinhAnh(index)} // Thêm hàm xóa tại đây
+                >
+                  <CancelIcon sx={{ fontSize: 30 }} />
+                </span>
+              </div>
             ))}
         </div>
         <div className="button-row">
@@ -386,6 +423,7 @@ const HoiTruongDetailWrapper = styled.div`
     display: flex;
     gap: 10px;
     margin-top: 15px;
+    max-width: 700px;
 
     img {
       width: 100px;
@@ -393,6 +431,32 @@ const HoiTruongDetailWrapper = styled.div`
       object-fit: cover;
       border-radius: 5px;
     }
+  }
+
+  .image-container {
+    position: relative;
+    display: inline-block; /* Giúp hình ảnh hiển thị liền kề nhau */
+  }
+
+  .delete-icon {
+    display: none; /* Ẩn biểu tượng xóa theo mặc định */
+    position: absolute;
+    top: 5px; /* Điều chỉnh vị trí */
+    right: 5px; /* Điều chỉnh vị trí */
+    cursor: pointer;
+    color: red; /* Màu sắc biểu tượng xóa */
+  }
+
+  .image-container:hover .delete-icon {
+    display: block; /* Hiện biểu tượng khi rê chuột vào */
+  }
+
+  .image-container img {
+    transition: filter 0.3s ease; /* Hiệu ứng chuyển đổi cho hình ảnh */
+  }
+
+  .image-container:hover img {
+    filter: blur(2px); /* Làm mờ hình ảnh khi rê chuột vào */
   }
 `
 
