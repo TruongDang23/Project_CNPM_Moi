@@ -1,14 +1,30 @@
 import styled from 'styled-components'
-import { useState } from 'react'
-import someHallData from '../../../../data/someHallData'
+import { useState, useEffect } from 'react'
 import DataTable from 'react-data-table-component'
 
 import { columnsHT, customStyles } from './columnsHT'
 import HoiTruongDetail from './HoiTruongDetail'
+import APIClient from '../../../../api/client'
 
 function HoiTruong() {
   const [selectedRow, setSelectedRow] = useState(null)
   const [filterText, setFilterText] = useState('')
+  const [someHallData, setHallData] = useState([])
+  const [reload, setReload] = useState(true)
+
+  useEffect(() => {
+    const apiClient = new APIClient('hoitruong')
+    apiClient
+      .find()
+      .then((response) => {
+        setHallData(response.data.hoitruong || [])
+      })
+      .catch((error) => {
+        // eslint-disable-next-line no-console
+        console.error(error)
+      })
+  }, [reload])
+
   // Hàm xử lý khi nhấn vào dòng
   const handleRowClicked = (row) => {
     setSelectedRow(row) // Lưu dòng được chọn
@@ -55,7 +71,7 @@ function HoiTruong() {
           />
         </div>
         <div className="hall-content-detail">
-          <HoiTruongDetail selectedData={selectedRow} />
+          <HoiTruongDetail selectedData={selectedRow} setReload={setReload}/>
         </div>
       </div>
     </HoiTruongWrapper>
