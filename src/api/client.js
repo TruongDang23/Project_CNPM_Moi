@@ -44,7 +44,7 @@ export default class APIClient {
     })
     return data
   }
-  
+
   async create(newData) {
     const data = await axios.post(`${this.api}/`,
       newData,

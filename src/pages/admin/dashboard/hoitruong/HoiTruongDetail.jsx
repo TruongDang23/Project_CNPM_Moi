@@ -48,7 +48,9 @@ function HoiTruongDetail({ selectedData, setReload }) {
       .create(formData)
       .then((response) => {
         if (response.status == 201) {
-          alert('Tạo mới hội trường thành công')
+          showDialog(
+            'Tạo mới thành công',
+            ``)
           setReload(prevReload => !prevReload)
         }
       })
@@ -67,7 +69,9 @@ function HoiTruongDetail({ selectedData, setReload }) {
       .update(formData._id, formData)
       .then((response) => {
         if (response.status == 200) {
-          alert('Cập nhật thành công')
+          showDialog(
+            'Cập nhật thành công',
+            `Thông tin của hội trường ${formData.MaHoiTruong} đã được cập nhật`)
           setReload(prevReload => !prevReload)
         }
       })
@@ -85,7 +89,9 @@ function HoiTruongDetail({ selectedData, setReload }) {
       .delete(formData.MaHoiTruong)
       .then((response) => {
         if (response.status == 204) {
-          alert('Xóa hội trường thành công')
+          showDialog(
+            'Xóa thành công',
+            `Trạng thái của hội trường ${formData.MaHoiTruong} đã được cập nhật`)
           setReload(prevReload => !prevReload)
         }
       })
@@ -99,12 +105,12 @@ function HoiTruongDetail({ selectedData, setReload }) {
       })
   }
 
-  if (!selectedData)
-    return (
-      <HoiTruongDetailWrapper>
-        <h1>Chọn một dòng để xem chi tiết.</h1>
-      </HoiTruongDetailWrapper>
-    )
+  // if (!selectedData)
+  //   return (
+  //     <HoiTruongDetailWrapper>
+  //       <h1>Chọn một dòng để xem chi tiết.</h1>
+  //     </HoiTruongDetailWrapper>
+  //   )
 
   return (
     <HoiTruongDetailWrapper>
@@ -112,9 +118,10 @@ function HoiTruongDetail({ selectedData, setReload }) {
       <form onSubmit={handleSubmit}>
         <div className="form-row">
           <div className="form-group">
-            <label className="label">Mã hội trường:</label>
+            <label className="label" disabled>Mã hội trường:</label>
             <input
-              className="input"
+              disabled
+              className="input disabled"
               name="MaHoiTruong"
               value={formData.MaHoiTruong || ''}
               onChange={handleInputChange}
@@ -358,6 +365,12 @@ const HoiTruongDetailWrapper = styled.div`
     border-radius: 5px;
   }
 
+  .input.disabled {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    cursor: not-allowed;
+  }
+
   .textarea {
     min-height: 100px;
   }
@@ -366,7 +379,7 @@ const HoiTruongDetailWrapper = styled.div`
     display: flex;
     justify-content: center;
     gap: 30px;
-    margin-top: 20px;
+    margin-top: 40px;
   }
 
   .image-preview-wrapper {
