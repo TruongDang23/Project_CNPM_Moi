@@ -3,7 +3,7 @@ import AppError from '../utils/appError.js'
 import MC from '../models/mc.js'
 
 const getAllMC = catchAsync(async (req, res, next) => {
-  const mc = await MC.find();
+  const mc = await MC.find().sort({ MaMC: 1 });
   res.status(200).json({
     status: 'success',
     mc

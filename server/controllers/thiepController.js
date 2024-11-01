@@ -3,7 +3,7 @@ import catchAsync from '../utils/catchAsync.js'
 import AppError from '../utils/appError.js'
 
 const getAllThiep = catchAsync(async (req, res, next) => {
-  const thiep = await ThiepMoi.find()
+  const thiep = await ThiepMoi.find().sort({ MaThiep: 1 })
   res.status(200).json({
     status: 'success',
     thiep

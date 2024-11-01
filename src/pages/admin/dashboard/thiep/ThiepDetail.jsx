@@ -6,7 +6,9 @@ import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
-function ThiepDetail({ selectedData, onActionComplete }) {
+import CancelIcon from '@mui/icons-material/Cancel'
+
+function ThiepDetail({ selectedData, setReload }) {
   const apiClient = new APIClient('thiep')
   const [formData, setFormData] = useState({})
 
@@ -14,7 +16,8 @@ function ThiepDetail({ selectedData, onActionComplete }) {
   const [dialogOpen, setDialogOpen] = useState(false) // Trạng thái hiển thị Dialog
   const [dialogMessage, setDialogMessage] = useState('') // Nội dung thông báo từ server
   const [dialogTitle, setDialogTitle] = useState('') // Tiêu đề của Dialog
-
+  const [newHinhAnh, setNewHinhAnh] = useState('')
+  const [danhSachHinhAnh, setDanhSachHinhAnh] = useState([])
   // Các hàm xử lí mở, đóng Dialog
   // Hàm hiển thị Dialog
   const showDialog = (title, message) => {
@@ -28,6 +31,30 @@ function ThiepDetail({ selectedData, onActionComplete }) {
     setDialogOpen(false)
   }
 
+  const handleInputImage = (e) => {
+    setNewHinhAnh(e.target.value)
+  }
+
+  const handleAddHinhAnh = () => {
+    if (newHinhAnh.trim() !== '') {
+      setDanhSachHinhAnh((prev) => [...prev, newHinhAnh])
+      setNewHinhAnh('')
+      setFormData((prev) => ({
+        ...prev,
+        HinhAnh: [
+          ...prev.HinhAnh || [],
+          newHinhAnh
+        ]
+      }))
+    }
+  }
+
+  const handleRemoveHinhAnh = (index) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      HinhAnh: prevFormData.HinhAnh.filter((_, i) => i !== index)
+    }))
+  }
 
   // Sử dụng useEffect để cập nhật formData khi selectedData thay đổi
   useEffect(() => {
@@ -54,7 +81,7 @@ function ThiepDetail({ selectedData, onActionComplete }) {
       const response = await apiClient.create(formData) // Gửi dữ liệu mới qua API
       showDialog('Thêm thành công', 'Thiệp đã được thêm vào thành công.')
       setFormData({}) // Xóa dữ liệu form sau khi thêm thành công
-      onActionComplete() // Gọi hàm tải lại dữ liệu
+      setReload(prevReload => !prevReload)
     } catch (error) {
       showDialog(
         'Lỗi khi thêm',
@@ -71,7 +98,7 @@ function ThiepDetail({ selectedData, onActionComplete }) {
     try {
       const response = await apiClient.update(formData.MaThiep, formData)
       showDialog('Cập nhật thành công', 'Thông tin thiệp đã được cập nhật.')
-      onActionComplete() // Gọi hàm tải lại dữ liệu
+      setReload(prevReload => !prevReload)
     } catch (error) {
       showDialog(
         'Lỗi khi cập nhật',
@@ -89,7 +116,7 @@ function ThiepDetail({ selectedData, onActionComplete }) {
       await apiClient.delete(formData.MaThiep)
       showDialog('Xóa thành công', 'Thiệp đã được xóa.')
       setFormData({})
-      onActionComplete() // Gọi hàm tải lại dữ liệu
+      setReload(prevReload => !prevReload)
     } catch (error) {
       showDialog(
         'Lỗi khi xóa',
@@ -150,15 +177,26 @@ function ThiepDetail({ selectedData, onActionComplete }) {
             type="text"
             name="HinhAnh"
             placeholder="Link ảnh"
-            value={formData.HinhAnh || ''}
-            onChange={handleInputChange}
+            value={newHinhAnh || ''}
+            onChange={handleInputImage}
           />
+          <button id="btn-secoundary" type="button" onClick={handleAddHinhAnh}>
+            Chèn
+          </button>
         </div>
         <div className="image-preview-wrapper">
           {formData.HinhAnh &&
             Array.isArray(formData.HinhAnh) &&
             formData.HinhAnh.map((img, index) => (
-              <img key={index} src={img} alt="Hội trường" />
+              <div className="image-container" key={index}>
+                <img src={img} alt="Combo món ăn" />
+                <span
+                  className="delete-icon"
+                  onClick={() => handleRemoveHinhAnh(index)} // Thêm hàm xóa tại đây
+                >
+                  <CancelIcon sx={{ fontSize: 30 }} />
+                </span>
+              </div>
             ))}
         </div>
 
@@ -228,6 +266,8 @@ const ThiepDetailWrapper = styled.div`
     margin-bottom: 15px;
     button {
       float: right;
+      margin-top: 10px;
+
     }
   }
 
@@ -279,6 +319,31 @@ const ThiepDetailWrapper = styled.div`
       object-fit: cover;
       border-radius: 5px;
     }
+  }
+      .image-container {
+    position: relative;
+    display: inline-block; /* Giúp hình ảnh hiển thị liền kề nhau */
+  }
+
+  .delete-icon {
+    display: none; /* Ẩn biểu tượng xóa theo mặc định */
+    position: absolute;
+    top: 5px; /* Điều chỉnh vị trí */
+    right: 5px; /* Điều chỉnh vị trí */
+    cursor: pointer;
+    color: red; /* Màu sắc biểu tượng xóa */
+  }
+
+  .image-container:hover .delete-icon {
+    display: block; /* Hiện biểu tượng khi rê chuột vào */
+  }
+
+  .image-container img {
+    transition: filter 0.3s ease; /* Hiệu ứng chuyển đổi cho hình ảnh */
+  }
+
+  .image-container:hover img {
+    filter: blur(2px); /* Làm mờ hình ảnh khi rê chuột vào */
   }
 `
 
