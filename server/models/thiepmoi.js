@@ -25,9 +25,13 @@ const thiepmoiSchema = new mongoose.Schema({
       },
       message: 'Một hoặc nhiều URL hình ảnh không hợp lệ'
     }
+  },
+  Active: {
+    type: Boolean,
+    default: true
   }
 })
 
-const ThiepMoi = mongoose.model('thiep', thiepmoiSchema, 'Thiep')
+const ThiepMoi = mongoose.model('thiepmoi', thiepmoiSchema, 'ThiepMoi')
 
 export default ThiepMoi

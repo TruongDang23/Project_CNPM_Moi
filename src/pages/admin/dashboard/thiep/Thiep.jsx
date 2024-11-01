@@ -1,6 +1,7 @@
 import styled from 'styled-components'
-import { useState } from 'react'
-import someThiepData from '../../../../data/someThiepData'
+import { useEffect, useState } from 'react'
+import APIClient from '../../../../api/client'
+
 import DataTable from 'react-data-table-component'
 
 import { columnsThiep, customStyles } from './columnThiep'
@@ -9,13 +10,33 @@ import ThiepDetail from './ThiepDetail'
 function Thiep() {
   const [selectedRow, setSelectedRow] = useState(null)
   const [filterText, setFilterText] = useState('')
+  const [thiepData, setThiepData] = useState([])
+
+  // Hàm tải lại dữ liệu từ API
+  const fetchData = () => {
+    const apiClient = new APIClient('thiep')
+    apiClient
+      .find()
+      .then((response) => {
+        setThiepData(response.data.thiep || [])
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
+  // Lấy dữ liệu lần đầu khi component được mount
+  useEffect(() => {
+    fetchData()
+  }, [])
+
   // Hàm xử lý khi nhấn vào dòng
   const handleRowClicked = (row) => {
     setSelectedRow(row) // Lưu dòng được chọn
   }
 
   // Lọc dữ liệu dựa trên giá trị filterText
-  const filteredData = someThiepData.filter((item) =>
+  const filteredData = thiepData.filter((item) =>
     // Tìm kiếm theo tất cả các trường
     Object.values(item).some((field) => {
       if (typeof field === 'string') {
@@ -55,7 +76,9 @@ function Thiep() {
           />
         </div>
         <div className="thiep-content-detail">
-          <ThiepDetail selectedData={selectedRow} />
+          <ThiepDetail
+            selectedData={selectedRow}
+            onActionComplete={fetchData} />
         </div>
       </div>
     </ThiepWrapper>
