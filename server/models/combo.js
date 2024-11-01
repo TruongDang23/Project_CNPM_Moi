@@ -20,6 +20,9 @@ const comboSchema = new mongoose.Schema({
       message: '{VALUE} không phải là một loại combo hợp lệ'
     }
   },
+  MoTa: {
+    type: String
+  },
   Gia: {
     type: Number,
     required: [true, 'Giá là bắt buộc'],
@@ -28,6 +31,10 @@ const comboSchema = new mongoose.Schema({
   DanhSachMonAn: {
     type: [String],
     required: [true, 'Trong combo không được thiếu món ăn']
+  },
+  Active: {
+    type: Boolean,
+    default: true
   },
   HinhAnh: {
     type: [String],

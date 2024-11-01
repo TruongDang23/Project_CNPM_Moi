@@ -1,7 +1,7 @@
 import styled from 'styled-components'
-import { useState } from 'react'
-import somCombodata from '../../../../data/someCombodata'
+import { useState, useEffect } from 'react'
 import DataTable from 'react-data-table-component'
+import APIClient from '../../../../api/client'
 
 import { columnCombo, customStyles } from './columnCombo'
 import ComboDetail from './ComboDetail'
@@ -9,6 +9,22 @@ import ComboDetail from './ComboDetail'
 function Combo() {
   const [selectedRow, setSelectedRow] = useState(null)
   const [filterText, setFilterText] = useState('')
+  const [somCombodata, setComboData] = useState([])
+  const [reload, setReload] = useState(true)
+
+  useEffect(() => {
+    const apiClient = new APIClient('combo')
+    apiClient
+      .find()
+      .then((response) => {
+        setComboData(response.data.combo || [])
+      })
+      .catch((error) => {
+        // eslint-disable-next-line no-console
+        console.error(error)
+      })
+  }, [reload])
+
   // Hàm xử lý khi nhấn vào dòng
   const handleRowClicked = (row) => {
     setSelectedRow(row) // Lưu dòng được chọn
@@ -35,7 +51,7 @@ function Combo() {
       <h2>Quản lý Combo món ăn</h2>
       <div className="combo-content">
         <div className="combo-content-table">
-          <h3>Danh sách hội trường</h3>
+          <h3>Danh sách combo món ăn</h3>
           <div className="actions">
             <p>Tìm kiếm:</p>
             <input
@@ -54,7 +70,7 @@ function Combo() {
           />
         </div>
         <div className="hall-content-detail">
-          <ComboDetail selectedData={selectedRow} />
+          <ComboDetail selectedData={selectedRow} setReload={setReload} />
         </div>
       </div>
     </ComboWrapper>
