@@ -74,8 +74,8 @@ function ComboDetail({ selectedData, setReload }) {
       setFormData((prev) => ({
         ...prev,
         HinhAnh: [
-          ...prev.HinhAnh, // Spread the existing HinhAnh array
-          newHinhAnh // Add the new string (replace with your variable)
+          ...prev.HinhAnh || [],
+          newHinhAnh
         ]
       }))
     }
