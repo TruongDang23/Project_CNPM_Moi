@@ -1,21 +1,40 @@
 import styled from 'styled-components'
-import { useState } from 'react'
-import someMCData from '../../../../data/someMCData'
+import {useEffect, useState } from 'react'
 import DataTable from 'react-data-table-component'
-
+import APIClient from '../../../../api/client'
 import { columnsMC, customStyles } from './columnsMC'
 import MCDetail from './MCDetail'
 
 function MC() {
   const [selectedRow, setSelectedRow] = useState(null)
   const [filterText, setFilterText] = useState('')
+
+  const [ncData, setNcData] = useState([])
+
+  // Hàm tải lại dữ liệu từ API
+  const fetchData = () => {
+    const apiClient = new APIClient('mc')
+    apiClient
+      .find()
+      .then((response) => {
+        setNcData(response.data.mc || [])
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+  // Lấy dữ liệu lần đầu khi component được mount
+  useEffect(() => {
+    fetchData()
+  }, [])
+
   // Hàm xử lý khi nhấn vào dòng
   const handleRowClicked = (row) => {
     setSelectedRow(row) // Lưu dòng được chọn
   }
 
   // Lọc dữ liệu dựa trên giá trị filterText
-  const filteredData = someMCData.filter((item) =>
+  const filteredData = ncData.filter((item) =>
     // Tìm kiếm theo tất cả các trường
     Object.values(item).some((field) => {
       if (typeof field === 'string') {
@@ -55,7 +74,10 @@ function MC() {
           />
         </div>
         <div className="hall-content-detail">
-          <MCDetail selectedData={selectedRow} />
+          <MCDetail
+            selectedData={selectedRow}
+            onActionComplete={fetchData}
+/>
         </div>
       </div>
     </MCWrapper>

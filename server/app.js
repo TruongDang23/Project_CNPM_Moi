@@ -9,6 +9,8 @@ import nhacCongRouter from './routes/nhacCongRouter.js'
 import hoiTruongRouter from './routes/hoiTruongRouter.js'
 import systemRouter from './routes/system.js'
 import thiepRouter from './routes/thiepRouter.js'
+import mcRouter from './routes/mcRouter.js'
+import comboRouter from './routes/comboRouter.js'
 
 const app = express()
 
@@ -33,4 +35,6 @@ app.use('/api/nhaccong', nhacCongRouter) // All nhaccong routes will have a pref
 app.use('/api/hoitruong', hoiTruongRouter)
 app.use('/api/system', systemRouter)
 app.use('/api/thiep', thiepRouter)
+app.use('/api/mc', mcRouter)
+app.use('/api/combo', comboRouter)
 export default app

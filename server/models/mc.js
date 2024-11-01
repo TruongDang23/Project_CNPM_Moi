@@ -32,6 +32,10 @@ const mcSchema = new mongoose.Schema({
     type: Boolean,
     default: true
   },
+  Active:{
+    type:Boolean,
+    default:true
+  },
   Gia: {
     type: Number,
     required: [true, 'Giá là bắt buộc'],
@@ -68,7 +72,7 @@ const mcSchema = new mongoose.Schema({
     }
   ],
   HinhAnh: {
-    type: String,
+    type: [String],
     required: [true, 'Hình ảnh là bắt buộc'],
     validate: {
       validator: function (v) {

@@ -1,59 +1,53 @@
-import HoiTruong from '../models/hoitruong.js'
+import Combo from '../models/combo.js'
 import catchAsync from '../utils/catchAsync.js'
 import AppError from '../utils/appError.js'
 
 const getAll = catchAsync(async (req, res, next) => {
-  const hoitruong = await HoiTruong.find().sort({ MaHoiTruong: 1 })
+  const combo = await Combo.find().sort({ MaCombo: 1 })
   res.status(200).json({
-    hoitruong
+    combo
   })
 })
 
 const getByID = catchAsync(async (req, res, next) => {
-  const hoitruong = await HoiTruong.findOne({ MaHoiTruong: req.params.id })
-  if (!hoitruong) {
+  const combo = await Combo.findOne({ MaCombo: req.params.id })
+  if (!combo) {
     return next(new AppError('Không tìm thấy hội trường với mã này', 404))
   }
   res.status(200).json({
     status: 'success',
     data: {
-      hoitruong
+      combo
     }
   })
 })
 
 const create = catchAsync(async (req, res, next) => {
   // Lấy số lượng nhạc công hiện có để sinh mã mới
-  const hoitruongCount = await HoiTruong.countDocuments()
+  const comboCount = await Combo.countDocuments()
 
   // Tạo mã MaHoiTruong theo định dạng "Hxxx", ví dụ "H001", "H002", ...
-  const newMaNhacCong = `H${String(hoitruongCount + 1).padStart(3, '0')}`
+  const newMaCombo = `C${String(comboCount + 1).padStart(3, '0')}`
 
   // Thêm MaHoiTruong vào dữ liệu từ req.body
-  const newHoiTruong = await HoiTruong.create({
-    MaHoiTruong:  newMaNhacCong, // Mã tự động sinh
-    TenHoiTruong: req.body.TenHoiTruong,
-    SucChua:      req.body.SucChua,
-    Wifi:         req.body.Wifi,
-    MoTa:         req.body.MoTa,
-    MayLanh:      req.body.MayLanh,
-    PhongKin:     req.body.PhongKin,
-    DienTich:     req.body.DienTich,
-    SoPhong:      req.body.SoPhong,
-    ViTriLau:     req.body.ViTriLau,
-    Gia:          req.body.Gia,
-    TinhTrang:    req.body.TinhTrang,
-    HinhAnh:      req.body.HinhAnh
+  const newCombo = await Combo.create({
+    MaCombo: newMaCombo, // Mã tự động sinh
+    TenCombo: req.body.TenCombo,
+    LoaiCombo: req.body.LoaiCombo,
+    Gia: req.body.Gia,
+    DanhSachMonAn: req.body.DanhSachMonAn,
+    Active: req.body.Active,
+    HinhAnh: req.body.HinhAnh
   })
 
-  if (!newHoiTruong) {
-    return next(new AppError('Tạo mới hội trường không thành công', 404))
+  if (!newCombo) {
+    return next(new AppError('Tạo mới combo không thành công', 404))
   }
   res.status(201).send()
 })
 
 const update = catchAsync(async (req, res, next) => {
-  const updateHoiTruong = await HoiTruong.findByIdAndUpdate(
+  const updateCombo = await Combo.findByIdAndUpdate(
     req.params.id,
     req.body,
     {
@@ -62,16 +56,16 @@ const update = catchAsync(async (req, res, next) => {
     }
   )
 
-  if (!updateHoiTruong) {
-    return next(new AppError('Không tìm thấy hội trường với mã này', 404))
+  if (!updateCombo) {
+    return next(new AppError('Không tìm thấy combo với mã này', 404))
   }
   res.status(200).send()
 })
 
 const deleteByID = catchAsync(async (req, res, next) => {
   // Xóa ở đây là chuyển Active từ true sang false, tìm theo MaHoiTruong
-  const hoitruong = await HoiTruong.findOneAndUpdate(
-    { MaHoiTruong: req.params.id },
+  const combo = await Combo.findOneAndUpdate(
+    { MaCombo: req.params.id },
     { Active: false },
     {
       new: true, // Trả về document mới sau khi cập nhật
@@ -79,8 +73,8 @@ const deleteByID = catchAsync(async (req, res, next) => {
     }
   )
 
-  if (!hoitruong) {
-    return next(new AppError('Không tìm thấy hội trường với ID này', 404))
+  if (!combo) {
+    return next(new AppError('Không tìm thấy combo với ID này', 404))
   }
 
   res.status(204).send()
