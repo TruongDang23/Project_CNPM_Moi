@@ -11,16 +11,15 @@ const getAllNhacCong = catchAsync(async (req, res, next) => {
 })
 
 const getNhacCong = catchAsync(async (req, res, next) => {
-  const nhaccong = await NhacCong.findOne({ MaNhacCong: req.params.id })
-  if (!nhaccong) {
-    return next(new AppError('Không tìm thấy nhạc công với mã này', 404))
-  }
-  res.status(200).json({
-    status: 'success',
-    data: {
-      nhaccong
+  if (req.params.id !== null) {
+    const nhaccong = await NhacCong.findOne({ MaNhacCong: req.params.id })
+    if (!nhaccong) {
+      return next(new AppError('Không tìm thấy nhạc công với mã này', 404))
     }
-  })
+    res.status(200).json({
+      nhaccong
+    })
+  }
 })
 
 const createNhacCong = catchAsync(async (req, res, next) => {

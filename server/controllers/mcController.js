@@ -11,17 +11,16 @@ const getAllMC = catchAsync(async (req, res, next) => {
 });
 
 const getMC = catchAsync(async (req, res, next) => {
-  const mc = await MC.findOne({ MaMC: req.params.id });
-  if (!mc) {
-    return next(new AppError('Không tìm thấy MC với mã này', 404));
-  }
-  res.status(200).json({
-    status: 'success',
-    data: {
-      mc
+  if (req.params.id !== null) {
+    const mc = await MC.findOne({ MaMC: req.params.id })
+    if (!mc) {
+      return next(new AppError('Không tìm thấy MC với mã này', 404))
     }
-  });
-});
+    res.status(200).json({
+      mc
+    })
+  }
+})
 
 const createMC = catchAsync(async (req, res, next) => {
   // Get current MC count to generate new MaMC
