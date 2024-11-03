@@ -3,11 +3,18 @@ import { useContext } from 'react'
 import { OrderContext } from '../../../../context/OrderContext'
 
 function StepMC({ luuMC }) {
-  const { selectedMC, setSelectedMC } = useContext(OrderContext)
+  const { selectedMC, setSelectedMC, setOrder } = useContext(OrderContext)
   const handleMCChange = (e) => {
     const mcID = e.target.value
     const mc = luuMC.find((mc) => mc.MaMC === mcID)
     setSelectedMC(mc)
+    setOrder(prevOrder => ({
+      ...prevOrder,
+      DichVu: {
+        ...prevOrder.DichVu,
+        MaMC: mc.MaMC
+      }
+    }))
   }
 
   return (

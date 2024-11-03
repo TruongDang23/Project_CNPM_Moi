@@ -2,6 +2,10 @@ import mongoose from 'mongoose'
 import validator from 'validator'
 
 const datDichVuSchema = new mongoose.Schema({
+  MaDDV: {
+    type: String,
+    required: [true, 'Phải có MaDDV']
+  },
   MaTK: {
     type: String,
     required: [true, 'Phải có MaTK'],
@@ -46,11 +50,11 @@ const datDichVuSchema = new mongoose.Schema({
   DichVu: {
     SoLuongBan: {
       type: Number,
-      min: [1, 'Số lượng bàn phải ít nhất là 1']
+      min: [0, 'Số lượng bàn phải ít nhất là 1']
     },
     SoLuongThiep: {
       type: Number,
-      min: [1, 'Số lượng thiệp phải ít nhất là 1']
+      min: [0, 'Số lượng thiệp phải ít nhất là 1']
     },
     MaMC: {
       type: String

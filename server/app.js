@@ -12,6 +12,7 @@ import thiepRouter from './routes/thiepRouter.js'
 import mcRouter from './routes/mcRouter.js'
 import comboRouter from './routes/comboRouter.js'
 import khachhangRouter from './routes/khachhangRouter.js'
+import datDichVuRouter from './routes/datDichVuRouter.js'
 
 const app = express()
 
@@ -39,4 +40,5 @@ app.use('/api/thiep', thiepRouter)
 app.use('/api/mc', mcRouter)
 app.use('/api/combo', comboRouter)
 app.use('/api/khachhang', khachhangRouter)
+app.use('/api/dathang', datDichVuRouter)
 export default app

@@ -25,7 +25,7 @@ export const OrderProvider = ({ children }) => {
   const [selectedThiep, setSelectedThiep] = useState(null)
   const userID = sessionStorage.getItem('userID')
   const [order, setOrder] = useState({
-    MaTK: '',
+    MaTK: userID,
     ThoiDiemDat: '',
     ThoiDiemBatDau: '',
     ThoiDiemKetThuc: '',
@@ -41,7 +41,6 @@ export const OrderProvider = ({ children }) => {
     Note: ''
   })
 
-  console.log('order: ', order)
   useEffect(() => {
     const apiClient = new APIClient('khachhang')
     apiClient
@@ -169,6 +168,7 @@ export const OrderProvider = ({ children }) => {
 
   const value = {
     markdata,
+    order,
     selectedHall,
     setSelectedHall,
     selectedMC,

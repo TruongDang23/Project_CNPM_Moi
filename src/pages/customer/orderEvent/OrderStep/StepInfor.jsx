@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { OrderContext } from '../../../../context/OrderContext'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import {
   TextField,
   Grid
@@ -11,6 +11,8 @@ import dayjs from 'dayjs'
 import 'dayjs/locale/vi'
 
 function StepInfor() {
+  const { setOrder } = useContext(OrderContext)
+
   const [formData, setFormData] = useState({
     startTime: dayjs(),
     endTime: dayjs(),
@@ -19,13 +21,25 @@ function StepInfor() {
     note: ''
   })
 
+  useEffect(() => {
+    setOrder(prevOrder => ({
+      ...prevOrder,
+      Note: formData.note,
+      ThoiDiemDat: dayjs().format('DD/MM/YYYY HH:mm:ss'),
+      ThoiDiemBatDau: formData.startTime.format('DD/MM/YYYY HH:mm:ss'),
+      ThoiDiemKetThuc: formData.endTime.format('DD/MM/YYYY HH:mm:ss'),
+      SoGio: formData.endTime.diff(formData.startTime, 'hour'),
+      DichVu: {
+        ...prevOrder.DichVu,
+        SoLuongBan: formData.tableCount,
+        SoLuongThiep: formData.invitationCount
+      }
+    }))
+  }, [formData, setOrder])
+
+
   const handleChange = (field, value) => {
     setFormData({ ...formData, [field]: value })
-  }
-
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    console.log('Form data:', formData)
   }
 
   return (
@@ -93,7 +107,7 @@ function StepInfor() {
                   multiline
                   rows={4}
                   InputLabelProps={{ sx: { fontSize: '1.6rem' } }}
-                  sx={{ fontSize: '1.6rem', '& .MuiInputBase-input': { fontSize: '1.6rem' } }}
+                  sx={{ fontSize: '1.6rem', '& .MuiInputBase-input': { fontSize: '1.6rem' }, paddingTop: '10px' }}
                 />
               </Grid>
             </Grid>

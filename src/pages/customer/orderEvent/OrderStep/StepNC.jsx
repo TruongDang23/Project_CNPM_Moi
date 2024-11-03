@@ -3,11 +3,18 @@ import { useContext } from 'react'
 import { OrderContext } from '../../../../context/OrderContext'
 
 function StepNC({ luuNhacCong }) {
-  const { selectedNC, setSelectedNC } = useContext(OrderContext)
+  const { selectedNC, setSelectedNC, setOrder } = useContext(OrderContext)
   const handleNCChange = (e) => {
     const ncID = e.target.value
     const nc = luuNhacCong.find((nc) => nc.MaNhacCong === ncID)
     setSelectedNC(nc)
+    setOrder(prevOrder => ({
+      ...prevOrder,
+      DichVu: {
+        ...prevOrder.DichVu,
+        MaNhacCong: nc.MaNhacCong
+      }
+    }))
   }
 
   return (

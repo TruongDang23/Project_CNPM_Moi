@@ -133,13 +133,6 @@ function HoiTruongDetail({ selectedData, setReload }) {
       })
   }
 
-  // if (!selectedData)
-  //   return (
-  //     <HoiTruongDetailWrapper>
-  //       <h1>Chọn một dòng để xem chi tiết.</h1>
-  //     </HoiTruongDetailWrapper>
-  //   )
-
   return (
     <HoiTruongDetailWrapper>
       <h3>Chi tiết hội trường</h3>
