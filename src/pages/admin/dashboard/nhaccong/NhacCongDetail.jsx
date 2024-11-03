@@ -58,10 +58,13 @@ function NhacCongDetail({ selectedData, onActionComplete }) {
       setFormData({}) // Xóa dữ liệu form sau khi thêm thành công
       onActionComplete() // Gọi hàm tải lại dữ liệu
     } catch (error) {
-      showDialog(
-        'Lỗi khi thêm',
-        error.response?.data?.message || 'Đã xảy ra lỗi.'
-      )
+      const regex = /ValidationError: (.+?)<br>/
+      const match = error.response.data.match(regex)
+      if (match) {
+        showDialog(
+          'Lỗi khi thêm',
+          match[1] || 'Đã xảy ra lỗi.')
+      }
     }
   }
 
@@ -75,10 +78,13 @@ function NhacCongDetail({ selectedData, onActionComplete }) {
       showDialog('Cập nhật thành công', 'Thông tin nhạc công đã được cập nhật.')
       onActionComplete() // Gọi hàm tải lại dữ liệu
     } catch (error) {
-      showDialog(
-        'Lỗi khi cập nhật',
-        error.response?.data?.message || 'Đã xảy ra lỗi.'
-      )
+      const regex = /ValidationError: (.+?)<br>/
+      const match = error.response.data.match(regex)
+      if (match) {
+        showDialog(
+          'Lỗi khi cập nhật',
+          match[1] || 'Đã xảy ra lỗi.')
+      }
     }
   }
 
@@ -93,19 +99,15 @@ function NhacCongDetail({ selectedData, onActionComplete }) {
       setFormData({})
       onActionComplete() // Gọi hàm tải lại dữ liệu
     } catch (error) {
-      showDialog(
-        'Lỗi khi xóa',
-        error.response?.data?.message || 'Đã xảy ra lỗi.'
-      )
+      const regex = /ValidationError: (.+?)<br>/
+      const match = error.response.data.match(regex)
+      if (match) {
+        showDialog(
+          'Lỗi khi xóa',
+          match[1] || 'Đã xảy ra lỗi.')
+      }
     }
   }
-
-  // if (!selectedData)
-  //   return (
-  //     <NhacCongDetailWrapper>
-  //       <h1>Chọn một nhạc công để xem chi tiết.</h1>
-  //     </NhacCongDetailWrapper>
-  //   )
 
   return (
     <NhacCongDetailWrapper>

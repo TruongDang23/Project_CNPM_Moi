@@ -88,12 +88,13 @@ function MainOrderStepper() {
         }
       })
       .catch((error) => {
-        if (error.status == 404)
+        const regex = /ValidationError: (.+?)<br>/
+        const match = error.response.data.match(regex)
+        if (match) {
           showDialog(
             'Lỗi khi đặt sự kiện',
-            error.response?.data?.message || 'Đã xảy ra lỗi.')
-        // eslint-disable-next-line no-console
-        console.error(error)
+            match[1] || 'Đã xảy ra lỗi.')
+        }
       })
   }
 

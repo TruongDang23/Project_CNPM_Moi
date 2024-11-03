@@ -13,7 +13,7 @@ datDichVuRouter
   )
   .post(
     authController.protect,
-    authController.restrictTo('admin'),
+    authController.restrictTo('admin', 'user'),
     datDichVuController.create
   )
 

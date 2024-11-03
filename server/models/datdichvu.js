@@ -15,11 +15,11 @@ const datDichVuSchema = new mongoose.Schema({
     }
   },
   ThoiDiemDat: {
-    type: Date,
+    type: String,
     required: [true, 'Thời điểm đặt là bắt buộc']
   },
   ThoiDiemBatDau: {
-    type: Date,
+    type: String,
     required: [true, 'Thời điểm bắt đầu là bắt buộc'],
     validate: {
       validator: function (v) {
@@ -29,7 +29,7 @@ const datDichVuSchema = new mongoose.Schema({
     }
   },
   ThoiDiemKetThuc: {
-    type: Date,
+    type: String,
     required: [true, 'Thời điểm kết thúc là bắt buộc'],
     validate: {
       validator: function (v) {
