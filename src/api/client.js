@@ -37,7 +37,7 @@ export default class APIClient {
   }
 
   async findByID(id) {
-    const data = await axios.get(`${this.api}/:${id}`, {
+    const data = await axios.get(`${this.api}/${id}`, {
       headers: {
         Authorization: `Bearer ${this.token}`
       }

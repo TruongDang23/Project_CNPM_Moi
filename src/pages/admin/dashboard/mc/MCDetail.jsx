@@ -69,8 +69,6 @@ function MCDetail({ selectedData, setReload }) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    // Xử lý submit ở đây
-    console.log(formData)
   }
   // Hàm xử lý sự kiện thêm mới
   const handleCreate = async (e) => {
@@ -81,11 +79,13 @@ function MCDetail({ selectedData, setReload }) {
       setFormData({}) // Xóa dữ liệu form sau khi thêm thành công
       setReload(prevReload => !prevReload)
     } catch (error) {
-      console.log(error)
-      showDialog(
-        'Lỗi khi thêm',
-        error.response?.data?.message || 'Đã xảy ra lỗi.'
-      )
+      const regex = /ValidationError: (.+?)<br>/
+      const match = error.response.data.match(regex)
+      if (match) {
+        showDialog(
+          'Lỗi khi thêm',
+          match[1] || 'Đã xảy ra lỗi.')
+      }
     }
   }
 
@@ -99,10 +99,13 @@ function MCDetail({ selectedData, setReload }) {
       showDialog('Cập nhật thành công', 'Thông tin MC đã được cập nhật.')
       setReload(prevReload => !prevReload)
     } catch (error) {
-      showDialog(
-        'Lỗi khi cập nhật',
-        error.response?.data?.message || 'Đã xảy ra lỗi.'
-      )
+      const regex = /ValidationError: (.+?)<br>/
+      const match = error.response.data.match(regex)
+      if (match) {
+        showDialog(
+          'Lỗi khi cập nhật',
+          match[1] || 'Đã xảy ra lỗi.')
+      }
     }
   }
 
@@ -117,19 +120,15 @@ function MCDetail({ selectedData, setReload }) {
       setFormData({})
       setReload(prevReload => !prevReload)
     } catch (error) {
-      showDialog(
-        'Lỗi khi xóa',
-        error.response?.data?.message || 'Đã xảy ra lỗi.'
-      )
+      const regex = /ValidationError: (.+?)<br>/
+      const match = error.response.data.match(regex)
+      if (match) {
+        showDialog(
+          'Lỗi khi xóa',
+          match[1] || 'Đã xảy ra lỗi.')
+      }
     }
   }
-
-  // if (!selectedData)
-  //   return (
-  //     <MCDetailWrapper>
-  //       <h1>Chọn một MC để xem chi tiết.</h1>
-  //     </MCDetailWrapper>
-  //   )
 
   return (
     <MCDetailWrapper>

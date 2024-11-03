@@ -5,8 +5,6 @@ import AppError from '../utils/appError.js'
 import jwt from 'jsonwebtoken'
 import { promisify } from 'util'
 
-//
-
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN
@@ -15,11 +13,12 @@ const signToken = (id) => {
 
 const createSendToken = (user, statusCode, res) => {
   const token = signToken(user._id)
-
+  const maTK = user.MaTK
   // Remove password from output
   user.Pass = undefined
   res.status(statusCode).json({
-    token
+    token,
+    maTK
   })
 }
 
@@ -43,7 +42,7 @@ const login = catchAsync(async (req, res, next) => {
   }
 
   // 2) Check if user exists && password is correct
-  const user = await taikhoan.findOne({ UserName: username }).select('+Pass')
+  const user = await taikhoan.findOne({ UserName: username }).select('+Pass +MaTK')
 
   if (!user || !(await user.correctPassword(pass, user.Pass))) {
     return next(new AppError('Incorrect username or password', 401))
@@ -51,6 +50,7 @@ const login = catchAsync(async (req, res, next) => {
 
   // 3) If everything ok, send token to client
   createSendToken(user, 200, res)
+
 })
 
 const protect = catchAsync(async (req, res, next) => {

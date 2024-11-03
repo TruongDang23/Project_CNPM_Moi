@@ -10,16 +10,15 @@ const getAll = catchAsync(async (req, res, next) => {
 })
 
 const getByID = catchAsync(async (req, res, next) => {
-  const hoitruong = await HoiTruong.findOne({ MaHoiTruong: req.params.id })
-  if (!hoitruong) {
-    return next(new AppError('Không tìm thấy hội trường với mã này', 404))
-  }
-  res.status(200).json({
-    status: 'success',
-    data: {
-      hoitruong
+  if (req.params.id !== null) {
+    const hoitruong = await HoiTruong.findOne({ MaHoiTruong: req.params.id })
+    if (!hoitruong) {
+      return next(new AppError('Không tìm thấy hội trường với mã này', 404))
     }
-  })
+    res.status(200).json({
+      hoitruong
+    })
+  }
 })
 
 const create = catchAsync(async (req, res, next) => {

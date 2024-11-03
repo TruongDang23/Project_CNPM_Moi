@@ -11,16 +11,15 @@ const getAllThiep = catchAsync(async (req, res, next) => {
 })
 
 const getThiep = catchAsync(async (req, res, next) => {
-  const thiep = await ThiepMoi.findOne({ MaThiep: req.params.id })
-  if (!thiep) {
-    return next(new AppError('Không tìm thấy thiệp với mã này', 404))
-  }
-  res.status(200).json({
-    status: 'success',
-    data: {
-      thiep
+  if (req.params.id !== null) {
+    const thiep = await ThiepMoi.findOne({ MaThiep: req.params.id })
+    if (!thiep) {
+      return next(new AppError('Không tìm thấy thiệp với mã này', 404))
     }
-  })
+    res.status(200).json({
+      thiep
+    })
+  }
 })
 
 const createThiep = catchAsync(async (req, res, next) => {

@@ -3,11 +3,18 @@ import { OrderContext } from '../../../../context/OrderContext'
 import { useContext } from 'react'
 
 function StepThiep({ luuThiep }) {
-  const { selectedThiep, setSelectedThiep } = useContext(OrderContext)
+  const { selectedThiep, setSelectedThiep, setOrder } = useContext(OrderContext)
   const handleThiepChange = (e) => {
     const thiepID = e.target.value
     const thiep = luuThiep.find((thiep) => thiep.MaThiep === thiepID)
     setSelectedThiep(thiep)
+    setOrder(prevOrder => ({
+      ...prevOrder,
+      DichVu: {
+        ...prevOrder.DichVu,
+        MaThiep: thiep.MaThiep
+      }
+    }))
   }
   return (
     <StepThiepWrapper>

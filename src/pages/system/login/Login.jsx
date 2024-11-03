@@ -38,6 +38,7 @@ function Login() {
       setMessage('Tên đăng nhập hoặc mật khẩu không chính xác')
     if (result.status == 200) {
       sessionStorage.setItem('userAuth', result.data.token)
+      sessionStorage.setItem('userID', result.data.maTK)
       alert('Login successfully')
       navigate(`/`)
     }
