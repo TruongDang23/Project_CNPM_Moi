@@ -95,7 +95,7 @@ function HoiTruongDetail({ selectedData, setReload }) {
   const updateHall = () => {
     apiClient
       .update(formData._id, formData)
-      .then((response) => {
+      .then(async (response) => {
         if (response.status == 200) {
           showDialog(
             'Cập nhật thành công',

@@ -24,13 +24,12 @@ export const OrderProvider = ({ children }) => {
   const [selectedCombo, setSelectedCombo] = useState(null)
   const [selectedThiep, setSelectedThiep] = useState(null)
   const userID = sessionStorage.getItem('userID')
- 
+
   useEffect(() => {
     const apiClient = new APIClient('khachhang')
     apiClient
       .findByID(userID)
       .then((response) => {
-        console.log('data:', response)
         setHoitruong(response.data.khachhang.LuuHoiTruong || [])
         setMC(response.data.khachhang.LuuMC || [])
         setNhacCong(response.data.khachhang.LuuNhacCong || [])
@@ -41,105 +40,105 @@ export const OrderProvider = ({ children }) => {
         // eslint-disable-next-line no-console
         console.error(error)
       })
-  }, [])
+  }, [userID])
 
   useEffect(() => {
     const apiClient = new APIClient('hoitruong')
-    hoitruong.forEach((item, index) => {
+    hoitruong.forEach((item) => {
       apiClient
-       .findByID(item)
-       .then((response) => {
+        .findByID(item)
+        .then((response) => {
           setMarkData(prevState => ({
             ...prevState,
             LuuHoiTruong: prevState.LuuHoiTruong.some(item => item.MaHoiTruong === response.data.hoitruong.MaHoiTruong)
-                ? prevState.LuuHoiTruong.map(item => 
-                    item.MaHoiTruong === response.data.hoitruong.MaHoiTruong ? response.data.hoitruong : item
-                  )
-                : [...prevState.LuuHoiTruong, response.data.hoitruong]
+              ? prevState.LuuHoiTruong.map(item =>
+                item.MaHoiTruong === response.data.hoitruong.MaHoiTruong ? response.data.hoitruong : item
+              )
+              : [...prevState.LuuHoiTruong, response.data.hoitruong]
           }))
-       })
+        })
     })
-  },[hoitruong])
-  
+  }, [hoitruong])
+
   useEffect(() => {
     const apiClient = new APIClient('mc')
-    mc.forEach((item, index) => {
+    mc.forEach((item) => {
       apiClient
-       .findByID(item)
-       .then((response) => {
+        .findByID(item)
+        .then((response) => {
           setMarkData(prevState => ({
             ...prevState,
             LuuMC: prevState.LuuMC.some(item => item.MaMC === response.data.mc.MaMC)
-                ? prevState.LuuMC.map(item => 
-                    item.MaMC === response.data.mc.MaMC ? response.data.mc : item
-                  )
-                : [...prevState.LuuMC, response.data.mc]
+              ? prevState.LuuMC.map(item =>
+                item.MaMC === response.data.mc.MaMC ? response.data.mc : item
+              )
+              : [...prevState.LuuMC, response.data.mc]
           }))
-       })
+        })
     })
-  },[mc])
-  
+  }, [mc])
+
   useEffect(() => {
     const apiClient = new APIClient('nhaccong')
-    nhaccong.forEach((item, index) => {
+    nhaccong.forEach((item) => {
       apiClient
-       .findByID(item)
-       .then((response) => {
+        .findByID(item)
+        .then((response) => {
           setMarkData(prevState => ({
             ...prevState,
             LuuNhacCong: prevState.LuuNhacCong.some(item => item.MaNhacCong === response.data.nhaccong.MaNhacCong)
-                ? prevState.LuuNhacCong.map(item => 
-                    item.LuuNhacCong === response.data.nhaccong.MaNhacCong ? response.data.nhaccong : item
-                  )
-                : [...prevState.LuuNhacCong, response.data.nhaccong]
+              ? prevState.LuuNhacCong.map(item =>
+                item.LuuNhacCong === response.data.nhaccong.MaNhacCong ? response.data.nhaccong : item
+              )
+              : [...prevState.LuuNhacCong, response.data.nhaccong]
           }))
-       })
+        })
     })
-  },[nhaccong])
+  }, [nhaccong])
 
   useEffect(() => {
     const apiClient = new APIClient('combo')
-    combo.forEach((item, index) => {
+    combo.forEach((item) => {
       apiClient
-       .findByID(item)
-       .then((response) => {
+        .findByID(item)
+        .then((response) => {
           setMarkData(prevState => ({
             ...prevState,
             LuuCombo: prevState.LuuCombo.some(item => item.MaCombo === response.data.combo.MaCombo)
-                ? prevState.LuuCombo.map(item => 
-                    item.LuuCombo === response.data.combo.MaCombo ? response.data.combo : item
-                  )
-                : [...prevState.LuuCombo, response.data.combo]
+              ? prevState.LuuCombo.map(item =>
+                item.LuuCombo === response.data.combo.MaCombo ? response.data.combo : item
+              )
+              : [...prevState.LuuCombo, response.data.combo]
           }))
-       })
+        })
     })
-  },[combo])
+  }, [combo])
 
   useEffect(() => {
     const apiClient = new APIClient('thiep')
-    thiep.forEach((item, index) => {
+    thiep.forEach((item) => {
       apiClient
-       .findByID(item)
-       .then((response) => {
+        .findByID(item)
+        .then((response) => {
           setMarkData(prevState => ({
             ...prevState,
             LuuThiep: prevState.LuuThiep.some(item => item.MaThiep === response.data.thiep.MaThiep)
-                ? prevState.LuuThiep.map(item => 
-                    item.LuuThiep === response.data.thiep.MaThiep ? response.data.thiep : item
-                  )
-                : [...prevState.LuuThiep, response.data.thiep]
+              ? prevState.LuuThiep.map(item =>
+                item.LuuThiep === response.data.thiep.MaThiep ? response.data.thiep : item
+              )
+              : [...prevState.LuuThiep, response.data.thiep]
           }))
-       })
+        })
     })
-  },[thiep])
+  }, [thiep])
 
   const getAllSelections = () => {
     return {
-      hoiTruong: selectedHall,
-      mc: selectedMC,
-      nhacCong: selectedNC,
-      combo: selectedCombo,
-      thiep: selectedThiep
+      hoiTruong: selectedHall.MaHoiTruong,
+      mc: selectedMC.MaMC,
+      nhacCong: selectedNC.MaNhacCong,
+      combo: selectedCombo.MaCombo,
+      thiep: selectedThiep.MaThiep
     }
   }
 

@@ -12,13 +12,15 @@ import StepMC from './OrderStep/StepMC'
 import StepNC from './OrderStep/StepNC'
 import StepCombo from './OrderStep/StepCombo'
 import StepThiep from './OrderStep/StepThiep'
+import StepInfor from './OrderStep/StepInfor'
 
 const steps = [
   'Chọn hội trường',
   'Chọn MC',
   'Chọn Nhạc Công',
   'Chọn Thực Đơn',
-  'Chọn Thiệp'
+  'Chọn Thiệp',
+  'Thông tin đặt'
 ]
 
 function MainOrderStepper() {
@@ -40,6 +42,8 @@ function MainOrderStepper() {
       return <StepCombo luuCombo={LuuCombo} />
     case 4:
       return <StepThiep luuThiep={LuuThiep} />
+    case 5:
+      return <StepInfor/>
     default:
       return <Typography>Không có bước này</Typography>
     }
