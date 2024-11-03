@@ -1,98 +1,119 @@
 import styled from 'styled-components'
 import { OrderContext } from '../../../../context/OrderContext'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
+import {
+  TextField,
+  Grid
+} from '@mui/material'
+import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import dayjs from 'dayjs'
+import 'dayjs/locale/vi'
 
 function StepInfor() {
-  const { selectedThiep, setSelectedThiep } = useContext(OrderContext)
+  const [formData, setFormData] = useState({
+    startTime: dayjs(),
+    endTime: dayjs(),
+    tableCount: 0,
+    invitationCount: 0,
+    note: ''
+  })
+
+  const handleChange = (field, value) => {
+    setFormData({ ...formData, [field]: value })
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    console.log('Form data:', formData)
+  }
 
   return (
-    <StepThiepWrapper>
-      <h3>Thông tin đặt sự kiện</h3>
-    </StepThiepWrapper>
+    <>
+      <StepInforWrapper>
+        <h3>Thông tin đặt sự kiện</h3>
+        <div className='content'>
+          <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="vi">
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <DateTimePicker
+                  label="Thời điểm bắt đầu sự kiện"
+                  value={formData.startTime}
+                  onChange={(newValue) => handleChange('startTime', newValue)}
+                  renderInput={(params) => (
+                    <TextField
+                      fullWidth
+                      {...params}
+                      InputLabelProps={{ sx: { fontSize: '1.6rem' } }}
+                      sx={{ fontSize: '1.6rem', '& .MuiInputBase-input': { fontSize: '1.6rem' } }}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <DateTimePicker
+                  label="Thời điểm kết thúc sự kiện"
+                  value={formData.endTime}
+                  onChange={(newValue) => handleChange('endTime', newValue)}
+                  renderInput={(params) => <TextField fullWidth {...params} InputLabelProps={{ sx: { fontSize: '1.6rem' } }}
+                    sx={{ fontSize: '1.6rem', '& .MuiInputBase-input': { fontSize: '1.6rem' } }}
+                  />}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  label="Số lượng bàn ăn"
+                  type="number"
+                  value={formData.tableCount}
+                  InputLabelProps={{ sx: { fontSize: '1.6rem' } }}
+                  inputProps={{ min: 0 }}
+                  onChange={(e) => handleChange('tableCount', e.target.value)}
+                  sx={{ fontSize: '1.6rem', '& .MuiInputBase-input': { fontSize: '1.6rem' } }}
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  label="Số lượng thiệp mời"
+                  type="number"
+                  value={formData.invitationCount}
+                  InputLabelProps={{ sx: { fontSize: '1.6rem' } }}
+                  inputProps={{ min: 0 }}
+                  onChange={(e) => handleChange('invitationCount', e.target.value)}
+                  sx={{ fontSize: '1.6rem', '& .MuiInputBase-input': { fontSize: '1.6rem' } }}
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  label="Ghi chú"
+                  value={formData.note}
+                  onChange={(e) => handleChange('note', e.target.value)}
+                  fullWidth
+                  multiline
+                  rows={4}
+                  InputLabelProps={{ sx: { fontSize: '1.6rem' } }}
+                  sx={{ fontSize: '1.6rem', '& .MuiInputBase-input': { fontSize: '1.6rem' } }}
+                />
+              </Grid>
+            </Grid>
+          </LocalizationProvider>
+        </div>
+      </StepInforWrapper>
+    </>
   )
 }
 
-const StepThiepWrapper = styled.div`
+const StepInforWrapper = styled.div`
   h3 {
     font-size: 2rem;
     margin-bottom: 2rem;
     font-weight: 500;
   }
-
-  p {
-    font-size: 1.6rem;
-    font-style: italic;
-  }
-  .step-content {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    margin-bottom: 2rem;
-    p {
-      font-size: 1.6rem;
-      padding-left: 2rem;
-    }
-
-    .step-content-action {
-      align-self: flex-end;
-      margin-left: auto;
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-
-      button {
-        width: 200px;
-      }
-    }
-  }
-
-  .step-preview {
-    .thiep-info {
-      display: flex;
-      gap: 2rem;
-      justify-content: center;
-      padding: 2rem;
-      .thiep-info-left {
-        width: 40%;
-        img {
-          width: 100%;
-          height: 200px;
-          object-fit: cover;
-          border-radius: 10px;
-        }
-      }
-
-      .thiep-info-right {
-        width: 60%;
-        p {
-          font-size: 1.6rem;
-          margin-bottom: 1rem;
-        }
-        h4 {
-          font-size: 2rem;
-          margin-bottom: 1rem;
-        }
-        .inline {
-          display: flex;
-          gap: 2rem;
-        }
-      }
-    }
-  }
-
-  .step-choose {
-    text-align: center;
-    p {
-      font-size: 1.6rem;
-      font-style: normal;
-      font-weight: 700;
-
-      span {
-        color: val(--primary-color);
-        padding-left: 1rem;
-      }
-    }
+  .content {
+    width: 70%;
+    margin: 0 auto; /* Căn giữa */
+    padding-top: 50px;
   }
 `
-
 export default StepInfor

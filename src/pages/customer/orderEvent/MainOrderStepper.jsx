@@ -112,6 +112,7 @@ function MainOrderStepper() {
   )
 }
 
+// eslint-disable-next-line no-unused-vars
 const CustomStepper = styled(Stepper)(({ theme }) => ({
   backgroundColor: 'transparent',
   padding: '20px',

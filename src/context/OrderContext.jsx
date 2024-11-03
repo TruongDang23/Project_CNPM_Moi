@@ -24,7 +24,24 @@ export const OrderProvider = ({ children }) => {
   const [selectedCombo, setSelectedCombo] = useState(null)
   const [selectedThiep, setSelectedThiep] = useState(null)
   const userID = sessionStorage.getItem('userID')
+  const [order, setOrder] = useState({
+    MaTK: '',
+    ThoiDiemDat: '',
+    ThoiDiemBatDau: '',
+    ThoiDiemKetThuc: '',
+    DichVu: {
+      SoLuongBan: 0,
+      SoLuongThiep: 0,
+      MaHoiTruong: '',
+      MaMC: '',
+      MaNhacCong: '',
+      MaCombo: '',
+      MaThiep: ''
+    },
+    Note: ''
+  })
 
+  console.log('order: ', order)
   useEffect(() => {
     const apiClient = new APIClient('khachhang')
     apiClient
@@ -161,6 +178,7 @@ export const OrderProvider = ({ children }) => {
     selectedCombo,
     setSelectedCombo,
     selectedThiep,
+    setOrder,
     setSelectedThiep,
     getAllSelections,
     canCompleteOrder
