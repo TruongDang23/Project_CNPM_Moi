@@ -11,6 +11,7 @@ import systemRouter from './routes/system.js'
 import thiepRouter from './routes/thiepRouter.js'
 import mcRouter from './routes/mcRouter.js'
 import comboRouter from './routes/comboRouter.js'
+import dondathangRouter from './routes/dondathangRouter.js'
 
 const app = express()
 
@@ -37,4 +38,5 @@ app.use('/api/system', systemRouter)
 app.use('/api/thiep', thiepRouter)
 app.use('/api/mc', mcRouter)
 app.use('/api/combo', comboRouter)
+app.use('/api/dondathang', dondathangRouter)
 export default app

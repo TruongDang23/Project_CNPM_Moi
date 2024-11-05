@@ -2,13 +2,17 @@ import mongoose from 'mongoose'
 import validator from 'validator'
 
 const datDichVuSchema = new mongoose.Schema({
+  MaDDV: {
+    type: String,
+    required: [true, 'Phải có MaDDV'],
+    validate: {
+      validator: (value) => validator.isAlphanumeric(value), // Kiểm tra xem MaDDV có phải là chuỗi ký tự và số không
+      message: 'MaDDV chỉ được chứa ký tự chữ và số'
+    }
+  },
   MaTK: {
     type: String,
-    required: [true, 'Phải có MaTK'],
-    validate: {
-      validator: (value) => validator.isAlphanumeric(value), // Kiểm tra xem MaTK có phải là chuỗi ký tự và số không
-      message: 'MaTK chỉ được chứa ký tự chữ và số'
-    }
+    required: [true, 'Phải có MaTK']
   },
   ThoiDiemDat: {
     type: Date,
@@ -70,6 +74,10 @@ const datDichVuSchema = new mongoose.Schema({
   },
   Note: {
     type: String
+  },
+  Active: {
+    type: Boolean,
+    default: true
   }
 })
 
