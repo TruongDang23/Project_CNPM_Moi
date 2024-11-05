@@ -1,7 +1,11 @@
 export const columnsDonDatHang = [
   {
-    name: 'Họ Tên',
-    selector: (row) => row.HoTen
+    name: 'Mã đơn dịch vụ',
+    selector: (row) => row.MaDDV
+  },
+  {
+    name: 'Mã tài khoản',
+    selector: (row) => row.MaTK
   },
   {
     name: 'Thời Điểm Đặt',

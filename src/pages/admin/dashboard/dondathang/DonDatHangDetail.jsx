@@ -1,9 +1,16 @@
 import styled from 'styled-components'
 import { useState, useEffect } from 'react'
-
-function DonDatHangDetail({ selectedData }) {
+import APIClient from '../../../../api/client'
+import Dialog from '@mui/material/Dialog'
+import DialogTitle from '@mui/material/DialogTitle'
+import DialogContent from '@mui/material/DialogContent'
+import DialogActions from '@mui/material/DialogActions'
+function DonDatHangDetail({ selectedData, setReload }) {
   const [formData, setFormData] = useState({});
-
+  const apiClient = new APIClient('dondathang')
+  const [dialogOpen, setDialogOpen] = useState(false) // Trạng thái hiển thị Dialog
+  const [dialogMessage, setDialogMessage] = useState('') // Nội dung thông báo từ server
+  const [dialogTitle, setDialogTitle] = useState('') // Tiêu đề của Dialog
   // Sử dụng useEffect để cập nhật formData khi selectedData thay đổi
   useEffect(() => {
     setFormData(selectedData || {}); // Cập nhật formData với selectedData mới
@@ -16,19 +23,90 @@ function DonDatHangDetail({ selectedData }) {
       [name]: value
     }));
   };
-
+  // Các hàm xử lí mở, đóng Dialog
+  // Hàm hiển thị Dialog
+  const showDialog = (title, message) => {
+    setDialogTitle(title)
+    setDialogMessage(message)
+    setDialogOpen(true)
+  }
+  // Hàm đóng Dialog
+  const closeDialog = () => {
+    setDialogOpen(false)
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
     // Xử lý submit ở đây
     console.log(formData);
   };
+  const acceptDonDatHang = () => {
+    apiClient
+      .delete(formData.MaDDV, { ...formData, action: 'accept' })
+      .then((response) => {
+        if (response.status === 200) {
+          showDialog(
+            'Chấp nhận thành công',
+            'Trạng thái của đơn đặt hàng đã được cập nhật'
+          );
+          setReload((prevReload) => !prevReload);
+        }
+      })
+      .catch((error) => {
+        showDialog(
+          'Lỗi khi chấp nhận',
+          error.response?.data?.message || 'Đã xảy ra lỗi.'
+        );
+        console.error(error);
+      });
+  };
 
-  if (!selectedData)
-    return (
-      <DonDatHangDetailWrapper>
-        <h1>Chọn một đơn đặt hàng để xem chi tiết.</h1>
-      </DonDatHangDetailWrapper>
-    );
+  const rejectDonDatHang = () => {
+    apiClient
+      .delete(formData.MaDDV, { ...formData, action: 'reject' })
+      .then((response) => {
+        if (response.status === 200) {
+          showDialog(
+            'Từ chối thành công',
+            'Trạng thái của đơn đặt hàng đã được cập nhật'
+          );
+          setReload((prevReload) => !prevReload);
+        }
+      })
+      .catch((error) => {
+        showDialog(
+          'Lỗi khi từ chối',
+          error.response?.data?.message || 'Đã xảy ra lỗi.'
+        );
+        console.error(error);
+      });
+  };
+
+  const updateDonDatHang = () => {
+    apiClient
+      .update(formData.MaDDV, formData)
+      .then((response) => {
+        if (response.status == 204) {
+          showDialog(
+            'Hoàn thành thành công',
+            `Trạng thái của đơn đặt hàng đã được cập nhật`)
+          setReload(prevReload => !prevReload)
+        }
+      })
+      .catch((error) => {
+        if (error.status == 404)
+          showDialog(
+            'Lỗi khi từ chối',
+            error.response?.data?.message || 'Đã xảy ra lỗi.')
+        // eslint-disable-next-line no-console
+        console.error(error)
+      })
+  }
+  // if (!selectedData)
+  //   return (
+  //     <DonDatHangDetailWrapper>
+  //       <h1>Chọn một đơn đặt hàng để xem chi tiết.</h1>
+  //     </DonDatHangDetailWrapper>
+  //   );
 
   return (
     <DonDatHangDetailWrapper>
@@ -36,13 +114,14 @@ function DonDatHangDetail({ selectedData }) {
       <form onSubmit={handleSubmit}>
         <div className="form-row">
           <div className="form-group">
-            <label className="label">Họ và tên:</label>
+            <label className="label">Mã tài khoản:</label>
             <input
               className="input"
-              name="HoTen"
-              value={formData.HoTen || ''}
+              name="MaTK"
+              value={formData.MaTK || ''}
               onChange={handleInputChange}
               required
+              disabled
             />
           </div>
           <div className="form-group">
@@ -53,6 +132,7 @@ function DonDatHangDetail({ selectedData }) {
               value={formData.ThoiDiemDat || ''}
               onChange={handleInputChange}
               required
+              disabled
             />
           </div>
         </div>
@@ -66,6 +146,7 @@ function DonDatHangDetail({ selectedData }) {
               value={formData.ThoiDiemBatDau || ''}
               onChange={handleInputChange}
               required
+              disabled
             />
           </div>
           <div className="form-group">
@@ -76,6 +157,7 @@ function DonDatHangDetail({ selectedData }) {
               value={formData.ThoiDiemKetThuc || ''}
               onChange={handleInputChange}
               required
+              disabled
             />
           </div>
         </div>
@@ -89,6 +171,7 @@ function DonDatHangDetail({ selectedData }) {
               value={formData.SoGio || ''}
               onChange={handleInputChange}
               required
+              disabled
             />
           </div>
           <div className="form-group">
@@ -98,6 +181,7 @@ function DonDatHangDetail({ selectedData }) {
               name="TrangThai"
               value={formData.TrangThai ? 'true' : 'false'}
               onChange={handleInputChange}
+              disabled
             >
               <option value="true">Hoàn tất</option>
               <option value="false">Chưa hoàn tất</option>
@@ -111,6 +195,7 @@ function DonDatHangDetail({ selectedData }) {
             <input
               className="input"
               name="SoLuongBan"
+              disabled
               value={formData.DichVu?.SoLuongBan || ''}
               onChange={handleInputChange}
               required
@@ -124,6 +209,7 @@ function DonDatHangDetail({ selectedData }) {
               value={formData.DichVu?.SoLuongThiep || ''}
               onChange={handleInputChange}
               required
+              disabled
             />
           </div>
         </div>
@@ -137,6 +223,7 @@ function DonDatHangDetail({ selectedData }) {
               value={formData.DichVu?.MaCombo || ''}
               onChange={handleInputChange}
               required
+              disabled
             />
           </div>
           <div className="form-group">
@@ -147,6 +234,7 @@ function DonDatHangDetail({ selectedData }) {
               value={formData.DichVu?.MaThiepMoi || ''}
               onChange={handleInputChange}
               required
+              disabled
             />
           </div>
         </div>
@@ -160,6 +248,7 @@ function DonDatHangDetail({ selectedData }) {
               value={formData.DichVu?.MaMC || ''}
               onChange={handleInputChange}
               required
+              disabled
             />
           </div>
           <div className="form-group">
@@ -170,6 +259,7 @@ function DonDatHangDetail({ selectedData }) {
               value={formData.DichVu?.MaNhacCong || ''}
               onChange={handleInputChange}
               required
+              disabled
             />
           </div>
         </div>
@@ -183,6 +273,18 @@ function DonDatHangDetail({ selectedData }) {
               value={formData.DichVu?.MaHoiTruong || ''}
               onChange={handleInputChange}
               required
+              disabled
+            />
+          </div>
+          <div className="form-group">
+            <label className="label">Mã đơn đặt dịch vụ:</label>
+            <input
+              className="input"
+              name="MaDDV"
+              value={formData.MaDDV || ''}
+              onChange={handleInputChange}
+              required
+              disabled
             />
           </div>
         </div>
@@ -194,22 +296,58 @@ function DonDatHangDetail({ selectedData }) {
             name="Note"
             value={formData.Note || ''}
             onChange={handleInputChange}
+            disabled
           />
         </div>
         <div className="button-row">
-          <button id="btn-secoundary" type="submit">
-            Cập nhật
+          <button id="btn-secoundary" type="button"onClick={acceptDonDatHang}>
+            Chấp nhận
           </button>
-          <button id="btn-cancel" type="button" onClick={() => setFormData({})}>
-            Xóa
+          <button id="btn-cancel" type="button" onClick={rejectDonDatHang} >
+            Từ chối
+          </button>
+          <button id="btn-primary" type="button" onClick={updateDonDatHang}>
+            Hoàn thành
           </button>
         </div>
       </form>
-
+      {/* Dialog hiển thị thông báo */}
+      <StyledDialog open={dialogOpen} onClose={closeDialog}>
+        <StyledDialogTitle>{dialogTitle}</StyledDialogTitle>
+        <StyledDialogContent>
+          <p>{dialogMessage}</p>
+        </StyledDialogContent>
+        <StyledDialogActions>
+          <button id="btn-primary" onClick={closeDialog}>
+            Đóng
+          </button>
+        </StyledDialogActions>
+      </StyledDialog>
     </DonDatHangDetailWrapper>
   );
 }
-
+// Custom Dialog
+const StyledDialog = styled(Dialog)`
+  & .MuiPaper-root {
+    text-align: center;
+    background-color: #f3f4f6;
+    border-radius: 8px;
+    padding: 16px;
+  }
+`
+const StyledDialogTitle = styled(DialogTitle)`
+  font-size: 2rem;
+  text-transform: uppercase;
+  color: var(--primary-color);
+  font-weight: bold;
+`
+const StyledDialogContent = styled(DialogContent)`
+  font-size: 1.6rem;
+  color: var(--primary-color);
+`
+const StyledDialogActions = styled(DialogActions)`
+  justify-content: center;
+`
 const DonDatHangDetailWrapper = styled.div`
     color: var(--primary-color);
   font-size: 1.2rem;

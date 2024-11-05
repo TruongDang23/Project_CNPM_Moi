@@ -1,20 +1,36 @@
 import styled from 'styled-components'
-import { useState } from 'react'
-import someDonDatHangdata from '../../../../data/someDonDatHangdata'
+import { useState, useEffect } from 'react'
 import DataTable from 'react-data-table-component'
 
 import { columnsDonDatHang, customStyles } from './columnsDonDatHang'
 import DonDatHangDetail from './DonDatHangDetail'
+import APIClient from '../../../../api/client'
+
 function DonDatHang() {
   const [selectedRow, setSelectedRow] = useState(null)
   const [filterText, setFilterText] = useState('')
+  const [someDonDDVData, setDonDDVData] = useState([])
+  const [reload, setReload] = useState(true)
+  useEffect(() => {
+    const apiClient = new APIClient('dondathang')
+    apiClient
+      .find()
+      .then((response) => {
+        setDonDDVData(response.data.dondathang || [])
+      })
+      .catch((error) => {
+        // eslint-disable-next-line no-console
+        console.error(error)
+      })
+  }, [reload])
   // Hàm xử lý khi nhấn vào dòng
   const handleRowClicked = (row) => {
     setSelectedRow(row) // Lưu dòng được chọn
   }
 
   // Lọc dữ liệu dựa trên giá trị filterText
-  const filteredData = someDonDatHangdata.filter((item) =>
+  const filteredData = someDonDDVData.filter((item) =>
+
   // Tìm kiếm theo tất cả các trường
     Object.values(item).some((field) => {
       if (typeof field === 'string') {
@@ -32,10 +48,10 @@ function DonDatHang() {
 
   return (
     <DonDatHangWrapper>
-      <h2>Quản lý hội trường</h2>
+      <h2>Quản lý đơn đặt hàng</h2>
       <div className="hall-content">
         <div className="hall-content-table">
-          <h3>Danh sách hội trường</h3>
+          <h3>Danh sách đơn đặt hàng</h3>
           <div className="actions">
             <p>Tìm kiếm:</p>
             <input
@@ -54,7 +70,7 @@ function DonDatHang() {
           />
         </div>
         <div className="hall-content-detail">
-          <DonDatHangDetail selectedData={selectedRow} />
+          <DonDatHangDetail selectedData={selectedRow} setReload={setReload} />
         </div>
       </div>
     </DonDatHangWrapper>
