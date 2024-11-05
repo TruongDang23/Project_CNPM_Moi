@@ -15,11 +15,11 @@ const datDichVuSchema = new mongoose.Schema({
     required: [true, 'Phải có MaTK']
   },
   ThoiDiemDat: {
-    type: Date,
+    type: String,
     required: [true, 'Thời điểm đặt là bắt buộc']
   },
   ThoiDiemBatDau: {
-    type: Date,
+    type: String,
     required: [true, 'Thời điểm bắt đầu là bắt buộc'],
     validate: {
       validator: function (v) {
@@ -29,7 +29,7 @@ const datDichVuSchema = new mongoose.Schema({
     }
   },
   ThoiDiemKetThuc: {
-    type: Date,
+    type: String,
     required: [true, 'Thời điểm kết thúc là bắt buộc'],
     validate: {
       validator: function (v) {
@@ -50,11 +50,11 @@ const datDichVuSchema = new mongoose.Schema({
   DichVu: {
     SoLuongBan: {
       type: Number,
-      min: [1, 'Số lượng bàn phải ít nhất là 1']
+      min: [0, 'Số lượng bàn phải ít nhất là 1']
     },
     SoLuongThiep: {
       type: Number,
-      min: [1, 'Số lượng thiệp phải ít nhất là 1']
+      min: [0, 'Số lượng thiệp phải ít nhất là 1']
     },
     MaMC: {
       type: String

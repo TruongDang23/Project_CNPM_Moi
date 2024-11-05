@@ -10,16 +10,15 @@ const getAll = catchAsync(async (req, res, next) => {
 })
 
 const getByID = catchAsync(async (req, res, next) => {
-  const combo = await Combo.findOne({ MaCombo: req.params.id })
-  if (!combo) {
-    return next(new AppError('Không tìm thấy hội trường với mã này', 404))
-  }
-  res.status(200).json({
-    status: 'success',
-    data: {
-      combo
+  if (req.params.id !== null) {
+    const combo = await Combo.findOne({ MaCombo: req.params.id })
+    if (!combo) {
+      return next(new AppError('Không tìm thấy hội trường với mã này', 404))
     }
-  })
+    res.status(200).json({
+      combo
+    })
+  }
 })
 
 const create = catchAsync(async (req, res, next) => {

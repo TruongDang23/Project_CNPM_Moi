@@ -3,11 +3,18 @@ import { OrderContext } from '../../../../context/OrderContext'
 import { useContext } from 'react'
 
 function StepHall({ luuHoiTruong }) {
-  const { selectedHall, setSelectedHall } = useContext(OrderContext)
+  const { selectedHall, setSelectedHall, setOrder } = useContext(OrderContext)
   const handleHallChange = (e) => {
     const hallId = e.target.value
     const hall = luuHoiTruong.find((hall) => hall.MaHoiTruong === hallId)
     setSelectedHall(hall)
+    setOrder(prevOrder => ({
+      ...prevOrder,
+      DichVu: {
+        ...prevOrder.DichVu,
+        MaHoiTruong: hall.MaHoiTruong
+      }
+    }))
   }
   return (
     <StepHallWrapper>

@@ -8,25 +8,21 @@ import MCDetail from './MCDetail'
 function MC() {
   const [selectedRow, setSelectedRow] = useState(null)
   const [filterText, setFilterText] = useState('')
+  const [reload, setReload] = useState(true)
+  const [ncData, setMcData] = useState([])
 
-  const [ncData, setNcData] = useState([])
-
-  // Hàm tải lại dữ liệu từ API
-  const fetchData = () => {
+  useEffect(() => {
     const apiClient = new APIClient('mc')
     apiClient
       .find()
       .then((response) => {
-        setNcData(response.data.mc || [])
+        setMcData(response.data.mc || [])
       })
       .catch((error) => {
+        // eslint-disable-next-line no-console
         console.error(error)
       })
-  }
-  // Lấy dữ liệu lần đầu khi component được mount
-  useEffect(() => {
-    fetchData()
-  }, [])
+  }, [reload])
 
   // Hàm xử lý khi nhấn vào dòng
   const handleRowClicked = (row) => {
@@ -76,8 +72,7 @@ function MC() {
         <div className="hall-content-detail">
           <MCDetail
             selectedData={selectedRow}
-            onActionComplete={fetchData}
-/>
+            setReload={setReload}/>
         </div>
       </div>
     </MCWrapper>

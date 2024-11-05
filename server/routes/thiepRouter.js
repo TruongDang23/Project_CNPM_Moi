@@ -21,7 +21,7 @@ thiepRouter
   .route('/:id')
   .get(
     authController.protect,
-    authController.restrictTo('admin'),
+    authController.restrictTo('admin', 'user'),
     thiepController.getThiep
   )
   .patch(

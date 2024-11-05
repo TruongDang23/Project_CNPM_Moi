@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { useState, useEffect } from 'react'
 import APIClient from '../../../../api/client'
 
+import CancelIcon from '@mui/icons-material/Cancel'
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
@@ -15,6 +16,8 @@ function NhacCongDetail({ selectedData, onActionComplete }) {
   const [dialogOpen, setDialogOpen] = useState(false) // Trạng thái hiển thị Dialog
   const [dialogMessage, setDialogMessage] = useState('') // Nội dung thông báo từ server
   const [dialogTitle, setDialogTitle] = useState('') // Tiêu đề của Dialog
+  const [newHinhAnh, setNewHinhAnh] = useState('')
+  const [danhSachHinhAnh, setDanhSachHinhAnh] = useState([])
 
   // Các hàm xử lí mở, đóng Dialog
   // Hàm hiển thị Dialog
@@ -43,10 +46,33 @@ function NhacCongDetail({ selectedData, onActionComplete }) {
     }))
   }
 
+  const handleInputImage = (e) => {
+    setNewHinhAnh(e.target.value)
+  }
+
+  const handleAddHinhAnh = () => {
+    if (newHinhAnh.trim() !== '') {
+      setDanhSachHinhAnh((prev) => [...prev, newHinhAnh])
+      setNewHinhAnh('')
+      setFormData((prev) => ({
+        ...prev,
+        HinhAnh: [
+          ...prev.HinhAnh || [],
+          newHinhAnh
+        ]
+      }))
+    }
+  }
+
+  const handleRemoveHinhAnh = (index) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      HinhAnh: prevFormData.HinhAnh.filter((_, i) => i !== index)
+    }))
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault()
-    // Xử lý submit ở đây
-    console.log(formData)
   }
 
   // Hàm xử lý sự kiện thêm mới
@@ -58,10 +84,13 @@ function NhacCongDetail({ selectedData, onActionComplete }) {
       setFormData({}) // Xóa dữ liệu form sau khi thêm thành công
       onActionComplete() // Gọi hàm tải lại dữ liệu
     } catch (error) {
-      showDialog(
-        'Lỗi khi thêm',
-        error.response?.data?.message || 'Đã xảy ra lỗi.'
-      )
+      const regex = /ValidationError: (.+?)<br>/
+      const match = error.response.data.match(regex)
+      if (match) {
+        showDialog(
+          'Lỗi khi thêm',
+          match[1] || 'Đã xảy ra lỗi.')
+      }
     }
   }
 
@@ -75,10 +104,13 @@ function NhacCongDetail({ selectedData, onActionComplete }) {
       showDialog('Cập nhật thành công', 'Thông tin nhạc công đã được cập nhật.')
       onActionComplete() // Gọi hàm tải lại dữ liệu
     } catch (error) {
-      showDialog(
-        'Lỗi khi cập nhật',
-        error.response?.data?.message || 'Đã xảy ra lỗi.'
-      )
+      const regex = /ValidationError: (.+?)<br>/
+      const match = error.response.data.match(regex)
+      if (match) {
+        showDialog(
+          'Lỗi khi cập nhật',
+          match[1] || 'Đã xảy ra lỗi.')
+      }
     }
   }
 
@@ -93,19 +125,15 @@ function NhacCongDetail({ selectedData, onActionComplete }) {
       setFormData({})
       onActionComplete() // Gọi hàm tải lại dữ liệu
     } catch (error) {
-      showDialog(
-        'Lỗi khi xóa',
-        error.response?.data?.message || 'Đã xảy ra lỗi.'
-      )
+      const regex = /ValidationError: (.+?)<br>/
+      const match = error.response.data.match(regex)
+      if (match) {
+        showDialog(
+          'Lỗi khi xóa',
+          match[1] || 'Đã xảy ra lỗi.')
+      }
     }
   }
-
-  // if (!selectedData)
-  //   return (
-  //     <NhacCongDetailWrapper>
-  //       <h1>Chọn một nhạc công để xem chi tiết.</h1>
-  //     </NhacCongDetailWrapper>
-  //   )
 
   return (
     <NhacCongDetailWrapper>
@@ -202,16 +230,28 @@ function NhacCongDetail({ selectedData, onActionComplete }) {
             type="text"
             name="HinhAnh"
             placeholder="Link ảnh"
-            value={formData.HinhAnh || ''}
-            onChange={handleInputChange}
+            value={newHinhAnh || ''}
+            onChange={handleInputImage}
           />
+          <button id="btn-secoundary" type="button" onClick={handleAddHinhAnh}>
+            Chèn
+          </button>
         </div>
 
         <div className="image-preview-wrapper">
           {formData.HinhAnh &&
             Array.isArray(formData.HinhAnh) &&
             formData.HinhAnh.map((img, index) => (
-              <img key={index} src={img} alt="Hội trường" />
+              // <img key={index} src={img} alt="Hội trường" />
+              <div className="image-container" key={index}>
+                <img src={img} alt="Combo món ăn" />
+                <span
+                  className="delete-icon"
+                  onClick={() => handleRemoveHinhAnh(index)} // Thêm hàm xóa tại đây
+                >
+                  <CancelIcon sx={{ fontSize: 30 }} />
+                </span>
+              </div>
             ))}
         </div>
 
@@ -284,6 +324,7 @@ const NhacCongDetailWrapper = styled.div`
     margin-bottom: 15px;
     button {
       float: right;
+      margin-top: 10px;
     }
   }
 
@@ -321,13 +362,14 @@ const NhacCongDetailWrapper = styled.div`
     display: flex;
     justify-content: center;
     gap: 30px;
-    margin-top: 20px;
+    margin-top: 40px;
   }
 
   .image-preview-wrapper {
     display: flex;
     gap: 10px;
     margin-top: 15px;
+    max-width: 700px;
 
     img {
       width: 100px;
@@ -335,6 +377,32 @@ const NhacCongDetailWrapper = styled.div`
       object-fit: cover;
       border-radius: 5px;
     }
+  }
+
+  .image-container {
+    position: relative;
+    display: inline-block; /* Giúp hình ảnh hiển thị liền kề nhau */
+  }
+
+  .delete-icon {
+    display: none; /* Ẩn biểu tượng xóa theo mặc định */
+    position: absolute;
+    top: 5px; /* Điều chỉnh vị trí */
+    right: 5px; /* Điều chỉnh vị trí */
+    cursor: pointer;
+    color: red; /* Màu sắc biểu tượng xóa */
+  }
+
+  .image-container:hover .delete-icon {
+    display: block; /* Hiện biểu tượng khi rê chuột vào */
+  }
+
+  .image-container img {
+    transition: filter 0.3s ease; /* Hiệu ứng chuyển đổi cho hình ảnh */
+  }
+
+  .image-container:hover img {
+    filter: blur(2px); /* Làm mờ hình ảnh khi rê chuột vào */
   }
 `
 

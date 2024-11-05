@@ -11,9 +11,9 @@ function Thiep() {
   const [selectedRow, setSelectedRow] = useState(null)
   const [filterText, setFilterText] = useState('')
   const [thiepData, setThiepData] = useState([])
+  const [reload, setReload] = useState(true)
 
-  // Hàm tải lại dữ liệu từ API
-  const fetchData = () => {
+  useEffect(() => {
     const apiClient = new APIClient('thiep')
     apiClient
       .find()
@@ -21,14 +21,10 @@ function Thiep() {
         setThiepData(response.data.thiep || [])
       })
       .catch((error) => {
+        // eslint-disable-next-line no-console
         console.error(error)
       })
-  }
-
-  // Lấy dữ liệu lần đầu khi component được mount
-  useEffect(() => {
-    fetchData()
-  }, [])
+  }, [reload])
 
   // Hàm xử lý khi nhấn vào dòng
   const handleRowClicked = (row) => {
@@ -78,7 +74,7 @@ function Thiep() {
         <div className="thiep-content-detail">
           <ThiepDetail
             selectedData={selectedRow}
-            onActionComplete={fetchData} />
+            setReload={setReload} />
         </div>
       </div>
     </ThiepWrapper>

@@ -104,12 +104,15 @@ function ComboDetail({ selectedData, setReload }) {
         }
       })
       .catch((error) => {
-        if (error.status == 404)
-          showDialog(
-            'Lỗi khi tạo mới Combo',
-            error.response?.data?.message || 'Đã xảy ra lỗi.')
-        // eslint-disable-next-line no-console
-        console.error(error)
+        if (error.status == 404) {
+          const regex = /ValidationError: (.+?)<br>/
+          const match = error.response.data.match(regex)
+          if (match) {
+            showDialog(
+              'Lỗi khi tạo mới Combo',
+              match[1] || 'Đã xảy ra lỗi.')
+          }
+        }
       })
   }
 
@@ -125,11 +128,13 @@ function ComboDetail({ selectedData, setReload }) {
         }
       })
       .catch((error) => {
-        showDialog(
-          'Lỗi khi cập nhật Combo',
-          error.response?.data?.message || 'Đã xảy ra lỗi.')
-        // eslint-disable-next-line no-console
-        console.error(error)
+        const regex = /ValidationError: (.+?)<br>/
+        const match = error.response.data.match(regex)
+        if (match) {
+          showDialog(
+            'Lỗi khi cập nhật Combo',
+            match[1] || 'Đã xảy ra lỗi.')
+        }
       })
   }
 
@@ -145,21 +150,17 @@ function ComboDetail({ selectedData, setReload }) {
         }
       })
       .catch((error) => {
-        if (error.status == 404)
-          showDialog(
-            'Lỗi khi xóa',
-            error.response?.data?.message || 'Đã xảy ra lỗi.')
-        // eslint-disable-next-line no-console
-        console.error(error)
+        if (error.status == 404) {
+          const regex = /ValidationError: (.+?)<br>/
+          const match = error.response.data.match(regex)
+          if (match) {
+            showDialog(
+              'Lỗi khi xóa',
+              match[1] || 'Đã xảy ra lỗi.')
+          }
+        }
       })
   }
-
-  // if (!selectedData)
-  //   return (
-  //     <ComboDetailWrapper>
-  //       <h1>Chọn một dòng để xem chi tiết.</h1>
-  //     </ComboDetailWrapper>
-  //   )
 
   return (
     <ComboDetailWrapper>

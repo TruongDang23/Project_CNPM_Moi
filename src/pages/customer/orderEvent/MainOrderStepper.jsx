@@ -7,26 +7,37 @@ import { OrderContext } from '../../../context/OrderContext'
 import styled from 'styled-components'
 import Loading from '../../system/Loading'
 
+import Dialog from '@mui/material/Dialog'
+import DialogTitle from '@mui/material/DialogTitle'
+import DialogContent from '@mui/material/DialogContent'
+import DialogActions from '@mui/material/DialogActions'
 import StepHall from './OrderStep/StepHall'
 import StepMC from './OrderStep/StepMC'
 import StepNC from './OrderStep/StepNC'
 import StepCombo from './OrderStep/StepCombo'
 import StepThiep from './OrderStep/StepThiep'
+import StepInfor from './OrderStep/StepInfor'
+import APIClient from '../../../api/client'
 
 const steps = [
   'Chọn hội trường',
   'Chọn MC',
   'Chọn Nhạc Công',
   'Chọn Thực Đơn',
-  'Chọn Thiệp'
+  'Chọn Thiệp',
+  'Thông tin đặt'
 ]
 
 function MainOrderStepper() {
-  const { markdata, getAllSelections, canCompleteOrder } =
+  const { markdata, order, canCompleteOrder } =
     useContext(OrderContext)
   const { LuuHoiTruong, LuuMC, LuuNhacCong, LuuCombo, LuuThiep } = markdata
   const [activeStep, setActiveStep] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
+  const apiClient = new APIClient('dathang')
+  const [dialogOpen, setDialogOpen] = useState(false) // Trạng thái hiển thị Dialog
+  const [dialogMessage, setDialogMessage] = useState('') // Nội dung thông báo từ server
+  const [dialogTitle, setDialogTitle] = useState('') // Tiêu đề của Dialog
 
   const renderStepContent = (step) => {
     switch (step) {
@@ -40,6 +51,8 @@ function MainOrderStepper() {
       return <StepCombo luuCombo={LuuCombo} />
     case 4:
       return <StepThiep luuThiep={LuuThiep} />
+    case 5:
+      return <StepInfor/>
     default:
       return <Typography>Không có bước này</Typography>
     }
@@ -52,6 +65,38 @@ function MainOrderStepper() {
   const handleBack = () => {
     setActiveStep((prevStep) => prevStep - 1)
   }
+  // Các hàm xử lí mở, đóng Dialog
+  // Hàm hiển thị Dialog
+  const showDialog = (title, message) => {
+    setDialogTitle(title)
+    setDialogMessage(message)
+    setDialogOpen(true)
+  }
+  // Hàm đóng Dialog
+  const closeDialog = () => {
+    setDialogOpen(false)
+  }
+
+  const handleOrder = () => {
+    apiClient
+      .create(order)
+      .then((response) => {
+        if (response.status == 201) {
+          showDialog(
+            'Đặt sự kiện thành công',
+            `Hãy đợi một thời gian ngắn để admin duyệt sự kiện nhé !`)
+        }
+      })
+      .catch((error) => {
+        const regex = /ValidationError: (.+?)<br>/
+        const match = error.response.data.match(regex)
+        if (match) {
+          showDialog(
+            'Lỗi khi đặt sự kiện',
+            match[1] || 'Đã xảy ra lỗi.')
+        }
+      })
+  }
 
   const handleReset = () => {
     const { valid, message } = canCompleteOrder()
@@ -59,9 +104,8 @@ function MainOrderStepper() {
       alert(message)
       return
     } else {
-      alert('Đặt hàng thành công')
+      handleOrder()
     }
-    console.log(getAllSelections())
   }
 
   const handleComplete = () => {
@@ -69,7 +113,7 @@ function MainOrderStepper() {
     setTimeout(() => {
       setIsLoading(false)
       handleReset()
-    }, 3000)
+    }, 1000)
   }
 
   return (
@@ -104,10 +148,24 @@ function MainOrderStepper() {
           </button>
         </div>
       </div>
+
+      {/* Dialog hiển thị thông báo */}
+      <StyledDialog open={dialogOpen} onClose={closeDialog}>
+        <StyledDialogTitle>{dialogTitle}</StyledDialogTitle>
+        <StyledDialogContent>
+          <p>{dialogMessage}</p>
+        </StyledDialogContent>
+        <StyledDialogActions>
+          <button id="btn-primary" onClick={closeDialog}>
+            Đóng
+          </button>
+        </StyledDialogActions>
+      </StyledDialog>
     </MainOrderStepperWrapper>
   )
 }
 
+// eslint-disable-next-line no-unused-vars
 const CustomStepper = styled(Stepper)(({ theme }) => ({
   backgroundColor: 'transparent',
   padding: '20px',
@@ -122,6 +180,29 @@ const CustomStepper = styled(Stepper)(({ theme }) => ({
     }
   }
 }))
+
+// Custom Dialog
+const StyledDialog = styled(Dialog)`
+  & .MuiPaper-root {
+    text-align: center;
+    background-color: #f3f4f6;
+    border-radius: 8px;
+    padding: 16px;
+  }
+`
+const StyledDialogTitle = styled(DialogTitle)`
+  font-size: 2rem;
+  text-transform: uppercase;
+  color: var(--primary-color);
+  font-weight: bold;
+`
+const StyledDialogContent = styled(DialogContent)`
+  font-size: 1.6rem;
+  color: var(--primary-color);
+`
+const StyledDialogActions = styled(DialogActions)`
+  justify-content: center;
+`
 
 const MainOrderStepperWrapper = styled.div`
   display: flex;

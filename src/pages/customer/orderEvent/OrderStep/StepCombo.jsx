@@ -3,11 +3,18 @@ import { OrderContext } from '../../../../context/OrderContext'
 import { useContext } from 'react'
 
 function StepCombo({ luuCombo }) {
-  const { selectedCombo, setSelectedCombo } = useContext(OrderContext)
+  const { selectedCombo, setSelectedCombo, setOrder } = useContext(OrderContext)
   const handleComboChange = (e) => {
     const comboID = e.target.value
     const combo = luuCombo.find((combo) => combo.MaCombo === comboID)
     setSelectedCombo(combo)
+    setOrder(prevOrder => ({
+      ...prevOrder,
+      DichVu: {
+        ...prevOrder.DichVu,
+        MaCombo: combo.MaCombo
+      }
+    }))
   }
 
   return (

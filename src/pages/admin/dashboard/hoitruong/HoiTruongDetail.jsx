@@ -83,19 +83,22 @@ function HoiTruongDetail({ selectedData, setReload }) {
         }
       })
       .catch((error) => {
-        if (error.status == 404)
-          showDialog(
-            'Lỗi khi tạo mới hội trường',
-            error.response?.data?.message || 'Đã xảy ra lỗi.')
-        // eslint-disable-next-line no-console
-        console.error(error)
+        if (error.status == 404) {
+          const regex = /ValidationError: (.+?)<br>/
+          const match = error.response.data.match(regex)
+          if (match) {
+            showDialog(
+              'Lỗi khi tạo mới hội trường',
+              match[1] || 'Đã xảy ra lỗi.')
+          }
+        }
       })
   }
 
   const updateHall = () => {
     apiClient
       .update(formData._id, formData)
-      .then((response) => {
+      .then(async (response) => {
         if (response.status == 200) {
           showDialog(
             'Cập nhật thành công',
@@ -104,11 +107,13 @@ function HoiTruongDetail({ selectedData, setReload }) {
         }
       })
       .catch((error) => {
-        showDialog(
-          'Lỗi khi cập nhật hội trường',
-          error.response?.data?.message || 'Đã xảy ra lỗi.')
-        // eslint-disable-next-line no-console
-        console.error(error)
+        const regex = /ValidationError: (.+?)<br>/
+        const match = error.response.data.match(regex)
+        if (match) {
+          showDialog(
+            'Lỗi khi cập nhật hội trường',
+            match[1] || 'Đã xảy ra lỗi.')
+        }
       })
   }
 
@@ -124,21 +129,17 @@ function HoiTruongDetail({ selectedData, setReload }) {
         }
       })
       .catch((error) => {
-        if (error.status == 404)
-          showDialog(
-            'Lỗi khi xóa',
-            error.response?.data?.message || 'Đã xảy ra lỗi.')
-        // eslint-disable-next-line no-console
-        console.error(error)
+        if (error.status == 404) {
+          const regex = /ValidationError: (.+?)<br>/
+          const match = error.response.data.match(regex)
+          if (match) {
+            showDialog(
+              'Lỗi khi xóa',
+              match[1] || 'Đã xảy ra lỗi.')
+          }
+        }
       })
   }
-
-  // if (!selectedData)
-  //   return (
-  //     <HoiTruongDetailWrapper>
-  //       <h1>Chọn một dòng để xem chi tiết.</h1>
-  //     </HoiTruongDetailWrapper>
-  //   )
 
   return (
     <HoiTruongDetailWrapper>
