@@ -11,14 +11,16 @@ const getAllDonDatHang = catchAsync(async (req, res, next) => {
 
 // Get order by ID
 const getDonDatHangByID = catchAsync(async (req, res, next) => {
-  const dondathang = await DatDichVu.findOne({ MaDDV: req.params.id })
-  if (!dondathang) {
-    return next(new AppError('Không tìm thấy đơn đặt hàng với mã này', 404))
+  if (req.params.id !== null) {
+    const dondathang = await DatDichVu.findOne({ MaDDV: req.params.id })
+    if (!dondathang) {
+      return next(new AppError('Không tìm thấy đơn đặt hàng với mã này', 404))
+    }
+    res.status(200).json({
+      status: 'success',
+      data: { dondathang }
+    })
   }
-  res.status(200).json({
-    status: 'success',
-    data: { dondathang }
-  })
 })
 
 
@@ -35,6 +37,32 @@ const updateDonDatHang = catchAsync(async (req, res, next) => {
   }
 
   res.status(204).json({ status: 'success', data: null })
+})
+
+const create = catchAsync(async (req, res, next) => {
+  // Lấy số lượng nhạc công hiện có để sinh mã mới
+  const datdichvuCount = await DatDichVu.countDocuments()
+
+  // Tạo mã MaHoiTruong theo định dạng "Hxxx", ví dụ "H001", "H002", ...
+  const newMaDatDichVu = `D${String(datdichvuCount + 1).padStart(3, '0')}`
+
+  // Thêm MaHoiTruong vào dữ liệu từ req.body
+  const newDatDichVu = await DatDichVu.create({
+    MaDDV: newMaDatDichVu, // Mã tự động sinh
+    MaTK: req.body.MaTK,
+    ThoiDiemDat: req.body.ThoiDiemDat,
+    ThoiDiemBatDau: req.body.ThoiDiemBatDau,
+    ThoiDiemKetThuc: req.body.ThoiDiemKetThuc,
+    SoGio: req.body.SoGio,
+    TrangThai: req.body.TrangThai,
+    DichVu: req.body.DichVu,
+    Note: req.body.Note
+  })
+
+  if (!newDatDichVu) {
+    return next(new AppError('Tạo mới đơn đặt hàng không thành công', 404))
+  }
+  res.status(201).send()
 })
 
 // Accept or Reject an order by ID
@@ -63,6 +91,7 @@ const acceptOrRejectDonDatHang = catchAsync(async (req, res, next) => {
 });
 
 export default {
+  create,
   getAllDonDatHang,
   getDonDatHangByID,
   updateDonDatHang,

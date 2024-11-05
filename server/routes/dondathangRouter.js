@@ -11,6 +11,11 @@ dondathangRouter
     authController.restrictTo('admin'),
     dondathangController.getAllDonDatHang
   )
+  .post(
+    authController.protect,
+    authController.restrictTo('admin', 'user'),
+    dondathangController.create
+  )
 
 
 dondathangRouter
