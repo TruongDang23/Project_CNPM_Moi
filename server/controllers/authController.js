@@ -25,8 +25,19 @@ const createSendToken = (user, statusCode, res) => {
 const signup = catchAsync(async (req, res, next) => {
   const data = req.body
 
+  // lấy số lượng tài khoản hiện có để sinh mã mới
+  const taikhoanCount = await taikhoan.countDocuments()
+
+  // Tạo mã MaTK theo định dạng nếu role là admin thì là "Axxx", nếu là user thì là "Uxxx"
+  let newMaTK
+  if (data.role === 'admin') {
+    newMaTK = `A${String(taikhoanCount + 1).padStart(3, '0')}`
+  } else {
+    newMaTK = `U${String(taikhoanCount + 1).padStart(3, '0')}`
+  }
+
   const newUser = await taikhoan.create({
-    MaTK: data.matk,
+    MaTK: newMaTK, // Mã tự động sinh
     UserName: data.username,
     Pass: data.pass,
     Role: data.role
@@ -42,7 +53,9 @@ const login = catchAsync(async (req, res, next) => {
   }
 
   // 2) Check if user exists && password is correct
-  const user = await taikhoan.findOne({ UserName: username }).select('+Pass +MaTK')
+  const user = await taikhoan
+    .findOne({ UserName: username })
+    .select('+Pass +MaTK')
 
   if (!user || !(await user.correctPassword(pass, user.Pass))) {
     return next(new AppError('Incorrect username or password', 401))
@@ -50,7 +63,6 @@ const login = catchAsync(async (req, res, next) => {
 
   // 3) If everything ok, send token to client
   createSendToken(user, 200, res)
-
 })
 
 const protect = catchAsync(async (req, res, next) => {

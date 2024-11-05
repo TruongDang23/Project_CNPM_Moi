@@ -10,7 +10,7 @@ export default class APIClient {
 
   async authenticate(account) {
     try {
-      const data = await axios.post(`${this.api}/login`, {
+      const data = await axios.post(`${this.api}/login/`, {
         username: account.username,
         pass: account.pass
       })
