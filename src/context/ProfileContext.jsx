@@ -1,6 +1,5 @@
 import { createContext, useState, useEffect } from 'react'
 import APIClient from '../api/client.js'
-import { SdTwoTone } from '@mui/icons-material'
 export const ProfileContext = createContext()
 
 export const ProfileProvider = ({ children }) => {
@@ -50,6 +49,18 @@ export const ProfileProvider = ({ children }) => {
       .catch((error) => {
         console.error(error)
       })
+  }, [userID])
+
+  // Dùng useEffect để lấy thông tin chi tiết Hoten, GioiTinh, SDT, NgaySinh, NoiSong vào state `profile`
+  useEffect(() => {
+    setProfile((prevState) => ({
+      ...prevState,
+      HoTen: hoTen,
+      GioiTinh: gioiTinh,
+      SDT: sdt,
+      NgaySinh: ngaySinh,
+      NoiSong: noiSong
+    }))
   }, [userID])
 
   useEffect(() => {
@@ -139,8 +150,8 @@ export const ProfileProvider = ({ children }) => {
           LuuThiepMoi: prevState.LuuThiepMoi.some(
             (item) => item.MaThiep === response.data.thiep.MaThiep
           )
-            ? prevState.LuuThiep.map((item) =>
-                item.LuuThiep === response.data.thiep.MaThiep
+            ? prevState.LuuThiepMoi.map((item) =>
+                item.LuuThiepMoi === response.data.thiep.MaThiep
                   ? response.data.thiep
                   : item
               )
