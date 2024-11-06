@@ -61,7 +61,7 @@ function NCSearchCard({ nc }) {
   return (
     <NCSearchCardWrapper>
       <div className="nc-img">
-        <img src={HinhAnh} alt={HoTen} />
+        <img src={HinhAnh[0]} alt={HoTen} />
       </div>
       <div className="nc-info">
         <h3>{HoTen}</h3>
@@ -71,7 +71,7 @@ function NCSearchCard({ nc }) {
           <li>Loại nhạc cụ: {LoaiNhacCu}</li>
           <li>Tình trạng: {TinhTrang ? 'Còn trống' : 'Đã đặt'}</li>
           <li>
-            <strong>Giá: {formatCurrency(Gia)}</strong>
+            <strong>Giá: {Gia ? formatCurrency(Gia) : 'Free'}</strong>
           </li>
         </ul>
       </div>
@@ -87,7 +87,7 @@ function NCSearchCard({ nc }) {
           <div className="popup-content">
             <div className="popup-img">
               <Carousel autoPlay interval={3000}>
-                <img src={HinhAnh} alt={HoTen} />
+                <img src={HinhAnh[0]} alt={HoTen} />
               </Carousel>
             </div>
             <div className="popup-info">

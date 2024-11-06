@@ -53,7 +53,7 @@ function Header() {
                 <BookmarkIcon />
               </StyledBadge>
             </a>
-            <AvatarUser />
+            <AvatarUser name={'Le Vinh'} />
           </div>
         </Navbar>
       )

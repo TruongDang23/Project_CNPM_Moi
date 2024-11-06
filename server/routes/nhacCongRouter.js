@@ -8,7 +8,7 @@ nhacCongRouter
   .route('/')
   .get(
     authController.protect,
-    authController.restrictTo('admin'),
+    authController.restrictTo('admin', 'user'),
     nhacCongController.getAllNhacCong
   )
   .post(

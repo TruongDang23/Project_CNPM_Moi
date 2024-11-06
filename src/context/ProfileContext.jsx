@@ -61,7 +61,7 @@ export const ProfileProvider = ({ children }) => {
       NgaySinh: ngaySinh,
       NoiSong: noiSong
     }))
-  }, [userID])
+  }, [userID, hoTen, gioiTinh, sdt, ngaySinh, noiSong])
 
   useEffect(() => {
     const apiClient = new APIClient('hoitruong')
