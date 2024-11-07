@@ -7,6 +7,13 @@ import AvatarUser from '../../../components/AvatarUser'
 function MainProfile() {
   const { profile } = useContext(ProfileContext)
   console.log(profile)
+
+  // chuyển date trong profile thành dạng yyyy-mm-dd
+  const date = new Date(profile.NgaySinh)
+  const formattedDate = `${date.getFullYear()}-${String(
+    date.getMonth() + 1
+  ).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+
   return (
     <MainProfileWrapper className="container">
       <div className="profile-heading">
@@ -67,7 +74,7 @@ function MainProfile() {
                   <label>Ngày sinh:</label>
                   <input
                     type="date"
-                    value={profile.NgaySinh}
+                    value={formattedDate}
                     onChange={(e) => setNgaySinh(e.target.value)}
                   />
                 </div>

@@ -30,6 +30,13 @@ const khachhangSchema = new mongoose.Schema({
       message: 'Số điện thoại không hợp lệ'
     }
   },
+  Email: {
+    type: String,
+    validate: {
+      validator: (value) => validator.isEmail(value), // Kiểm tra xem email có hợp lệ không
+      message: 'Email không hợp lệ'
+    }
+  },
   NgaySinh: {
     type: String,
     validate: {

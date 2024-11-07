@@ -8,6 +8,7 @@ export const ProfileProvider = ({ children }) => {
   const [gioiTinh, setGioiTinh] = useState('')
   const [hoTen, setHoTen] = useState('')
   const [sdt, setSDT] = useState('')
+  const [email, setEmail] = useState('')
   const [ngaySinh, setNgaySinh] = useState('')
   const [noiSong, setNoiSong] = useState('')
   const [hoitruong, setHoitruong] = useState([])
@@ -21,6 +22,7 @@ export const ProfileProvider = ({ children }) => {
     GioiTinh: '',
     HoTen: '',
     SDT: '',
+    Email: '',
     NgaySinh: '', // yyyy-mm-dd
     NoiSong: '',
     LuuHoiTruong: [],
@@ -38,6 +40,7 @@ export const ProfileProvider = ({ children }) => {
         setHoTen(response.data.khachhang.HoTen)
         setGioiTinh(response.data.khachhang.GioiTinh)
         setSDT(response.data.khachhang.SDT)
+        setEmail(response.data.khachhang.Email)
         setNgaySinh(response.data.khachhang.NgaySinh)
         setNoiSong(response.data.khachhang.NoiSong)
         setHoitruong(response.data.khachhang.LuuHoiTruong || [])
@@ -58,10 +61,11 @@ export const ProfileProvider = ({ children }) => {
       HoTen: hoTen,
       GioiTinh: gioiTinh,
       SDT: sdt,
+      Email: email,
       NgaySinh: ngaySinh,
       NoiSong: noiSong
     }))
-  }, [userID, hoTen, gioiTinh, sdt, ngaySinh, noiSong])
+  }, [userID, hoTen, gioiTinh, sdt, email, ngaySinh, noiSong])
 
   useEffect(() => {
     const apiClient = new APIClient('hoitruong')
