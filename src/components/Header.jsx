@@ -17,8 +17,11 @@ function Header() {
   const userID = sessionStorage.getItem('userID')
   const [user, setUser] = useState(null)
 
+  // KIểm tra userID nếu bắt đầu bằng A thì là admin, nếu U thì là user
+  const role = userID ? userID[0] : null
+
   useEffect(() => {
-    if (token) {
+    if (token && role === 'U') {
       const apiClient = new APIClient('khachhang')
       apiClient
         .findByID(userID)
@@ -28,8 +31,18 @@ function Header() {
         .catch((error) => {
           console.error(error)
         })
+    } else if (token && role === 'A') {
+      const apiClient = new APIClient('admin')
+      apiClient
+        .findByID(userID)
+        .then((response) => {
+          setUser(response.data.admin)
+        })
+        .catch((error) => {
+          console.error(error)
+        })
     }
-  }, [userID, token])
+  }, [userID, token, role])
 
   const handleLogout = () => {
     sessionStorage.removeItem('userAuth')
@@ -39,6 +52,10 @@ function Header() {
 
   const handleProfileClick = () => {
     window.location.href = '/customer/profile'
+  }
+
+  const handleAdminClick = () => {
+    window.location.href = '/admin/dashboard'
   }
 
   {
@@ -67,7 +84,7 @@ function Header() {
           </div>
         </Navbar>
       )
-    } else if (user) {
+    } else if (user && role === 'U') {
       const HoTen = user.HoTen ? user.HoTen : 'User'
       return (
         <Navbar>
@@ -85,6 +102,34 @@ function Header() {
           </div>
           <div className="nav-other">
             <div onClick={handleProfileClick} style={{ cursor: 'pointer' }}>
+              <AvatarUser name={HoTen} size={40} />
+            </div>
+            <a onClick={handleLogout} style={{ cursor: 'pointer' }}>
+              <StyledBadge>
+                <OutputIcon fontSize="large" />
+              </StyledBadge>
+            </a>
+          </div>
+        </Navbar>
+      )
+    } else if (user && role === 'A') {
+      const HoTen = user.HoTen ? user.HoTen : 'Admin'
+      return (
+        <Navbar>
+          <a className="nav-brand" href="/">
+            <img src={Logo} alt="Udemy Logo" />
+          </a>
+          <div className="nav-link">
+            <a href="/" className="link">
+              Trang chủ
+            </a>
+            <ListService />
+            <a href="/admin/order-event" className="link">
+              Đặt dịch vụ
+            </a>
+          </div>
+          <div className="nav-other">
+            <div onClick={handleAdminClick} style={{ cursor: 'pointer' }}>
               <AvatarUser name={HoTen} size={40} />
             </div>
             <a onClick={handleLogout} style={{ cursor: 'pointer' }}>
