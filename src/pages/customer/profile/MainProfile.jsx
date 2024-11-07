@@ -5,7 +5,7 @@ import { ProfileContext } from '../../../context/ProfileContext'
 import AvatarUser from '../../../components/AvatarUser'
 
 function MainProfile() {
-  const { profile, updateProfile, removeItem } = useContext(ProfileContext)
+  const { profile, updateProfile } = useContext(ProfileContext)
   const [localProfile, setLocalProfile] = useState(profile)
 
   useEffect(() => {
@@ -13,7 +13,6 @@ function MainProfile() {
   }, [profile])
 
   const handleRemoveItem = (listName, itemId, key) => {
-    removeItem(listName, itemId, key)
     setLocalProfile((prevProfile) => ({
       ...prevProfile,
       [listName]: prevProfile[listName].filter((item) => item[key] !== itemId)
@@ -21,7 +20,19 @@ function MainProfile() {
   }
 
   const handleSave = () => {
+    // Đảm bảo các trường lưu là mảng trước khi gọi updateProfile
+    const sanitizedProfile = {
+      ...localProfile,
+      LuuHoiTruong: localProfile.LuuHoiTruong || [],
+      LuuMC: localProfile.LuuMC || [],
+      LuuNhacCong: localProfile.LuuNhacCong || [],
+      LuuThiepMoi: localProfile.LuuThiepMoi || [],
+      LuuCombo: localProfile.LuuCombo || []
+    }
+
+    updateProfile(sanitizedProfile)
     updateProfile(localProfile)
+    window.location.reload()
   }
 
   const handleCancelUpdate = () => {

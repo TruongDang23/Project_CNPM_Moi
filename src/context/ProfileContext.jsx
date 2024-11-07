@@ -166,10 +166,14 @@ export const ProfileProvider = ({ children }) => {
   }, [thiep])
 
   const removeItem = (listName, itemId, key) => {
-    setProfile((prevProfile) => ({
-      ...prevProfile,
-      [listName]: prevProfile[listName].filter((item) => item[key] !== itemId)
-    }))
+    setProfile((prevProfile) => {
+      const updatedList =
+        prevProfile[listName]?.filter((item) => item[key] !== itemId) || []
+      return {
+        ...prevProfile,
+        [listName]: updatedList
+      }
+    })
   }
 
   const updateProfile = async (updatedProfile) => {
