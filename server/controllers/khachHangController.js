@@ -21,18 +21,39 @@ const getByID = catchAsync(async (req, res, next) => {
 })
 
 const update = catchAsync(async (req, res, next) => {
+  // Chuyển đổi các danh sách thành chỉ chứa mã
+  if (req.body.LuuHoiTruong) {
+    req.body.LuuHoiTruong = req.body.LuuHoiTruong.map(
+      (item) => item.MaHoiTruong
+    )
+  }
+  if (req.body.LuuMC) {
+    req.body.LuuMC = req.body.LuuMC.map((item) => item.MaMC)
+  }
+  if (req.body.LuuNhacCong) {
+    req.body.LuuNhacCong = req.body.LuuNhacCong.map((item) => item.MaNhacCong)
+  }
+  if (req.body.LuuThiepMoi) {
+    req.body.LuuThiepMoi = req.body.LuuThiepMoi.map((item) => item.MaThiep)
+  }
+  if (req.body.LuuCombo) {
+    req.body.LuuCombo = req.body.LuuCombo.map((item) => item.MaCombo)
+  }
+
+  // Thực hiện cập nhật trong database
   const updateKhachHang = await KhachHang.findOneAndUpdate(
     { MaTK: req.params.id },
     req.body,
     {
-      new: true, // Trả về document mới sau khi cập nhật
-      runValidators: true // Chạy các validator để đảm bảo dữ liệu hợp lệ
+      new: true,
+      runValidators: true
     }
   )
 
   if (!updateKhachHang) {
     return next(new AppError('Không tìm thấy khách hàng với mã này', 404))
   }
+
   res.status(200).json({
     updateKhachHang
   })

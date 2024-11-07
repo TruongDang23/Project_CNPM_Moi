@@ -30,8 +30,7 @@ export default class APIClient {
         }
       })
       return data
-    }
-    catch (error) {
+    } catch (error) {
       return error
     }
   }
@@ -46,26 +45,23 @@ export default class APIClient {
   }
 
   async create(newData) {
-    const data = await axios.post(`${this.api}/`,
-      newData,
-      {
-        headers: {
-          Authorization: `Bearer ${this.token}`
-        }
-      })
+    const data = await axios.post(`${this.api}/`, newData, {
+      headers: {
+        Authorization: `Bearer ${this.token}`
+      }
+    })
     return data // data = true/false
   }
 
   async update(id, newData) {
-    const data = await axios.patch(`${this.api}/${id}`,
-      newData,
-      {
-        headers: {
-          Authorization: `Bearer ${this.token}`
-        }
-      })
+    const data = await axios.patch(`${this.api}/${id}`, newData, {
+      headers: {
+        Authorization: `Bearer ${this.token}`
+      }
+    })
     return data
   }
+
 
   async delete(id) {
     const data = await axios.delete(`${this.api}/${id}`, {

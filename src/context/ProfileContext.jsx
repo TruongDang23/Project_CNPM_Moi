@@ -187,6 +187,10 @@ export const ProfileProvider = ({ children }) => {
 
       // Nếu thành công, cập nhật lại state `profile` với dữ liệu mới trả về từ server
       if (response.status === 200) {
+        console.log(
+          'Cập nhật thông tin thành công:',
+          response.data.updateKhachHang
+        )
         setProfile(response.data.updateKhachHang)
       }
     } catch (error) {

@@ -121,16 +121,6 @@ function MainProfile() {
                   />
                 </div>
               </div>
-              <button type="button" id="btn-primary" onClick={handleSave}>
-                Lưu
-              </button>
-              <button
-                type="button"
-                id="btn-cancel"
-                onClick={handleCancelUpdate}
-              >
-                Hủy
-              </button>
             </form>
           </div>
         </div>
@@ -247,6 +237,15 @@ function MainProfile() {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="button-row">
+        <button type="button" id="btn-primary" onClick={handleSave}>
+          Lưu
+        </button>
+        <button type="button" id="btn-cancel" onClick={handleCancelUpdate}>
+          Hủy
+        </button>
       </div>
     </MainProfileWrapper>
   )
@@ -388,13 +387,14 @@ const MainProfileWrapper = styled.section`
           }
         }
       }
-      .button-row {
-        display: flex;
-        justify-content: center;
-        gap: 30px;
-        margin-top: 20px;
-      }
     }
+  }
+
+  .button-row {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
   }
 `
 
