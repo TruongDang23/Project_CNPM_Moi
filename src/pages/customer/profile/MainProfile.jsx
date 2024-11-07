@@ -135,105 +135,129 @@ function MainProfile() {
           <div className="profile-luu-content">
             <div className="profile-luu-item">
               <h4>Hội trường</h4>
-              <ul>
-                {localProfile.LuuHoiTruong.map((item) => (
-                  <li key={item._id}>
-                    {item.TenHoiTruong}
-                    <button
-                      type="button"
-                      onClick={() =>
-                        handleRemoveItem(
-                          'LuuHoiTruong',
-                          item.MaHoiTruong,
-                          'MaHoiTruong'
-                        )
-                      }
-                    >
-                      ❌
-                    </button>
-                  </li>
-                ))}
-              </ul>
+              {localProfile.LuuHoiTruong.length === 0 ? (
+                <p>Không có hội trường nào được lưu</p>
+              ) : (
+                <ul>
+                  {localProfile.LuuHoiTruong.map((item) => (
+                    <li key={item._id}>
+                      {item.TenHoiTruong}
+                      <button
+                        type="button"
+                        onClick={() =>
+                          handleRemoveItem(
+                            'LuuHoiTruong',
+                            item.MaHoiTruong,
+                            'MaHoiTruong'
+                          )
+                        }
+                      >
+                        ❌
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
 
             <div className="profile-luu-item">
               <h4>MC</h4>
-              <ul>
-                {localProfile.LuuMC.map((item) => (
-                  <li key={item._id}>
-                    {item.HoTen}
-                    <button
-                      type="button"
-                      onClick={() =>
-                        handleRemoveItem('LuuMC', item.MaMC, 'MaMC')
-                      }
-                    >
-                      ❌
-                    </button>
-                  </li>
-                ))}
-              </ul>
+              {localProfile.LuuMC.length === 0 ? (
+                <p>Không có MC nào được lưu</p>
+              ) : (
+                <ul>
+                  {localProfile.LuuMC.map((item) => (
+                    <li key={item._id}>
+                      {item.HoTen}
+                      <button
+                        type="button"
+                        onClick={() =>
+                          handleRemoveItem('LuuMC', item.MaMC, 'MaMC')
+                        }
+                      >
+                        ❌
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
 
             <div className="profile-luu-item">
               <h4>Nhạc công</h4>
-              <ul>
-                {localProfile.LuuNhacCong.map((item) => (
-                  <li key={item._id}>
-                    {item.HoTen}
-                    <button
-                      type="button"
-                      onClick={() =>
-                        handleRemoveItem(
-                          'LuuNhacCong',
-                          item.MaNhacCong,
-                          'MaNhacCong'
-                        )
-                      }
-                    >
-                      ❌
-                    </button>
-                  </li>
-                ))}
-              </ul>
+              {localProfile.LuuNhacCong.length === 0 ? (
+                <p>Không có nhạc công nào được lưu</p>
+              ) : (
+                <ul>
+                  {localProfile.LuuNhacCong.map((item) => (
+                    <li key={item._id}>
+                      {item.HoTen}
+                      <button
+                        type="button"
+                        onClick={() =>
+                          handleRemoveItem(
+                            'LuuNhacCong',
+                            item.MaNhacCong,
+                            'MaNhacCong'
+                          )
+                        }
+                      >
+                        ❌
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
 
             <div className="profile-luu-item">
               <h4>Thiệp mời</h4>
-              <ul>
-                {localProfile.LuuThiepMoi.map((item) => (
-                  <li key={item._id}>
-                    {item.LoaiThiep}
-                    <button
-                      type="button"
-                      onClick={() =>
-                        handleRemoveItem('LuuThiepMoi', item.MaThiep, 'MaThiep')
-                      }
-                    >
-                      ❌
-                    </button>
-                  </li>
-                ))}
-              </ul>
+              {localProfile.LuuThiepMoi.length === 0 ? (
+                <p>Không có thiệp mời nào được lưu</p>
+              ) : (
+                <ul>
+                  {localProfile.LuuThiepMoi.map((item) => (
+                    <li key={item._id}>
+                      {item.LoaiThiep}
+                      <button
+                        type="button"
+                        onClick={() =>
+                          handleRemoveItem(
+                            'LuuThiepMoi',
+                            item.MaThiep,
+                            'MaThiep'
+                          )
+                        }
+                      >
+                        ❌
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
 
             <div className="profile-luu-item">
               <h4>Combo</h4>
-              <ul>
-                {localProfile.LuuCombo.map((item) => (
-                  <li key={item._id}>
-                    {item.TenCombo}
-                    <button
-                      type="button"
-                      onClick={() =>
-                        handleRemoveItem('LuuCombo', item.MaCombo, 'MaCombo')
-                      }
-                    >
-                      ❌
-                    </button>
-                  </li>
-                ))}
-              </ul>
+              {localProfile.LuuCombo.length === 0 ? (
+                <p>Không có combo nào được lưu</p>
+              ) : (
+                <ul>
+                  {localProfile.LuuCombo.map((item) => (
+                    <li key={item._id}>
+                      {item.TenCombo}
+                      <button
+                        type="button"
+                        onClick={() =>
+                          handleRemoveItem('LuuCombo', item.MaCombo, 'MaCombo')
+                        }
+                      >
+                        ❌
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           </div>
         </div>
