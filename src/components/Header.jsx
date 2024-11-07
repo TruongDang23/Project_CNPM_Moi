@@ -1,17 +1,48 @@
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import Logo from '../assets/logo-v1.png'
 // import Logo from '../assets/logo-v2.png'
 import ListService from './ListService'
 
 import Badge from '@mui/material/Badge'
-import BookmarkIcon from '@mui/icons-material/Bookmark'
 import AvatarUser from './AvatarUser'
+import OutputIcon from '@mui/icons-material/Output'
+
+import APIClient from '../api/client'
 
 function Header() {
-  const token = false // Change to true to see the logged in state: true or false
+  // const token = false // Change to true to see the logged in state: true or false
+  // Lấy token từ Session Storage
+  const token = sessionStorage.getItem('userAuth')
+  const userID = sessionStorage.getItem('userID')
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    if (token) {
+      const apiClient = new APIClient('khachhang')
+      apiClient
+        .findByID(userID)
+        .then((response) => {
+          setUser(response.data.khachhang)
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    }
+  }, [userID, token])
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('userAuth')
+    sessionStorage.removeItem('userID')
+    window.location.href = '/'
+  }
+
+  const handleProfileClick = () => {
+    window.location.href = '/customer/profile'
+  }
 
   {
-    if (token) {
+    if (!token) {
       return (
         <Navbar>
           <a className="nav-brand" href="/">
@@ -27,12 +58,17 @@ function Header() {
             </a>
           </div>
           <div className="authButtons">
-            <a className="login">Đăng nhập</a>
-            <a className="signup">Đăng ký</a>
+            <a href="/login" className="login">
+              Đăng nhập
+            </a>
+            <a href="/signup" className="signup">
+              Đăng ký
+            </a>
           </div>
         </Navbar>
       )
-    } else {
+    } else if (user) {
+      const HoTen = user.HoTen ? user.HoTen : 'User'
       return (
         <Navbar>
           <a className="nav-brand" href="/">
@@ -48,12 +84,14 @@ function Header() {
             </a>
           </div>
           <div className="nav-other">
-            <a>
-              <StyledBadge badgeContent={8}>
-                <BookmarkIcon />
+            <div onClick={handleProfileClick} style={{ cursor: 'pointer' }}>
+              <AvatarUser name={HoTen} size={40} />
+            </div>
+            <a onClick={handleLogout} style={{ cursor: 'pointer' }}>
+              <StyledBadge>
+                <OutputIcon fontSize="large" />
               </StyledBadge>
             </a>
-            <AvatarUser name={'Le Vinh'} />
           </div>
         </Navbar>
       )
@@ -153,6 +191,7 @@ const Navbar = styled.nav`
       border-radius: 5px;
       font-size: 14px;
       font-weight: 600;
+      text-decoration: none;
       text-transform: uppercase;
       cursor: pointer;
     }

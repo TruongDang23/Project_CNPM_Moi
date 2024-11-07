@@ -5,6 +5,9 @@ import AppError from '../utils/appError.js'
 import jwt from 'jsonwebtoken'
 import { promisify } from 'util'
 
+import KhachHang from '../models/khachhang.js'
+import khachHangController from './khachHangController.js'
+
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN
@@ -42,6 +45,17 @@ const signup = catchAsync(async (req, res, next) => {
     Pass: data.pass,
     Role: data.role
   })
+
+  // Tạo thông tin khách hàng tương ứng với tài khoản mới
+  const newKhachHang = await KhachHang.create({
+    MaTK: newMaTK,
+    HoTen: data.username
+  })
+
+  if (!newUser || !newKhachHang) {
+    return next(new AppError('Không thể tạo tài khoản', 400))
+  }
+
   createSendToken(newUser, 201, res)
 })
 

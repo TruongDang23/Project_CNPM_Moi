@@ -20,7 +20,8 @@ const khachhangSchema = new mongoose.Schema({
   HoTen: {
     type: String,
     required: [true, 'Phải có họ tên'],
-    minlength: [2, 'Họ tên phải có ít nhất 2 ký tự']
+    minlength: [2, 'Họ tên phải có ít nhất 2 ký tự'],
+    default: 'Người dùng mới'
   },
   SDT: {
     type: String,
@@ -29,14 +30,16 @@ const khachhangSchema = new mongoose.Schema({
       // Kiểm tra xem số điện thoại có hợp lệ không: 10 hoặc 11 số, bắt đầu bằng 0, không dùng thư viện validator
       validator: (value) => /^0\d{9,10}$/.test(value),
       message: 'Số điện thoại không hợp lệ'
-    }
+    },
+    default: '0944853722'
   },
   Email: {
     type: String,
     validate: {
       validator: (value) => validator.isEmail(value), // Kiểm tra xem email có hợp lệ không
       message: 'Email không hợp lệ'
-    }
+    },
+    default: 'lethanhvinhtbt@gmail.com'
   },
   NgaySinh: {
     type: String,
@@ -44,11 +47,13 @@ const khachhangSchema = new mongoose.Schema({
       validator: (value) =>
         validator.isDate(value, { format: 'YYYY-MM-DD', strictMode: true }), // Kiểm tra ngày sinh có đúng định dạng YYYY-MM-DD không
       message: 'Ngày sinh không hợp lệ, yêu cầu định dạng YYYY-MM-DD'
-    }
+    },
+    default: '2000-01-01'
   },
   NoiSong: {
     type: String,
-    maxlength: [100, 'Nơi sống không được vượt quá 100 ký tự']
+    maxlength: [100, 'Nơi sống không được vượt quá 100 ký tự'],
+    default: ''
   },
   LuuHoiTruong: {
     type: [String]

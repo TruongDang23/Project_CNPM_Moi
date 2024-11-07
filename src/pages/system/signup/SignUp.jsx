@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import imgLogin from '../../../assets/admin-login.jpg'
+import imgLogin from '../../../assets/signup.jpg'
 
 import BgLogin from '../../../assets/bg-v1.png'
 // import BgLogin from '../../../assets/bg-v2.png'
@@ -215,10 +215,14 @@ const SignUpWrapper = styled.main`
     .image {
       width: 50%;
       height: 100%;
+      boder-radius: 8px 0 0 8px;
       img {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        border-radius: 8px 0 0 8px;
+        ${'' /* Tạo đường viền trắng bên ngoài ảnh */}
+        border: 5px solid var(--primary-color);
       }
     }
 

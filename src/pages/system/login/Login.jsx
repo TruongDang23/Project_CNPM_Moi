@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import imgLogin from '../../../assets/admin-login.jpg'
+import imgLogin from '../../../assets/login-normal.jpg'
 
 import BgLogin from '../../../assets/bg-v1.png'
 // import BgLogin from '../../../assets/bg-v2.png'
@@ -44,15 +44,10 @@ function Login() {
     }
   }
 
-  const handleCancel = async () => {
-    // Load lại trang
-    window.location.reload()
-  }
-
   return (
     <>
       <Helmet>
-        <title>Đăng nhập Admin</title>
+        <title>Đăng nhập</title>
       </Helmet>
       <LoginWrapper>
         <div className="wrapper">
@@ -61,7 +56,7 @@ function Login() {
               <img src={imgLogin} alt="Image" />
             </div>
             <div className="content">
-              <h1>Đăng Nhập Admin</h1>
+              <h1>Đăng Nhập</h1>
 
               <div className="input-username">
                 <label>
@@ -120,7 +115,7 @@ function Login() {
                   <ExitToAppIcon sx={{ paddingRight: '10px', fontSize: 35 }} />
                   Đăng nhập
                 </button>
-                <button className="button-cancel" onClick={handleCancel}>
+                <button className="button-cancel" onClick={() => navigate('/')}>
                   <CloseIcon
                     sx={{ paddingRight: '10px', fontSize: 35, color: 'red' }}
                   />
@@ -205,10 +200,14 @@ const LoginWrapper = styled.section`
     .image {
       width: 50%;
       height: 100%;
+      boder-radius: 8px 0 0 8px;
       img {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        border-radius: 8px 0 0 8px;
+        ${'' /* Tạo đường viền trắng bên ngoài ảnh */}
+        border: 5px solid var(--primary-color);
       }
     }
 
