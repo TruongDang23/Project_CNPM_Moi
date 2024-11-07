@@ -20,6 +20,24 @@ const getByID = catchAsync(async (req, res, next) => {
   })
 })
 
+const update = catchAsync(async (req, res, next) => {
+  const updateKhachHang = await KhachHang.findOneAndUpdate(
+    { MaTK: req.params.id },
+    req.body,
+    {
+      new: true, // Trả về document mới sau khi cập nhật
+      runValidators: true // Chạy các validator để đảm bảo dữ liệu hợp lệ
+    }
+  )
+
+  if (!updateKhachHang) {
+    return next(new AppError('Không tìm thấy khách hàng với mã này', 404))
+  }
+  res.status(200).json({
+    updateKhachHang
+  })
+})
+
 // const create = catchAsync(async (req, res, next) => {
 //   // Lấy số lượng nhạc công hiện có để sinh mã mới
 //   const comboCount = await Combo.countDocuments()
@@ -80,8 +98,8 @@ const getByID = catchAsync(async (req, res, next) => {
 
 export default {
   getAll,
-  getByID
+  getByID,
   // create,
-  // update,
+  update
   // deleteByID
 }

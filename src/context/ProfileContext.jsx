@@ -175,9 +175,15 @@ export const ProfileProvider = ({ children }) => {
   const updateProfile = async (updatedProfile) => {
     try {
       const apiClient = new APIClient('khachhang')
+      // chuyển đổi ngày sinh từ dạng Date sang dạng chuỗi yyyy-mm-dd Ví dụ: 2021-01-01
+      // const date = new Date(updatedProfile.NgaySinh)
+      // const formattedDate = date.toISOString().split('T')[0]
+      // updatedProfile.NgaySinh = formattedDate
+
+      console.log('Cập nhật thông tin:', updatedProfile)
 
       // Gửi yêu cầu cập nhật lên server với thông tin mới
-      const response = await apiClient.updateByID(userID, updatedProfile)
+      const response = await apiClient.update(userID, updatedProfile)
 
       // Nếu thành công, cập nhật lại state `profile` với dữ liệu mới
       if (response.status === 200) {

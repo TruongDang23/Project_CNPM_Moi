@@ -26,7 +26,8 @@ const khachhangSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Phải có số điện thoại'],
     validate: {
-      validator: (value) => validator.isMobilePhone(value, 'vi-VN'), // Kiểm tra xem số điện thoại có hợp lệ không
+      // Kiểm tra xem số điện thoại có hợp lệ không: 10 hoặc 11 số, bắt đầu bằng 0, không dùng thư viện validator
+      validator: (value) => /^0\d{9,10}$/.test(value),
       message: 'Số điện thoại không hợp lệ'
     }
   },
