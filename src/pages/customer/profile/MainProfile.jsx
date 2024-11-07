@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import styled from 'styled-components'
 
 import { ProfileContext } from '../../../context/ProfileContext'
@@ -6,15 +6,17 @@ import AvatarUser from '../../../components/AvatarUser'
 
 function MainProfile() {
   const { profile, updateProfile, removeItem } = useContext(ProfileContext)
-  console.log(profile)
-
   const [localProfile, setLocalProfile] = useState(profile)
 
-  const handleRemoveItem = (listName, itemId) => {
-    removeItem(listName, itemId)
+  useEffect(() => {
+    setLocalProfile(profile)
+  }, [profile])
+
+  const handleRemoveItem = (listName, itemId, key) => {
+    removeItem(listName, itemId, key)
     setLocalProfile((prevProfile) => ({
       ...prevProfile,
-      [listName]: prevProfile[listName].filter((item) => item._id !== itemId)
+      [listName]: prevProfile[listName].filter((item) => item[key] !== itemId)
     }))
   }
 
@@ -26,6 +28,14 @@ function MainProfile() {
     setLocalProfile(profile)
     // Load lại trang để reset form
     window.location.reload()
+  }
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setLocalProfile((prevProfile) => ({
+      ...prevProfile,
+      [name]: value
+    }))
   }
 
   // chuyển date trong profile thành dạng yyyy-mm-dd
@@ -50,11 +60,20 @@ function MainProfile() {
               <div className="form-row">
                 <div className="form-group">
                   <label>Họ Tên:</label>
-                  <input type="text" value={profile.HoTen} />
+                  <input
+                    type="text"
+                    name="HoTen"
+                    value={localProfile.HoTen}
+                    onChange={handleChange}
+                  />
                 </div>
                 <div className="form-group">
                   <label>Giới Tính:</label>
-                  <select value={profile.GioiTinh}>
+                  <select
+                    name="GioiTinh"
+                    value={localProfile.GioiTinh}
+                    onChange={handleChange}
+                  >
                     <option value="Nam">Nam</option>
                     <option value="Nữ">Nữ</option>
                   </select>
@@ -64,26 +83,53 @@ function MainProfile() {
               <div className="form-row">
                 <div className="form-group">
                   <label>Số điện thoại:</label>
-                  <input type="tel" value={profile.SDT} />
+                  <input
+                    type="tel"
+                    name="SDT"
+                    value={localProfile.SDT}
+                    onChange={handleChange}
+                  />
                 </div>
                 <div className="form-group">
                   <label>Email:</label>
-                  <input type="email" value={profile.Email} />
+                  <input
+                    type="email"
+                    name="Email"
+                    value={localProfile.Email}
+                    onChange={handleChange}
+                  />
                 </div>
               </div>
 
               <div className="form-row">
                 <div className="form-group">
                   <label>Ngày sinh:</label>
-                  <input type="date" value={formattedDate} />
+                  <input
+                    type="date"
+                    name="NgaySinh"
+                    value={localProfile.NgaySinh}
+                    onChange={handleChange}
+                  />
                 </div>
                 <div className="form-group">
                   <label>Nơi sống:</label>
-                  <input type="text" value={profile.NoiSong} />
+                  <input
+                    type="text"
+                    name="NoiSong"
+                    value={localProfile.NoiSong}
+                    onChange={handleChange}
+                  />
                 </div>
               </div>
-              <button id="btn-primary" onClick={() => updateProfile(profile)}>
+              <button type="button" id="btn-primary" onClick={handleSave}>
                 Lưu
+              </button>
+              <button
+                type="button"
+                id="btn-cancel"
+                onClick={handleCancelUpdate}
+              >
+                Hủy
               </button>
             </form>
           </div>
@@ -100,12 +146,18 @@ function MainProfile() {
             <div className="profile-luu-item">
               <h4>Hội trường</h4>
               <ul>
-                {profile.LuuHoiTruong.map((item) => (
+                {localProfile.LuuHoiTruong.map((item) => (
                   <li key={item._id}>
                     {item.TenHoiTruong}
                     <button
                       type="button"
-                      onClick={() => handleRemoveItem('LuuHoiTruong', item._id)}
+                      onClick={() =>
+                        handleRemoveItem(
+                          'LuuHoiTruong',
+                          item.MaHoiTruong,
+                          'MaHoiTruong'
+                        )
+                      }
                     >
                       ❌
                     </button>
@@ -117,12 +169,14 @@ function MainProfile() {
             <div className="profile-luu-item">
               <h4>MC</h4>
               <ul>
-                {profile.LuuMC.map((item) => (
+                {localProfile.LuuMC.map((item) => (
                   <li key={item._id}>
                     {item.HoTen}
                     <button
                       type="button"
-                      onClick={() => handleRemoveItem('LuuMC', item._id)}
+                      onClick={() =>
+                        handleRemoveItem('LuuMC', item.MaMC, 'MaMC')
+                      }
                     >
                       ❌
                     </button>
@@ -134,12 +188,18 @@ function MainProfile() {
             <div className="profile-luu-item">
               <h4>Nhạc công</h4>
               <ul>
-                {profile.LuuNhacCong.map((item) => (
+                {localProfile.LuuNhacCong.map((item) => (
                   <li key={item._id}>
                     {item.HoTen}
                     <button
                       type="button"
-                      onClick={() => handleRemoveItem('LuuNhacCong', item._id)}
+                      onClick={() =>
+                        handleRemoveItem(
+                          'LuuNhacCong',
+                          item.MaNhacCong,
+                          'MaNhacCong'
+                        )
+                      }
                     >
                       ❌
                     </button>
@@ -151,12 +211,14 @@ function MainProfile() {
             <div className="profile-luu-item">
               <h4>Thiệp mời</h4>
               <ul>
-                {profile.LuuThiepMoi.map((item) => (
+                {localProfile.LuuThiepMoi.map((item) => (
                   <li key={item._id}>
                     {item.LoaiThiep}
                     <button
                       type="button"
-                      onClick={() => handleRemoveItem('LuuThiepMoi', item._id)}
+                      onClick={() =>
+                        handleRemoveItem('LuuThiepMoi', item.MaThiep, 'MaThiep')
+                      }
                     >
                       ❌
                     </button>
@@ -168,12 +230,14 @@ function MainProfile() {
             <div className="profile-luu-item">
               <h4>Combo</h4>
               <ul>
-                {profile.LuuCombo.map((item) => (
+                {localProfile.LuuCombo.map((item) => (
                   <li key={item._id}>
                     {item.TenCombo}
                     <button
                       type="button"
-                      onClick={() => handleRemoveItem('LuuCombo', item._id)}
+                      onClick={() =>
+                        handleRemoveItem('LuuCombo', item.MaCombo, 'MaCombo')
+                      }
                     >
                       ❌
                     </button>
@@ -181,14 +245,6 @@ function MainProfile() {
                 ))}
               </ul>
             </div>
-          </div>
-          <div className="button-row">
-            <button id="btn-primary" onClick={handleSave}>
-              Lưu
-            </button>
-            <button id="btn-cancel" onClick={handleCancelUpdate}>
-              Hủy
-            </button>
           </div>
         </div>
       </div>

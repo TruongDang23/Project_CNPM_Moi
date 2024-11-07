@@ -165,10 +165,10 @@ export const ProfileProvider = ({ children }) => {
     })
   }, [thiep])
 
-  const removeItem = (listName, itemId) => {
+  const removeItem = (listName, itemId, key) => {
     setProfile((prevProfile) => ({
       ...prevProfile,
-      [listName]: prevProfile[listName].filter((item) => item._id !== itemId)
+      [listName]: prevProfile[listName].filter((item) => item[key] !== itemId)
     }))
   }
 
@@ -185,12 +185,9 @@ export const ProfileProvider = ({ children }) => {
       // Gửi yêu cầu cập nhật lên server với thông tin mới
       const response = await apiClient.update(userID, updatedProfile)
 
-      // Nếu thành công, cập nhật lại state `profile` với dữ liệu mới
+      // Nếu thành công, cập nhật lại state `profile` với dữ liệu mới trả về từ server
       if (response.status === 200) {
-        setProfile((prevProfile) => ({
-          ...prevProfile,
-          ...updatedProfile
-        }))
+        setProfile(response.data.updateKhachHang)
       }
     } catch (error) {
       console.error('Cập nhật thông tin thất bại:', error)
