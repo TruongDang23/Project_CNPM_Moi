@@ -1,100 +1,66 @@
 import { useState } from 'react'
-import imgLogin from '../../../assets/login-normal.jpg'
-
+import imgLogin from '../../../assets/admin-login.jpg'
 import BgLogin from '../../../assets/bg-v1.png'
-// import BgLogin from '../../../assets/bg-v2.png'
-
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline'
-import LockIcon from '@mui/icons-material/Lock'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'
 import CloseIcon from '@mui/icons-material/Close'
-import VisibilityIcon from '@mui/icons-material/Visibility'
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import { useNavigate } from 'react-router-dom'
 import styled, { keyframes } from 'styled-components'
-import { Helmet } from 'react-helmet' // dùng để thay đổi title của trang
+import { Helmet } from 'react-helmet'
 import APIClient from '../../../api/client'
 
-function Login() {
+function ForgotPass() {
   const navigate = useNavigate()
-  const [username, setUsername] = useState('')
-  const [pass, setPass] = useState('')
+  const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
 
-  const handleLogin = async () => {
-    if (username === '' || pass === '') {
-      setMessage('Vui lòng nhập đầy đủ thông tin')
+  const handleForgotPass = async () => {
+    if (email === '') {
+      setMessage('Vui lòng nhập email của bạn')
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      setMessage('Địa chỉ email không hợp lệ')
     } else {
       setMessage('')
-    }
-    const client = new APIClient('system')
-    const result = await client.authenticate({
-      username,
-      pass
-    })
+      const client = new APIClient('system')
+      const result = await client.requestPasswordReset({ email })
 
-    if (result.status == 401)
-      setMessage('Tên đăng nhập hoặc mật khẩu không chính xác')
-    if (result.status == 200) {
-      sessionStorage.setItem('userAuth', result.data.token)
-      sessionStorage.setItem('userID', result.data.maTK)
-      alert('Login successfully')
-      navigate(`/`)
+      if (result.status === 200) {
+        alert('Đã gửi email khôi phục mật khẩu')
+        navigate('/login')
+      } else {
+        setMessage('Email không tồn tại trong hệ thống')
+      }
     }
   }
 
   return (
     <>
       <Helmet>
-        <title>Đăng nhập</title>
+        <title>Quên mật khẩu</title>
       </Helmet>
-      <LoginWrapper>
+      <ForgotPassWrapper>
         <div className="wrapper">
           <div className="container">
             <div className="image">
               <img src={imgLogin} alt="Image" />
             </div>
             <div className="content">
-              <h1>Đăng Nhập</h1>
+              <h1>Quên mật khẩu</h1>
 
-              <div className="input-username">
+              <div className="input-email">
                 <label>
-                  Tên tài khoản: <span>*</span>
+                  Địa chỉ email: <span>*</span>
                 </label>
                 <br />
                 <div className="input-box">
                   <PersonOutlineIcon className="input-icon" />
                   <input
-                    type="text"
+                    type="email"
                     required
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    placeholder="Enter your username or email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email"
                   />
-                </div>
-              </div>
-
-              <div className="input-pass">
-                <label>
-                  Mật khẩu: <span>*</span>
-                </label>
-                <br />
-                <div className="input-box">
-                  <LockIcon className="input-icon" />
-                  <input
-                    type={showPassword ? 'text' : 'password'}
-                    required
-                    value={pass}
-                    onChange={(e) => setPass(e.target.value)}
-                    placeholder="Enter your password"
-                  />
-                  <span
-                    className="toggle-password"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                  </span>
                 </div>
               </div>
 
@@ -111,24 +77,24 @@ function Login() {
                 </p>
               )}
               <div className="button">
-                <button className="button-login" onClick={handleLogin}>
+                <button className="button-login" onClick={handleForgotPass}>
                   <ExitToAppIcon sx={{ paddingRight: '10px', fontSize: 35 }} />
-                  Đăng nhập
+                  Lấy lại mật khẩu
                 </button>
-                <button className="button-cancel" onClick={() => navigate('/')}>
+                <button
+                  className="button-cancel"
+                  onClick={() => navigate('/login')}
+                >
                   <CloseIcon
                     sx={{ paddingRight: '10px', fontSize: 35, color: 'red' }}
                   />
                   Hủy
                 </button>
               </div>
-              <div className="forgot">
-                <a href="/forgot-pass">Quên mật khẩu</a>
-              </div>
             </div>
           </div>
         </div>
-      </LoginWrapper>
+      </ForgotPassWrapper>
     </>
   )
 }
@@ -142,7 +108,7 @@ const fadeIn = keyframes`
   }
 `
 
-const LoginWrapper = styled.section`
+const ForgotPassWrapper = styled.main`
   animation: ${fadeIn} 1s ease-in-out;
   .wrapper {
     position: relative;
@@ -200,14 +166,10 @@ const LoginWrapper = styled.section`
     .image {
       width: 50%;
       height: 100%;
-      boder-radius: 8px 0 0 8px;
       img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        border-radius: 8px 0 0 8px;
-        ${'' /* Tạo đường viền trắng bên ngoài ảnh */}
-        border: 5px solid var(--primary-color);
       }
     }
 
@@ -224,8 +186,7 @@ const LoginWrapper = styled.section`
         line-height: 1.6;
       }
 
-      .input-username,
-      .input-pass {
+      .input-email {
         margin-bottom: 20px;
 
         label {
@@ -444,4 +405,4 @@ const LoginWrapper = styled.section`
   }
 `
 
-export default Login
+export default ForgotPass

@@ -1,4 +1,10 @@
 const OrderData = {
+  MaTK: 'U007',
+  GioiTinh: 'Nam',
+  HoTen: 'Nguyen van A',
+  SDT: '0987654321',
+  NgaySinh: '1999-01-01',
+  NoiSong: 'Ha Noi',
   LuuHoiTruong: [
     {
       MaHoiTruong: 'H001',

@@ -31,6 +31,7 @@ const steps = [
 function MainOrderStepper() {
   const { markdata, order, canCompleteOrder } =
     useContext(OrderContext)
+  console.log(markdata)
   const { LuuHoiTruong, LuuMC, LuuNhacCong, LuuCombo, LuuThiep } = markdata
   const [activeStep, setActiveStep] = useState(0)
   const [isLoading, setIsLoading] = useState(false)

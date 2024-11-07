@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import imgLogin from '../../../assets/login-normal.jpg'
+import imgLogin from '../../../assets/signup.jpg'
 
 import BgLogin from '../../../assets/bg-v1.png'
 // import BgLogin from '../../../assets/bg-v2.png'
@@ -15,48 +15,49 @@ import styled, { keyframes } from 'styled-components'
 import { Helmet } from 'react-helmet' // dùng để thay đổi title của trang
 import APIClient from '../../../api/client'
 
-function Login() {
+function SignUp() {
   const navigate = useNavigate()
   const [username, setUsername] = useState('')
-  const [pass, setPass] = useState('')
+  const [pass, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [message, setMessage] = useState('')
   const [showPassword, setShowPassword] = useState(false)
 
-  const handleLogin = async () => {
-    if (username === '' || pass === '') {
+  const handleSignup = async () => {
+    if (username === '' || pass === '' || confirmPassword === '') {
       setMessage('Vui lòng nhập đầy đủ thông tin')
+    } else if (pass !== confirmPassword) {
+      setMessage('Mật khẩu không khớp')
     } else {
       setMessage('')
-    }
-    const client = new APIClient('system')
-    const result = await client.authenticate({
-      username,
-      pass
-    })
+      const client = new APIClient('system/signup')
+      const result = await client.create({
+        username,
+        pass
+      })
 
-    if (result.status == 401)
-      setMessage('Tên đăng nhập hoặc mật khẩu không chính xác')
-    if (result.status == 200) {
-      sessionStorage.setItem('userAuth', result.data.token)
-      sessionStorage.setItem('userID', result.data.maTK)
-      alert('Login successfully')
-      navigate(`/`)
+      if (result.status === 201) {
+        alert('Đăng ký thành công')
+        navigate('/login')
+      } else {
+        setMessage('Có lỗi xảy ra, vui lòng thử lại')
+      }
     }
   }
 
   return (
     <>
       <Helmet>
-        <title>Đăng nhập</title>
+        <title>Đăng ký</title>
       </Helmet>
-      <LoginWrapper>
+      <SignUpWrapper>
         <div className="wrapper">
           <div className="container">
             <div className="image">
               <img src={imgLogin} alt="Image" />
             </div>
             <div className="content">
-              <h1>Đăng Nhập</h1>
+              <h1>Đăng Ký</h1>
 
               <div className="input-username">
                 <label>
@@ -70,7 +71,7 @@ function Login() {
                     required
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    placeholder="Enter your username or email"
+                    placeholder="Enter your username"
                   />
                 </div>
               </div>
@@ -86,7 +87,7 @@ function Login() {
                     type={showPassword ? 'text' : 'password'}
                     required
                     value={pass}
-                    onChange={(e) => setPass(e.target.value)}
+                    onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter your password"
                   />
                   <span
@@ -95,6 +96,23 @@ function Login() {
                   >
                     {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                   </span>
+                </div>
+              </div>
+
+              <div className="input-pass">
+                <label>
+                  Xác nhận mật khẩu: <span>*</span>
+                </label>
+                <br />
+                <div className="input-box">
+                  <LockIcon className="input-icon" />
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    required
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="Confirm your password"
+                  />
                 </div>
               </div>
 
@@ -111,9 +129,9 @@ function Login() {
                 </p>
               )}
               <div className="button">
-                <button className="button-login" onClick={handleLogin}>
+                <button className="button-login" onClick={handleSignup}>
                   <ExitToAppIcon sx={{ paddingRight: '10px', fontSize: 35 }} />
-                  Đăng nhập
+                  Đăng ký
                 </button>
                 <button className="button-cancel" onClick={() => navigate('/')}>
                   <CloseIcon
@@ -122,13 +140,10 @@ function Login() {
                   Hủy
                 </button>
               </div>
-              <div className="forgot">
-                <a href="/forgot-pass">Quên mật khẩu</a>
-              </div>
             </div>
           </div>
         </div>
-      </LoginWrapper>
+      </SignUpWrapper>
     </>
   )
 }
@@ -142,7 +157,7 @@ const fadeIn = keyframes`
   }
 `
 
-const LoginWrapper = styled.section`
+const SignUpWrapper = styled.main`
   animation: ${fadeIn} 1s ease-in-out;
   .wrapper {
     position: relative;
@@ -444,4 +459,4 @@ const LoginWrapper = styled.section`
   }
 `
 
-export default Login
+export default SignUp

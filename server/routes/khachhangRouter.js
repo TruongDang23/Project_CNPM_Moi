@@ -11,11 +11,11 @@ khachhangRouter
     authController.restrictTo('admin', 'user'),
     khachhangController.getAll
   )
-  // .post(
-  //   authController.protect,
-  //   authController.restrictTo('admin'),
-  //   khachhangController.create
-  // )
+// .post(
+//   authController.protect,
+//   authController.restrictTo('admin'),
+//   khachhangController.create
+// )
 
 khachhangRouter
   .route('/:id')
@@ -25,11 +25,12 @@ khachhangRouter
     khachhangController.getByID
   )
 
-// .patch(
-//   authController.protect,
-//   authController.restrictTo('admin'),
-//   khachhangController.update
-// )
+  .patch(
+    authController.protect,
+    authController.restrictTo('admin', 'user'),
+    khachhangController.update
+  )
+
 
 // .delete(
 //   authController.protect,

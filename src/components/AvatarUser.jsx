@@ -21,17 +21,26 @@ function stringToColor(string) {
   return color
 }
 
-function stringAvatar(name) {
+function stringAvatar(name, size) {
+  const normalized = name.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+  const initials = normalized
+    .split(' ')
+    .map((word) => word[0])
+    .join('')
   return {
     sx: {
-      bgcolor: stringToColor(name)
+      bgcolor: stringToColor(name),
+      width: size,
+      height: size,
+      fontSize: size / 3 // Adjust font size relative to avatar size
     },
-    children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`
+    children: initials
   }
 }
 
-function AvatarUser() {
-  return <Avatar {...stringAvatar('Lê Vinh')} />
+function AvatarUser({ name, size = 40 }) {
+  // Default size is 40
+  return <Avatar {...stringAvatar(name, size)} />
 }
 
 export default AvatarUser

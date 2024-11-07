@@ -24,6 +24,8 @@ function ListNC() {
       })
   }, [])
 
+  console.log(ncData)
+
   return (
     <>
       <Helmet>
