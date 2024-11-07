@@ -165,6 +165,13 @@ export const ProfileProvider = ({ children }) => {
     })
   }, [thiep])
 
+  const removeItem = (listName, itemId) => {
+    setProfile((prevProfile) => ({
+      ...prevProfile,
+      [listName]: prevProfile[listName].filter((item) => item._id !== itemId)
+    }))
+  }
+
   const updateProfile = async (updatedProfile) => {
     try {
       const apiClient = new APIClient('khachhang')
@@ -191,7 +198,8 @@ export const ProfileProvider = ({ children }) => {
     nhaccong,
     combo,
     thiep,
-    updateProfile
+    updateProfile,
+    removeItem
   }
 
   return (
