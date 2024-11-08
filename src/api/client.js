@@ -1,5 +1,5 @@
 import axios from 'axios'
-const path = 'http://localhost:3000'
+const path = 'http://localhost:8080'
 export default class APIClient {
   // Constructor để khởi tạo thuộc tính
   constructor(object) {
@@ -10,7 +10,7 @@ export default class APIClient {
 
   async authenticate(account) {
     try {
-      const data = await axios.post(`${this.api}/login/`, {
+      const data = await axios.post(`${this.api}/login`, {
         username: account.username,
         pass: account.pass
       })
@@ -24,7 +24,7 @@ export default class APIClient {
 
   async find() {
     try {
-      const data = await axios.get(`${this.api}/`, {
+      const data = await axios.get(`${this.api}`, {
         headers: {
           Authorization: `Bearer ${this.token}`
         }
@@ -45,7 +45,7 @@ export default class APIClient {
   }
 
   async create(newData) {
-    const data = await axios.post(`${this.api}/`, newData, {
+    const data = await axios.post(`${this.api}`, newData, {
       headers: {
         Authorization: `Bearer ${this.token}`
       }
