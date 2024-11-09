@@ -52,7 +52,8 @@ const create = catchAsync(async (req, res, next) => {
 })
 
 const update = catchAsync(async (req, res, next) => {
-  const updateHoiTruong = await HoiTruong.findByIdAndUpdate(
+  const updateHoiTruong = await HoiTruong.findOneAndUpdate(
+    { MaHoiTruong: req.params.id },
     req.params.id,
     req.body,
     {

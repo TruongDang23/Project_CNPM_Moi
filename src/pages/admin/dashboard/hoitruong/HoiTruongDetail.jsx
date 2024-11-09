@@ -97,7 +97,7 @@ function HoiTruongDetail({ selectedData, setReload }) {
 
   const updateHall = () => {
     apiClient
-      .update(formData._id, formData)
+      .update(formData.MaHoiTruong, formData)
       .then(async (response) => {
         if (response.status == 200) {
           showDialog(
@@ -186,7 +186,9 @@ function HoiTruongDetail({ selectedData, setReload }) {
               name="Wifi"
               value={formData.Wifi}
               onChange={handleInputChange}
+              defaultValue=""
             >
+              <option value="" hidden disabled>Chọn wifi</option>
               <option value="true">Có</option>
               <option value="false">Không</option>
             </select>
@@ -200,7 +202,9 @@ function HoiTruongDetail({ selectedData, setReload }) {
               name="MayLanh"
               value={formData.MayLanh}
               onChange={handleInputChange}
+              defaultValue=""
             >
+              <option value="" hidden disabled>Chọn Máy lạnh</option>
               <option value="true">Có</option>
               <option value="false">Không</option>
             </select>
@@ -212,7 +216,9 @@ function HoiTruongDetail({ selectedData, setReload }) {
               name="PhongKin"
               value={formData.PhongKin}
               onChange={handleInputChange}
+              defaultValue=""
             >
+              <option value="" hidden disabled>Chọn phòng kín</option>
               <option value="true">Có</option>
               <option value="false">Không</option>
             </select>
@@ -258,9 +264,11 @@ function HoiTruongDetail({ selectedData, setReload }) {
               name="TinhTrang"
               value={formData.TinhTrang}
               onChange={handleInputChange}
+              defaultValue=""
             >
-              <option value="Sẵn có">Sẵn có</option>
-              <option value="Đang bảo trì">Đang bảo trì</option>
+              <option value="" hidden disabled>Chọn tình trạng</option>
+              <option value="true">Sẵn có</option>
+              <option value="false">Đang bảo trì</option>
             </select>
           </div>
           <div className="form-group">

@@ -204,7 +204,11 @@ function NhacCongDetail({ selectedData, onActionComplete }) {
               name="TinhTrang"
               value={formData.TinhTrang}
               onChange={handleInputChange}
+              defaultValue=""
             >
+              <option value="" disabled hidden>
+                Chọn tình trạng
+              </option>
               <option value={true}>Đang hoạt động</option>
               <option value={false}>Không hoạt động</option>
             </select>
