@@ -1,5 +1,5 @@
 import axios from 'axios'
-const path = 'http://localhost:8080'
+const path = 'http://localhost:3000'
 export default class APIClient {
   // Constructor để khởi tạo thuộc tính
   constructor(object) {
@@ -65,6 +65,15 @@ export default class APIClient {
 
   async delete(id) {
     const data = await axios.delete(`${this.api}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${this.token}`
+      }
+    })
+    return data
+  }
+
+  async checkOrder(id) {
+    const data = await axios.get(`${this.api}/${id}/checkorder`, {
       headers: {
         Authorization: `Bearer ${this.token}`
       }

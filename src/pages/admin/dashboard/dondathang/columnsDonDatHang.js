@@ -9,15 +9,15 @@ export const columnsDonDatHang = [
   },
   {
     name: 'Thời Điểm Đặt',
-    selector: (row) => new Date(row.ThoiDiemDat).toLocaleString()
+    selector: (row) => row.ThoiDiemDat
   },
   {
     name: 'Thời Điểm Bắt Đầu',
-    selector: (row) => new Date(row.ThoiDiemBatDau).toLocaleString()
+    selector: (row) => row.ThoiDiemBatDau
   },
   {
     name: 'Thời Điểm Kết Thúc',
-    selector: (row) => new Date(row.ThoiDiemKetThuc).toLocaleString()
+    selector: (row) => row.ThoiDiemKetThuc
   },
   {
     name: 'Số Giờ',

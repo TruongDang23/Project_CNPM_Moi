@@ -68,7 +68,7 @@ const datDichVuSchema = new mongoose.Schema({
     MaHoiTruong: {
       type: String
     },
-    MonCombo: {
+    MaCombo: {
       type: String
     }
   },

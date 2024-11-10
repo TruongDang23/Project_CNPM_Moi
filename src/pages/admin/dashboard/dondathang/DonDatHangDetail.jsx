@@ -11,6 +11,7 @@ function DonDatHangDetail({ selectedData, setReload }) {
   const [dialogOpen, setDialogOpen] = useState(false) // Trạng thái hiển thị Dialog
   const [dialogMessage, setDialogMessage] = useState('') // Nội dung thông báo từ server
   const [dialogTitle, setDialogTitle] = useState('') // Tiêu đề của Dialog
+  const lines = dialogMessage.split(',')
   // Sử dụng useEffect để cập nhật formData khi selectedData thay đổi
   useEffect(() => {
     setFormData(selectedData || {}); // Cập nhật formData với selectedData mới
@@ -35,10 +36,8 @@ function DonDatHangDetail({ selectedData, setReload }) {
     setDialogOpen(false)
   }
   const handleSubmit = (e) => {
-    e.preventDefault();
-    // Xử lý submit ở đây
-    console.log(formData);
-  };
+    e.preventDefault()
+  }
   const acceptDonDatHang = () => {
     apiClient
       .delete(formData.MaDDV, { ...formData, action: 'accept' })
@@ -55,8 +54,7 @@ function DonDatHangDetail({ selectedData, setReload }) {
         showDialog(
           'Lỗi khi chấp nhận',
           error.response?.data?.message || 'Đã xảy ra lỗi.'
-        );
-        console.error(error);
+        )
       });
   };
 
@@ -76,8 +74,7 @@ function DonDatHangDetail({ selectedData, setReload }) {
         showDialog(
           'Lỗi khi từ chối',
           error.response?.data?.message || 'Đã xảy ra lỗi.'
-        );
-        console.error(error);
+        )
       });
   };
 
@@ -101,12 +98,33 @@ function DonDatHangDetail({ selectedData, setReload }) {
         console.error(error)
       })
   }
-  // if (!selectedData)
-  //   return (
-  //     <DonDatHangDetailWrapper>
-  //       <h1>Chọn một đơn đặt hàng để xem chi tiết.</h1>
-  //     </DonDatHangDetailWrapper>
-  //   );
+
+  const checkOrder = () => {
+    apiClient
+      .checkOrder(formData.MaDDV)
+      .then((response) => {
+        if (response.status == 200) {
+          showDialog(
+            'Sự kiện bị trùng lịch',
+            `${response.data}`)
+          setReload(prevReload => !prevReload)
+        }
+        else if (response.status == 204) {
+          showDialog(
+            'Thời gian tổ chức hợp lệ',
+            ``)
+          setReload(prevReload => !prevReload)
+        }
+      })
+      .catch((error) => {
+        if (error.status == 404)
+          showDialog(
+            'Lỗi khi từ chối',
+            error.response?.data?.message || 'Đã xảy ra lỗi.')
+        // eslint-disable-next-line no-console
+        console.error(error)
+      })
+  }
 
   return (
     <DonDatHangDetailWrapper>
@@ -300,6 +318,9 @@ function DonDatHangDetail({ selectedData, setReload }) {
           />
         </div>
         <div className="button-row">
+          <button id="btn-secoundary" type="button"onClick={checkOrder}>
+            Kiểm tra lịch
+          </button>
           <button id="btn-secoundary" type="button"onClick={acceptDonDatHang}>
             Chấp nhận
           </button>
@@ -315,7 +336,9 @@ function DonDatHangDetail({ selectedData, setReload }) {
       <StyledDialog open={dialogOpen} onClose={closeDialog}>
         <StyledDialogTitle>{dialogTitle}</StyledDialogTitle>
         <StyledDialogContent>
-          <p>{dialogMessage}</p>
+          {lines.map((line, index) => (
+            <p key={index}>{line.trim()}</p>
+          ))}
         </StyledDialogContent>
         <StyledDialogActions>
           <button id="btn-primary" onClick={closeDialog}>

@@ -36,4 +36,11 @@ dondathangRouter
     dondathangController.acceptOrRejectDonDatHang
   )
 
+dondathangRouter
+  .route('/:id/checkorder')
+  .get(
+    authController.protect,
+    authController.restrictTo('admin'),
+    dondathangController.checkOrder
+  )
 export default dondathangRouter

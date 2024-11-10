@@ -1,6 +1,11 @@
 import DatDichVu from '../models/datdichvu.js'
 import catchAsync from '../utils/catchAsync.js'
 import AppError from '../utils/appError.js'
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat.js';
+
+dayjs.extend(customParseFormat)
+
 // Get all orders
 const getAllDonDatHang = catchAsync(async (req, res, next) => {
   const dondathang = await DatDichVu.find().sort({ MaDDV: 1 })
@@ -90,10 +95,52 @@ const acceptOrRejectDonDatHang = catchAsync(async (req, res, next) => {
   });
 });
 
+const checkOrder = catchAsync(async (req, res, next) => {
+  const order = await DatDichVu.findOne(
+    { MaDDV: req.params.id }
+  )
+
+  const listOrder = await DatDichVu.find({
+    MaDDV: { $ne: req.params.id },
+    Active: true,
+    TrangThai: false
+  })
+
+  const start = order.ThoiDiemBatDau
+  const end = order.ThoiDiemKetThuc
+  const checkStart = dayjs(start, "DD/MM/YYYY HH:mm:ss")
+  const checkEnd = dayjs(end, "DD/MM/YYYY HH:mm:ss")
+  const result = []
+
+  listOrder.forEach(ord => {
+    const ordStart = ord.ThoiDiemBatDau
+    const ordEnd = ord.ThoiDiemKetThuc
+    const checkedStart = dayjs(ordStart, "DD/MM/YYYY HH:mm:ss")
+    const checkedEnd = dayjs(ordEnd, "DD/MM/YYYY HH:mm:ss")
+    //Case order.ThoiDiemBatDau hoặc order.ThoiDiemKetThuc nằm trong khung giờ tổ chức sự kiện của ord
+    if ((checkedStart < checkStart && checkStart < checkedEnd) || (checkedStart < checkEnd && checkEnd < checkedEnd)) {
+      if (order.DichVu.MaHoiTruong === ord.DichVu.MaHoiTruong) {
+        result.push(`Hội trường ${order.DichVu.MaHoiTruong} đang được sử dụng ở ${ord.MaDDV}`)
+      }
+      if (order.DichVu.MaMC === ord.DichVu.MaMC) {
+        result.push(`MC ${order.DichVu.MaMC} đang được sử dụng ở ${ord.MaDDV}`)
+      }
+      if (order.DichVu.MaNhacCong === ord.DichVu.MaNhacCong) {
+        result.push(`Nhạc công ${order.DichVu.MaNhacCong} đang được sử dụng ở ${ord.MaDDV}`)
+      }
+    }
+  })
+  if (result.length != 0)
+    res.status(200).send(result)
+  else
+    res.status(204).send()
+})
+
 export default {
   create,
   getAllDonDatHang,
   getDonDatHangByID,
   updateDonDatHang,
-  acceptOrRejectDonDatHang
+  acceptOrRejectDonDatHang,
+  checkOrder
 }
