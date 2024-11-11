@@ -17,7 +17,7 @@ function MainProfile() {
       ...prevProfile,
       [listName]: prevProfile[listName].filter((item) => item[key] !== itemId)
     }))
-  }
+  }  
 
   const handleSave = () => {
     // Đảm bảo các trường lưu là mảng trước khi gọi updateProfile

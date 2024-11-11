@@ -6,5 +6,6 @@ const systemRouter = express.Router()
 
 systemRouter.post('/login', authController.login)
 systemRouter.post('/signup', authController.signup)
+systemRouter.post('/reset-password', authController.resetPassword)
 
 export default systemRouter

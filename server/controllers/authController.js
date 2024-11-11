@@ -5,6 +5,7 @@ import AppError from '../utils/appError.js'
 import jwt from 'jsonwebtoken'
 import { promisify } from 'util'
 import Email from '../utils/email.js'
+import crypto from 'crypto'
 
 import KhachHang from '../models/khachhang.js'
 import khachHangController from './khachHangController.js'
@@ -128,22 +129,54 @@ const restrictTo = (...roles) => {
 }
 
 const generateRandomPassword = () => {
-  return crypto.randomBytes(8).toString('hex') // Tạo mật khẩu ngẫu nhiên dài 16 ký tự
+  const lowercase = 'abcdefghijklmnopqrstuvwxyz'
+  const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  const numbers = '0123456789'
+  const symbols = '!@#$%^&*()_+[]{}|;:,.<>?'
+
+  // Chọn ngẫu nhiên 1 ký tự từ mỗi loại để đảm bảo mật khẩu đủ mạnh
+  const getRandomChar = (chars) =>
+    chars[Math.floor(Math.random() * chars.length)]
+
+  const passwordArray = [
+    getRandomChar(lowercase),
+    getRandomChar(uppercase),
+    getRandomChar(numbers),
+    getRandomChar(symbols)
+  ]
+
+  // Thêm các ký tự ngẫu nhiên để đạt đủ độ dài (8-12 ký tự)
+  const allChars = lowercase + uppercase + numbers + symbols
+  for (let i = 4; i < 12; i++) {
+    passwordArray.push(getRandomChar(allChars))
+  }
+
+  // Xáo trộn các ký tự để tránh thứ tự cố định
+  return passwordArray.sort(() => 0.5 - Math.random()).join('')
 }
 
 const resetPassword = catchAsync(async (req, res, next) => {
   const { email } = req.body
-  const user = await taikhoan.findOne({ Email: email })
+  const khachHang = await KhachHang.findOne({ Email: email })
+
+  if (!khachHang) {
+    return next(new AppError('Không tìm thấy người dùng với email này', 404))
+  }
+
+  const user = await taikhoan.findOne({ MaTK: khachHang.MaTK })
 
   if (!user) {
-    return next(new AppError('Không tìm thấy người dùng với email này', 404))
+    return next(new AppError('Không tìm thấy tài khoản với mã này', 404))
   }
 
   const newPassword = generateRandomPassword()
   user.Pass = newPassword
   await user.save()
 
-  const emailInstance = new Email(user, `${req.protocol}://${req.get('host')}/login`)
+  const emailInstance = new Email(
+    khachHang,
+    `${req.protocol}://${req.get('host')}/login`
+  )
   await emailInstance.sendNewPassword(newPassword)
 
   res.status(200).json({
@@ -152,5 +185,4 @@ const resetPassword = catchAsync(async (req, res, next) => {
   })
 })
 
-
-export default { login, signup, protect, restrictTo }
+export default { login, signup, protect, restrictTo, resetPassword }

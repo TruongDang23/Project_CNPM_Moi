@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer'
-import htmlToText from 'html-to-text'
+import { htmlToText } from 'html-to-text'
 
 class Email {
   constructor(user, url) {
@@ -39,7 +39,7 @@ class Email {
       to: this.to,
       subject,
       html,
-      text: htmlToText.fromString(html)
+      text: htmlToText(html) // sử dụng htmlToText thay vì fromString
     }
 
     await this.newTransport().sendMail(mailOptions)
