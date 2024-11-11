@@ -21,8 +21,8 @@ function ForgotPass() {
       setMessage('Địa chỉ email không hợp lệ')
     } else {
       setMessage('')
-      const client = new APIClient('system')
-      const result = await client.requestPasswordReset({ email })
+      const client = new APIClient('system/reset-password')
+      const result = await client.create({ email })
 
       if (result.status === 200) {
         alert('Đã gửi email khôi phục mật khẩu')
