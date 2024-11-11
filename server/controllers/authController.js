@@ -4,6 +4,7 @@ import catchAsync from '../utils/catchAsync.js'
 import AppError from '../utils/appError.js'
 import jwt from 'jsonwebtoken'
 import { promisify } from 'util'
+import Email from '../utils/email.js'
 
 import KhachHang from '../models/khachhang.js'
 import khachHangController from './khachHangController.js'
@@ -125,5 +126,31 @@ const restrictTo = (...roles) => {
     next()
   }
 }
+
+const generateRandomPassword = () => {
+  return crypto.randomBytes(8).toString('hex') // Tạo mật khẩu ngẫu nhiên dài 16 ký tự
+}
+
+const resetPassword = catchAsync(async (req, res, next) => {
+  const { email } = req.body
+  const user = await taikhoan.findOne({ Email: email })
+
+  if (!user) {
+    return next(new AppError('Không tìm thấy người dùng với email này', 404))
+  }
+
+  const newPassword = generateRandomPassword()
+  user.Pass = newPassword
+  await user.save()
+
+  const emailInstance = new Email(user, `${req.protocol}://${req.get('host')}/login`)
+  await emailInstance.sendNewPassword(newPassword)
+
+  res.status(200).json({
+    status: 'success',
+    message: 'Mật khẩu mới đã được gửi đến email của bạn'
+  })
+})
+
 
 export default { login, signup, protect, restrictTo }

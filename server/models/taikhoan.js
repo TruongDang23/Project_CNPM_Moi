@@ -67,6 +67,11 @@ taikhoanSchema.methods.correctPassword = async function (
   return await bcrypt.compare(candidatePassword, userPassword)
 }
 
+// Thêm phương thức tạo mật khẩu mới
+taikhoanSchema.methods.generateRandomPassword = function () {
+  return crypto.randomBytes(8).toString('hex') // Tạo mật khẩu ngẫu nhiên dài 16 ký tự
+}
+
 const TaiKhoan = mongoose.model('taikhoan', taikhoanSchema, 'TaiKhoan')
 //đối số thứ 1: tên của model, ví dụ bạn muốn gọi đến userID trong model này thì sẽ gọi bằng: user.userID
 //đối số thứ 2: cấu trúc của đối tượng: Schema
