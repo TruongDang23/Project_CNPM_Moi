@@ -1,8 +1,11 @@
 import styled from 'styled-components'
 import Bg from '../../../../assets/bg-v1.png'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { ListNCContext } from '../../../../context/ListNCContext'
 
 function FilterNCSearch() {
+  const { setSearchParams } = useContext(ListNCContext)
+
   const [searchTerm, setSearchTerm] = useState('')
   const [instrument, setInstrument] = useState('')
   const [price, setPrice] = useState('')
@@ -31,6 +34,15 @@ function FilterNCSearch() {
     setStatus('')
   }
 
+  const handleSearch = () => {
+    const params = {}
+    if (searchTerm) params.searchTerm = searchTerm
+    if (instrument) params.instrument = instrument
+    if (price) params.price = price
+    if (status) params.status = status
+    setSearchParams(params)
+  }
+
   return (
     <FilterSearchWrapper>
       <h1>Danh sách nhạc công</h1>
@@ -43,7 +55,9 @@ function FilterNCSearch() {
             value={searchTerm}
             onChange={handleSearchChange}
           />
-          <button id="btn-primary">Tìm</button>
+          <button id="btn-primary" onClick={handleSearch}>
+            Tìm
+          </button>
         </div>
         <div className="filter-option">
           <h3>Lọc theo:</h3>

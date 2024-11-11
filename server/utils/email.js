@@ -6,7 +6,7 @@ class Email {
     this.to = user.Email
     this.firstName = user.HoTen.split(' ')[0]
     this.url = url
-    this.from = `Your Company <${process.env.EMAIL_FROM}>`
+    this.from = `Quản lý sự kiện - System <${process.env.EMAIL_FROM}>`
   }
 
   newTransport() {
@@ -21,13 +21,23 @@ class Email {
 
   generateHtml(subject, newPassword) {
     return `
-      <div style="font-family: Arial, sans-serif; line-height: 1.6;">
-        <h2>${subject}</h2>
-        <p>Chào ${this.firstName},</p>
-        <p>Mật khẩu mới của bạn là: <strong>${newPassword}</strong></p>
-        <p>Vui lòng đăng nhập và thay đổi mật khẩu của bạn ngay lập tức.</p>
-        <p>Trân trọng,</p>
-        <p>Your Company</p>
+      <div style="background: linear-gradient(to right, #212121, ##3a3a3a); padding: 20px;">
+        <div style="max-width: 600px; margin: auto; background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);">
+          <div style="text-align: center; font-family: Arial, sans-serif; color: #333;">
+            <h2 style="color: #212121;">${subject}</h2>
+            <hr style="border: 1px solid #212121; width: 80%; margin: 20px auto;">
+            <p style="font-size: 16px;">Chào <strong>${this.firstName}</strong>,</p>
+            <p style="font-size: 16px;">Mật khẩu mới của bạn là:</p>
+            <div style="background-color: #c5f6fa; padding: 10px 20px; border-radius: 5px; font-size: 18px; font-weight: bold; color: #212121; display: inline-block;">
+              ${newPassword}
+            </div>
+            <p style="font-size: 16px; margin-top: 20px;">Vui lòng đăng nhập ngay lập tức để đảm bảo tính bảo mật.</p>
+            <a href="http://localhost:5173/login" style="display: inline-block; margin-top: 20px; padding: 10px 20px; background-color:#212121; color: #ffffff; text-decoration: none; border-radius: 5px; font-size: 16px;">
+              Đăng nhập ngay
+            </a>
+            <p style="margin-top: 30px; font-size: 14px; color: #999;">Trân trọng,<br>Quản lý sự kiện - System</p>
+          </div>
+        </div>
       </div>
     `
   }

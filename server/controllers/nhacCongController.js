@@ -3,10 +3,52 @@ import catchAsync from '../utils/catchAsync.js'
 import AppError from '../utils/appError.js'
 
 const getAllNhacCong = catchAsync(async (req, res, next) => {
-  const nhaccong = await NhacCong.find()
+  // const nhaccong = await NhacCong.find()
+  // res.status(200).json({
+  //   status: 'success',
+  //   nhaccong
+  // })
+
+  const {
+    searchTerm,
+    instrument,
+    price,
+    status,
+    page = 1,
+    limit = 10
+  } = req.query
+
+  let query = {}
+
+  if (searchTerm) {
+    query.HoTen = { $regex: searchTerm, $options: 'i' }
+  }
+
+  if (instrument) {
+    query.LoaiNhacCu = instrument
+  }
+
+  if (status) {
+    query.TinhTrang = status === 'true'
+  }
+
+  let nhaccongQuery = NhacCong.find(query)
+
+  if (price) {
+    nhaccongQuery = nhaccongQuery.sort({ Gia: price })
+  }
+
+  const totalNhacCong = await NhacCong.countDocuments(query)
+  const totalPages = Math.ceil(totalNhacCong / limit)
+
+  nhaccongQuery = nhaccongQuery.skip((page - 1) * limit).limit(limit)
+
+  const nhaccong = await nhaccongQuery
+
   res.status(200).json({
     status: 'success',
-    nhaccong
+    nhaccong,
+    totalPages
   })
 })
 

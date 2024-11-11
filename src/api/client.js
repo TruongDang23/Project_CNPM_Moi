@@ -35,6 +35,20 @@ export default class APIClient {
     }
   }
 
+  async findParams(params) {
+    try {
+      const data = await axios.get(`${this.api}`, {
+        params: params,
+        headers: {
+          Authorization: `Bearer ${this.token}`
+        }
+      })
+      return data
+    } catch (error) {
+      return error
+    }
+  }
+
   async findByID(id) {
     const data = await axios.get(`${this.api}/${id}`, {
       headers: {
