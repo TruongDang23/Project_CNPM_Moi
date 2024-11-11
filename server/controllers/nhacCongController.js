@@ -34,8 +34,10 @@ const getAllNhacCong = catchAsync(async (req, res, next) => {
 
   let nhaccongQuery = NhacCong.find(query)
 
-  if (price) {
-    nhaccongQuery = nhaccongQuery.sort({ Gia: price })
+  // Chuyển đổi giá trị của `price` thành số nguyên và đảm bảo là 1 hoặc -1
+  const sortPrice = price === '1' ? 1 : price === '-1' ? -1 : null;
+  if (sortPrice !== null) {
+    nhaccongQuery = nhaccongQuery.sort({ Gia: sortPrice });
   }
 
   const totalNhacCong = await NhacCong.countDocuments(query)
@@ -48,6 +50,7 @@ const getAllNhacCong = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     nhaccong,
+    totalNhacCong,
     totalPages
   })
 })

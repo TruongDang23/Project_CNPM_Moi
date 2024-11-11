@@ -16,14 +16,22 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
 
   return (
     <PaginationWrapper>
-      <button onClick={handlePrevious} disabled={currentPage === 1}>
-        Previous
+      <button
+        id="btn-primary"
+        onClick={handlePrevious}
+        disabled={currentPage === 1}
+      >
+        &lt;
       </button>
       <span>
         Page {currentPage} of {totalPages}
       </span>
-      <button onClick={handleNext} disabled={currentPage === totalPages}>
-        Next
+      <button
+        id="btn-primary"
+        onClick={handleNext}
+        disabled={currentPage === totalPages}
+      >
+        &gt;
       </button>
     </PaginationWrapper>
   )
@@ -33,24 +41,10 @@ const PaginationWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
-
-  button {
-    padding: 10px 20px;
-    margin: 0 10px;
-    border: none;
-    background-color: var(--primary-color);
-    color: #fff;
-    cursor: pointer;
-    border-radius: 5px;
-
-    &:disabled {
-      background-color: #ccc;
-      cursor: not-allowed;
-    }
-  }
+  margin-bottom: 20px;
 
   span {
+    margin: 0 10px;
     font-size: 1.6rem;
   }
 `

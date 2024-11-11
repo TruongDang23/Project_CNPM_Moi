@@ -4,7 +4,7 @@ import { useState, useContext } from 'react'
 import { ListNCContext } from '../../../../context/ListNCContext'
 
 function FilterNCSearch() {
-  const { setSearchParams } = useContext(ListNCContext)
+  const { updateSearchParams } = useContext(ListNCContext)
 
   const [searchTerm, setSearchTerm] = useState('')
   const [instrument, setInstrument] = useState('')
@@ -40,7 +40,7 @@ function FilterNCSearch() {
     if (instrument) params.instrument = instrument
     if (price) params.price = price
     if (status) params.status = status
-    setSearchParams(params)
+    updateSearchParams(params)
   }
 
   return (
