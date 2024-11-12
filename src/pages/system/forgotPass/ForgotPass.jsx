@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import imgLogin from '../../../assets/admin-login.jpg'
+import imgLogin from '../../../assets/forgotpass.jpg'
 import BgLogin from '../../../assets/bg-v1.png'
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'
@@ -21,8 +21,8 @@ function ForgotPass() {
       setMessage('Địa chỉ email không hợp lệ')
     } else {
       setMessage('')
-      const client = new APIClient('system')
-      const result = await client.requestPasswordReset({ email })
+      const client = new APIClient('system/reset-password')
+      const result = await client.create({ email })
 
       if (result.status === 200) {
         alert('Đã gửi email khôi phục mật khẩu')
@@ -166,10 +166,14 @@ const ForgotPassWrapper = styled.main`
     .image {
       width: 50%;
       height: 100%;
+      boder-radius: 8px 0 0 8px;
       img {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        border-radius: 8px 0 0 8px;
+        ${'' /* Tạo đường viền trắng bên ngoài ảnh */}
+        border: 5px solid var(--primary-color);
       }
     }
 

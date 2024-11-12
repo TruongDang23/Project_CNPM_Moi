@@ -67,6 +67,34 @@ taikhoanSchema.methods.correctPassword = async function (
   return await bcrypt.compare(candidatePassword, userPassword)
 }
 
+// Thêm phương thức tạo mật khẩu mới
+taikhoanSchema.methods.generateRandomPassword = function () {
+  const lowercase = 'abcdefghijklmnopqrstuvwxyz'
+  const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  const numbers = '0123456789'
+  const symbols = '!@#$%^&*()_+[]{}|;:,.<>?'
+
+  // Chọn ngẫu nhiên 1 ký tự từ mỗi loại để đảm bảo mật khẩu đủ mạnh
+  const getRandomChar = (chars) =>
+    chars[Math.floor(Math.random() * chars.length)]
+
+  const passwordArray = [
+    getRandomChar(lowercase),
+    getRandomChar(uppercase),
+    getRandomChar(numbers),
+    getRandomChar(symbols)
+  ]
+
+  // Thêm các ký tự ngẫu nhiên để đạt đủ độ dài (8-12 ký tự)
+  const allChars = lowercase + uppercase + numbers + symbols
+  for (let i = 4; i < 12; i++) {
+    passwordArray.push(getRandomChar(allChars))
+  }
+
+  // Xáo trộn các ký tự để tránh thứ tự cố định
+  return passwordArray.sort(() => 0.5 - Math.random()).join('')
+}
+
 const TaiKhoan = mongoose.model('taikhoan', taikhoanSchema, 'TaiKhoan')
 //đối số thứ 1: tên của model, ví dụ bạn muốn gọi đến userID trong model này thì sẽ gọi bằng: user.userID
 //đối số thứ 2: cấu trúc của đối tượng: Schema

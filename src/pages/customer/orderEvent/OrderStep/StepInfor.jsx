@@ -1,10 +1,7 @@
 import styled from 'styled-components'
 import { OrderContext } from '../../../../context/OrderContext'
 import { useContext, useEffect, useState } from 'react'
-import {
-  TextField,
-  Grid
-} from '@mui/material'
+import { TextField } from '@mui/material'
 import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs'
@@ -22,7 +19,7 @@ function StepInfor() {
   })
 
   useEffect(() => {
-    setOrder(prevOrder => ({
+    setOrder((prevOrder) => ({
       ...prevOrder,
       Note: formData.note,
       ThoiDiemDat: dayjs().format('DD/MM/YYYY HH:mm:ss'),
@@ -37,7 +34,6 @@ function StepInfor() {
     }))
   }, [formData, setOrder])
 
-
   const handleChange = (field, value) => {
     setFormData({ ...formData, [field]: value })
   }
@@ -46,71 +42,105 @@ function StepInfor() {
     <>
       <StepInforWrapper>
         <h3>Thông tin đặt sự kiện</h3>
-        <div className='content'>
+        <div className="step-content">
           <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="vi">
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
+            <div className="form-row">
+              <div className="form-group">
+                <label className="label">Thời gian tổ chức sự kiện</label>
                 <DateTimePicker
-                  label="Thời điểm bắt đầu sự kiện"
                   value={formData.startTime}
                   onChange={(newValue) => handleChange('startTime', newValue)}
-                  renderInput={(params) => (
-                    <TextField
-                      fullWidth
-                      {...params}
-                      InputLabelProps={{ sx: { fontSize: '1.6rem' } }}
-                      sx={{ fontSize: '1.6rem', '& .MuiInputBase-input': { fontSize: '1.6rem' } }}
-                    />
-                  )}
+                  slotProps={{
+                    textField: {
+                      fullWidth: true,
+                      InputLabelProps: { sx: { fontSize: '1.6rem' } },
+                      sx: {
+                        '& .MuiInputBase-input': { fontSize: '1.6rem' },
+                        '& .MuiInputLabel-root': { fontSize: '1.6rem' },
+                        '& .MuiSvgIcon-root': { fontSize: '1.6rem' }, // icon
+                        '& .MuiInputAdornment-root svg': { fontSize: '1.6rem' } // icon trong InputAdornment
+                      }
+                    }
+                  }}
                 />
-              </Grid>
-              <Grid item xs={6}>
+              </div>
+              <div className="form-group">
+                <label className="label">Thời điểm kết thúc sự kiện</label>
+
                 <DateTimePicker
-                  label="Thời điểm kết thúc sự kiện"
                   value={formData.endTime}
                   onChange={(newValue) => handleChange('endTime', newValue)}
-                  renderInput={(params) => <TextField fullWidth {...params} InputLabelProps={{ sx: { fontSize: '1.6rem' } }}
-                    sx={{ fontSize: '1.6rem', '& .MuiInputBase-input': { fontSize: '1.6rem' } }}
-                  />}
+                  slotProps={{
+                    textField: {
+                      fullWidth: true,
+                      InputLabelProps: { sx: { fontSize: '1.6rem' } },
+                      sx: {
+                        '& .MuiInputBase-input': { fontSize: '1.6rem' },
+                        '& .MuiInputLabel-root': { fontSize: '1.6rem' },
+                        '& .MuiSvgIcon-root': { fontSize: '1.6rem' }, // icon
+                        '& .MuiInputAdornment-root svg': { fontSize: '1.6rem' } // icon trong InputAdornment
+                      }
+                    }
+                  }}
                 />
-              </Grid>
-              <Grid item xs={6}>
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label className="label">Số lượng bàn ăn</label>
                 <TextField
-                  label="Số lượng bàn ăn"
                   type="number"
                   value={formData.tableCount}
                   InputLabelProps={{ sx: { fontSize: '1.6rem' } }}
                   inputProps={{ min: 0 }}
                   onChange={(e) => handleChange('tableCount', e.target.value)}
-                  sx={{ fontSize: '1.6rem', '& .MuiInputBase-input': { fontSize: '1.6rem' } }}
+                  sx={{
+                    fontSize: '1.6rem',
+                    '& .MuiInputBase-input': { fontSize: '1.6rem' }
+                  }}
                   fullWidth
                 />
-              </Grid>
-              <Grid item xs={6}>
+              </div>
+              <div className="form-group">
+                <label className="label">Số lượng thiệp mời</label>
                 <TextField
-                  label="Số lượng thiệp mời"
                   type="number"
                   value={formData.invitationCount}
                   InputLabelProps={{ sx: { fontSize: '1.6rem' } }}
                   inputProps={{ min: 0 }}
-                  onChange={(e) => handleChange('invitationCount', e.target.value)}
-                  sx={{ fontSize: '1.6rem', '& .MuiInputBase-input': { fontSize: '1.6rem' } }}
+                  onChange={(e) =>
+                    handleChange('invitationCount', e.target.value)
+                  }
+                  sx={{
+                    fontSize: '1.6rem',
+                    '& .MuiInputBase-input': { fontSize: '1.6rem' }
+                  }}
                   fullWidth
                 />
-              </Grid>
-              <Grid item xs={12}>
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label className="label">Ghi chú</label>
                 <TextField
-                  label="Ghi chú"
                   value={formData.note}
                   onChange={(e) => handleChange('note', e.target.value)}
                   fullWidth
                   multiline
                   rows={4}
-                  InputLabelProps={{ sx: { fontSize: '1.6rem' } }}
-                  sx={{ fontSize: '1.6rem', '& .MuiInputBase-input': { fontSize: '1.6rem' }, paddingTop: '10px' }}
+                  InputLabelProps={{
+                    sx: { fontSize: '1.6rem', fontFamily: 'Source Sans 3' }
+                  }}
+                  sx={{
+                    fontSize: '1.6rem',
+                    '& .MuiInputBase-input': { fontSize: '1.6rem' },
+                    paddingTop: '10px'
+                  }}
                 />
-              </Grid>
-            </Grid>
+              </div>
+            </div>
           </LocalizationProvider>
         </div>
       </StepInforWrapper>
@@ -124,10 +154,26 @@ const StepInforWrapper = styled.div`
     margin-bottom: 2rem;
     font-weight: 500;
   }
-  .content {
-    width: 70%;
-    margin: 0 auto; /* Căn giữa */
-    padding-top: 50px;
+  .step-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2rem;
+  }
+
+  .form-row {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .form-group {
+    flex: 1;
+  }
+
+  .label {
+    font-size: 1.6rem;
+    margin-bottom: 0.5rem;
+    display: block;
   }
 `
 export default StepInfor

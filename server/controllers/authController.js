@@ -4,6 +4,9 @@ import catchAsync from '../utils/catchAsync.js'
 import AppError from '../utils/appError.js'
 import jwt from 'jsonwebtoken'
 import { promisify } from 'util'
+import Email from '../utils/email.js'
+import crypto from 'crypto'
+import bcrypt from 'bcryptjs'
 
 import KhachHang from '../models/khachhang.js'
 import khachHangController from './khachHangController.js'
@@ -126,4 +129,104 @@ const restrictTo = (...roles) => {
   }
 }
 
-export default { login, signup, protect, restrictTo }
+const generateRandomPassword = () => {
+  const lowercase = 'abcdefghijklmnopqrstuvwxyz'
+  const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  const numbers = '0123456789'
+  const symbols = '!@#$%^&*()_+[]{}|;:,.<>?'
+
+  // Chọn ngẫu nhiên 1 ký tự từ mỗi loại để đảm bảo mật khẩu đủ mạnh
+  const getRandomChar = (chars) =>
+    chars[Math.floor(Math.random() * chars.length)]
+
+  const passwordArray = [
+    getRandomChar(lowercase),
+    getRandomChar(uppercase),
+    getRandomChar(numbers),
+    getRandomChar(symbols)
+  ]
+
+  // Thêm các ký tự ngẫu nhiên để đạt đủ độ dài (8-12 ký tự)
+  const allChars = lowercase + uppercase + numbers + symbols
+  for (let i = 4; i < 12; i++) {
+    passwordArray.push(getRandomChar(allChars))
+  }
+
+  // Xáo trộn các ký tự để tránh thứ tự cố định
+  return passwordArray.sort(() => 0.5 - Math.random()).join('')
+}
+
+const resetPassword = catchAsync(async (req, res, next) => {
+  const { email } = req.body
+  const khachHang = await KhachHang.findOne({ Email: email })
+
+  if (!khachHang) {
+    return next(new AppError('Không tìm thấy người dùng với email này', 404))
+  }
+
+  const user = await taikhoan.findOne({ MaTK: khachHang.MaTK })
+
+  if (!user) {
+    return next(new AppError('Không tìm thấy tài khoản với mã này', 404))
+  }
+
+  const newPassword = generateRandomPassword()
+  user.Pass = newPassword
+  await user.save()
+
+  const emailInstance = new Email(
+    khachHang,
+    `${req.protocol}://${req.get('host')}/login`
+  )
+  await emailInstance.sendNewPassword(newPassword)
+
+  res.status(200).json({
+    status: 'success',
+    message: 'Mật khẩu mới đã được gửi đến email của bạn'
+  })
+})
+
+const changePassword = catchAsync(async (req, res, next) => {
+  const { email, oldPassword, newPassword } = req.body
+
+  // Tìm người dùng bằng email
+  const khachHang = await KhachHang.findOne({ Email: email })
+  if (!khachHang) {
+    return next(new AppError('Không tìm thấy người dùng với email này', 404))
+  }
+
+  // Tìm tài khoản bằng MaTK
+  const user = await taikhoan.findOne({ MaTK: khachHang.MaTK })
+  if (!user) {
+    return next(new AppError('Không tìm thấy tài khoản với mã này', 404))
+  }
+
+  // Kiểm tra mật khẩu cũ
+  if (!user.Pass) {
+    return next(new AppError('Mật khẩu không tồn tại', 400))
+  }
+
+  // Kiểm tra mật khẩu cũ
+  const isMatch = await bcrypt.compare(oldPassword, user.Pass)
+  if (!isMatch) {
+    return next(new AppError('Mật khẩu cũ không đúng', 401))
+  }
+
+  // Cập nhật mật khẩu mới, không cần mã hóa vì đã mã hóa ở middleware
+  user.Pass = newPassword
+  await user.save()
+
+  res.status(200).json({
+    status: 'success',
+    message: 'Mật khẩu đã được thay đổi thành công'
+  })
+})
+
+export default {
+  login,
+  signup,
+  protect,
+  restrictTo,
+  resetPassword,
+  changePassword
+}

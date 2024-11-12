@@ -1,10 +1,10 @@
 import styled from 'styled-components'
 import NCSearchCard from './NCSearchCard'
 
-function ResultNCSearch({ resultSearch }) {
+function ResultNCSearch({ resultSearch, totalResults }) {
   return (
     <ResultSearchWrapper>
-      <h2>Kết quả tìm kiếm: {resultSearch.length} kết quả </h2>
+      <h2>Kết quả tìm kiếm: {totalResults} kết quả </h2>
       <div className="nc-container">
         {resultSearch.map((nc) => {
           return <NCSearchCard key={nc.MaNhacCong} nc={nc} />

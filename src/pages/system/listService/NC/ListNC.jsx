@@ -1,31 +1,15 @@
-import { useEffect, useState } from 'react'
-import APIClient from '../../../../api/client'
 import styled, { keyframes } from 'styled-components'
 import { Helmet } from 'react-helmet'
 import Sticky from 'react-sticky-el'
 
 import Header from '../../../../components/Header'
 import Footer from '../../../../components/Footer'
-import FilterNCSearch from './FilterNCSearch'
-import ResultNCSearch from './ResultNCSearch'
+
+import NCMain from './NCMain'
+
+import { ListNCProvider } from '../../../../context/ListNCContext'
 
 function ListNC() {
-  const [ncData, setNcData] = useState([])
-
-  useEffect(() => {
-    const apiClient = new APIClient('nhaccong')
-    apiClient
-      .find()
-      .then((response) => {
-        setNcData(response.data.nhaccong || []) // Gán dữ liệu vào state
-      })
-      .catch((error) => {
-        console.error(error)
-      })
-  }, [])
-
-  console.log(ncData)
-
   return (
     <>
       <Helmet>
@@ -35,10 +19,9 @@ function ListNC() {
         <Header />
       </Sticky>
       <ListNCWrapper>
-        <FilterNCSearch />
-        <ListNCMainWrapper className="container">
-          <ResultNCSearch resultSearch={ncData} />
-        </ListNCMainWrapper>
+        <ListNCProvider>
+          <NCMain />
+        </ListNCProvider>
       </ListNCWrapper>
       <Footer />
     </>
@@ -57,6 +40,5 @@ const fadeIn = keyframes`
 const ListNCWrapper = styled.main`
   animation: ${fadeIn} 1s ease-in-out;
 `
-const ListNCMainWrapper = styled.section``
 
 export default ListNC
