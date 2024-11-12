@@ -10,16 +10,21 @@ import NhacCongDetail from './NhacCongDetail'
 function NhacCong() {
   const [selectedRow, setSelectedRow] = useState(null)
   const [filterText, setFilterText] = useState('')
-
   const [ncData, setNcData] = useState([])
+  const [totalNhacCong, setTotalNhacCong] = useState(0)
+  const [totalPages, setTotalPages] = useState(0)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [perPage, setPerPage] = useState(10)
 
   // Hàm tải lại dữ liệu từ API
-  const fetchData = () => {
+  const fetchData = (page = 1, perPage = 10) => {
     const apiClient = new APIClient('nhaccong')
     apiClient
-      .find()
+      .findParams({ page, limit: perPage })
       .then((response) => {
         setNcData(response.data.nhaccong || [])
+        setTotalNhacCong(response.data.totalNhacCong || 0)
+        setTotalPages(response.data.totalPages || 0)
       })
       .catch((error) => {
         console.error(error)
@@ -28,8 +33,8 @@ function NhacCong() {
 
   // Lấy dữ liệu lần đầu khi component được mount
   useEffect(() => {
-    fetchData()
-  }, [])
+    fetchData(currentPage, perPage)
+  }, [currentPage, perPage])
 
   // Hàm xử lý khi nhấn vào dòng
   const handleRowClicked = (row) => {
@@ -53,6 +58,17 @@ function NhacCong() {
     })
   )
 
+  // Hàm xử lý khi thay đổi trang
+  const handlePageChange = (page) => {
+    setCurrentPage(page)
+  }
+
+  // Hàm xử lý khi thay đổi số lượng dòng trên mỗi trang
+  const handlePerRowsChange = (newPerPage, page) => {
+    setPerPage(newPerPage)
+    setCurrentPage(page)
+  }
+
   return (
     <NhacCongWrapper>
       <h2>Quản lý nhạc công</h2>
@@ -73,13 +89,19 @@ function NhacCong() {
             data={filteredData} // Dữ liệu sau khi lọc
             onRowClicked={handleRowClicked}
             pagination // Tính năng phân trang
+            paginationServer // Sử dụng phân trang từ server
+            paginationTotalRows={totalNhacCong} // Tổng số dòng
+            paginationDefaultPage={currentPage} // Trang hiện tại
+            paginationPerPage={perPage} // Số dòng trên mỗi trang
+            onChangePage={handlePageChange} // Hàm xử lý khi thay đổi trang
+            onChangeRowsPerPage={handlePerRowsChange} // Hàm xử lý khi thay đổi số lượng dòng trên mỗi trang
             customStyles={customStyles} // Tùy chỉnh giao diện
           />
         </div>
         <div className="hall-content-detail">
           <NhacCongDetail
             selectedData={selectedRow}
-            onActionComplete={fetchData}
+            onActionComplete={() => fetchData(currentPage, perPage)}
           />
         </div>
       </div>
@@ -89,16 +111,17 @@ function NhacCong() {
 
 const NhacCongWrapper = styled.section`
   font-family: 'Source Sans 3', sans-serif;
+  background-color: #f1f3f5;
   h2 {
     color: var(--primary-color);
     width: 100%;
     font-size: 2.4rem;
-    margin: 20px;
+    padding: 20px;
     text-align: center;
     text-transform: uppercase;
   }
   .hall-content {
-    margin: 20px;
+    padding: 20px;
     display: grid;
     grid-template-columns: 1fr 1fr; /* Chia cột thành 2 phần bằng nhau */
     gap: 20px; /* Khoảng cách giữa 2 cột */
@@ -106,10 +129,11 @@ const NhacCongWrapper = styled.section`
     .hall-content-table {
       max-width: 700px;
       padding: 20px;
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       height: auto;
+      border: 1px solid #ccc;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: #0000000f 0px 4px 20px 0px;
 
       h3 {
         color: var(--primary-color);
@@ -139,9 +163,10 @@ const NhacCongWrapper = styled.section`
 
     .hall-content-detail {
       padding: 20px;
+      border: 1px solid #ccc;
       background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      box-shadow: #0000000f 0px 4px 20px 0px;
     }
   }
 `
