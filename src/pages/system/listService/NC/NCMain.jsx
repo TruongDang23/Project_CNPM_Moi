@@ -35,7 +35,7 @@ function NCMain() {
       .catch((error) => {
         console.error(error)
       })
-  }, [searchParams, currentPage])
+  }, [searchParams, currentPage, navigate])
 
   console.log(ncData)
   return (
