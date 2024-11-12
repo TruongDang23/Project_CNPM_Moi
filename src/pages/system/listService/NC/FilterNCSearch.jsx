@@ -1,10 +1,12 @@
 import styled from 'styled-components'
 import Bg from '../../../../assets/bg-v1.png'
 import { useState, useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { ListNCContext } from '../../../../context/ListNCContext'
 
 function FilterNCSearch() {
   const { updateSearchParams } = useContext(ListNCContext)
+  const navigate = useNavigate()
 
   const [searchTerm, setSearchTerm] = useState('')
   const [instrument, setInstrument] = useState('')
@@ -41,6 +43,9 @@ function FilterNCSearch() {
     if (price) params.price = price
     if (status) params.status = status
     updateSearchParams(params)
+
+    const queryParams = new URLSearchParams(params).toString()
+    navigate(`?${queryParams}`)
   }
 
   return (

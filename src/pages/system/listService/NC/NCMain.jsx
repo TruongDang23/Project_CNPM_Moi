@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { useEffect, useState, useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 import APIClient from '../../../../api/client'
 
 import { ListNCContext } from '../../../../context/ListNCContext'
@@ -12,8 +13,16 @@ function NCMain() {
   const [ncData, setNcData] = useState([])
   const [totalPages, setTotalPages] = useState(1)
   const [totalResults, setTotalResults] = useState(0)
+  const navigate = useNavigate()
 
   useEffect(() => {
+    // Cập nhật URL query string
+    const queryParams = new URLSearchParams({
+      ...searchParams,
+      page: currentPage
+    }).toString()
+    navigate(`?${queryParams}`, { replace: true })
+
     const apiClient = new APIClient('nhaccong')
     const params = { ...searchParams, page: currentPage }
     apiClient

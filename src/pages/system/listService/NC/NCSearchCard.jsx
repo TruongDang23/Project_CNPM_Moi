@@ -1,5 +1,7 @@
 import styled from 'styled-components'
-import React, { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
+import APIClient from '../../../../api/client'
 import ServiceDetailPopUp from '../../../../components/ServiceDetailPopUp'
 
 import 'react-responsive-carousel/lib/styles/carousel.min.css' // requires a loader
@@ -8,6 +10,7 @@ import Snackbar from '@mui/material/Snackbar'
 
 function NCSearchCard({ nc }) {
   const {
+    MaNhacCong,
     HoTen,
     SDT,
     KinhNghiem,
@@ -24,12 +27,36 @@ function NCSearchCard({ nc }) {
   })
   const [snackbarOpen, setSnackbarOpen] = useState(false)
   const [isPopupOpen, setIsPopupOpen] = useState(false)
+  const [ncDetail, setNcDetail] = useState(null)
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  useEffect(() => {
+    const apiClient = new APIClient('nhaccong')
+    apiClient
+      .findByID(MaNhacCong)
+      .then((response) => {
+        setNcDetail(response.data.nhaccong)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }, [MaNhacCong])
+
   const handleViewClick = () => {
     setIsPopupOpen(true)
+    // Thêm MaNhacCong vào URL
+    navigate(`${location.pathname}?MaNhacCong=${MaNhacCong}`, { replace: true })
   }
 
   const handleClosePopup = () => {
     setIsPopupOpen(false)
+    // Xóa MaNhacCong khỏi URL khi đóng popup
+    const searchParams = new URLSearchParams(location.search)
+    searchParams.delete('MaNhacCong')
+    navigate(`${location.pathname}?${searchParams.toString()}`, {
+      replace: true
+    })
   }
 
   const handleSubmit = (e) => {
@@ -83,42 +110,48 @@ function NCSearchCard({ nc }) {
       </div>
       {isPopupOpen && (
         <ServiceDetailPopUp onClose={handleClosePopup}>
-          <h2>{HoTen}</h2>
+          <h2>{ncDetail.HoTen}</h2>
           <div className="popup-content">
             <div className="popup-img">
               <Carousel autoPlay interval={3000}>
-                <img src={HinhAnh[0]} alt={HoTen} />
+                {ncDetail.HinhAnh.map((image, index) => (
+                  <img
+                    key={index}
+                    src={image}
+                    alt={`${ncDetail.HoTen} ${index + 1}`}
+                  />
+                ))}
               </Carousel>
             </div>
             <div className="popup-info">
               <ul>
                 <li>
-                  <strong>Tên nhạc công:</strong> {HoTen}
+                  <strong>Tên nhạc công:</strong> {ncDetail.HoTen}
                 </li>
                 <li>
                   <strong>Số điện thoại: </strong>
-                  {SDT}
+                  {ncDetail.SDT}
                 </li>
                 <li>
                   <strong>Kinh nghiệm: </strong>
-                  {!KinhNghiem ? 'Chưa có' : KinhNghiem}
+                  {!ncDetail.KinhNghiem ? 'Chưa có' : ncDetail.KinhNghiem}
                 </li>
                 <li>
-                  <strong>Loại nhạc cụ:</strong> {LoaiNhacCu}
+                  <strong>Loại nhạc cụ:</strong> {ncDetail.LoaiNhacCu}
                 </li>
                 <li>
                   <strong>Tình trạng: </strong>
-                  {TinhTrang ? 'Còn trống' : 'Đã đặt'}
+                  {ncDetail.TinhTrang ? 'Còn trống' : 'Đã đặt'}
                 </li>
                 <li>
-                  <strong>Giá:</strong> {formatCurrency(Gia)}
+                  <strong>Giá:</strong> {formatCurrency(ncDetail.Gia)}
                 </li>
               </ul>
               <h3>Đánh giá:</h3>
               <div className="rating-list">
                 <ul>
-                  {DanhGia.length > 0 ? (
-                    DanhGia.map((danhGia, index) => (
+                  {ncDetail.DanhGia.length > 0 ? (
+                    ncDetail.DanhGia.map((danhGia, index) => (
                       <li key={index}>
                         <strong>{danhGia.HoTen}</strong> ({danhGia.SoSao} ⭐):{' '}
                         {danhGia.BinhLuan}

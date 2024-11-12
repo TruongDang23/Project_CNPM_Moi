@@ -47,6 +47,13 @@ const PaginationWrapper = styled.div`
     margin: 0 10px;
     font-size: 1.6rem;
   }
+
+  button {
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+  }
 `
 
 export default Pagination
