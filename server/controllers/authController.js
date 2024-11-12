@@ -6,6 +6,7 @@ import jwt from 'jsonwebtoken'
 import { promisify } from 'util'
 import Email from '../utils/email.js'
 import crypto from 'crypto'
+import bcrypt from 'bcryptjs'
 
 import KhachHang from '../models/khachhang.js'
 import khachHangController from './khachHangController.js'
@@ -185,4 +186,47 @@ const resetPassword = catchAsync(async (req, res, next) => {
   })
 })
 
-export default { login, signup, protect, restrictTo, resetPassword }
+const changePassword = catchAsync(async (req, res, next) => {
+  const { email, oldPassword, newPassword } = req.body
+
+  // Tìm người dùng bằng email
+  const khachHang = await KhachHang.findOne({ Email: email })
+  if (!khachHang) {
+    return next(new AppError('Không tìm thấy người dùng với email này', 404))
+  }
+
+  // Tìm tài khoản bằng MaTK
+  const user = await taikhoan.findOne({ MaTK: khachHang.MaTK })
+  if (!user) {
+    return next(new AppError('Không tìm thấy tài khoản với mã này', 404))
+  }
+
+  // Kiểm tra mật khẩu cũ
+  if (!user.Pass) {
+    return next(new AppError('Mật khẩu không tồn tại', 400))
+  }
+
+  // Kiểm tra mật khẩu cũ
+  const isMatch = await bcrypt.compare(oldPassword, user.Pass)
+  if (!isMatch) {
+    return next(new AppError('Mật khẩu cũ không đúng', 401))
+  }
+
+  // Cập nhật mật khẩu mới, không cần mã hóa vì đã mã hóa ở middleware
+  user.Pass = newPassword
+  await user.save()
+
+  res.status(200).json({
+    status: 'success',
+    message: 'Mật khẩu đã được thay đổi thành công'
+  })
+})
+
+export default {
+  login,
+  signup,
+  protect,
+  restrictTo,
+  resetPassword,
+  changePassword
+}
