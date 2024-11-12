@@ -56,7 +56,7 @@ function FilterNCSearch() {
           <h3>Tìm kiếm:</h3>
           <input
             type="text"
-            placeholder="Tìm kiếm..."
+            placeholder="Tìm kiếm tên..."
             value={searchTerm}
             onChange={handleSearchChange}
           />
@@ -66,22 +66,30 @@ function FilterNCSearch() {
         </div>
         <div className="filter-option">
           <h3>Lọc theo:</h3>
-          <select value={instrument} onChange={handleInstrumentChange}>
-            <option value="">Chọn nhạc cụ</option>
+          <select
+            defaultValue=""
+            value={instrument}
+            onChange={handleInstrumentChange}
+          >
+            <option disabled hidden value="">
+              Chọn nhạc cụ
+            </option>
             <option value="Guitar">Guitar</option>
             <option value="Piano">Piano</option>
             <option value="Violin">Violin</option>
             <option value="Saxophone">Saxophone</option>
           </select>
-          <select value={price} onChange={handlePriceChange}>
-            <option value="">Chọn mức giá</option>
-            <option value="all">Bỏ lọc giá</option>
+          <select defaultValue="" value={price} onChange={handlePriceChange}>
+            <option disabled hidden value="">
+              Chọn mức giá
+            </option>
             <option value={1}>Tăng dần</option>
             <option value={-1}>Giảm dần</option>
           </select>
-          <select value={status} onChange={handleStatusChange}>
-            <option value="">Chọn tình trạng</option>
-            <option value="all">Bỏ lọc tình trạng</option>
+          <select defaultValue="" value={status} onChange={handleStatusChange}>
+            <option disabled hidden value="">
+              Chọn tình trạng
+            </option>
             <option value="true">Sẵn sàng</option>
             <option value="false">Không sẵn thuê</option>
           </select>

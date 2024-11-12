@@ -96,7 +96,9 @@ function NCSearchCard({ nc }) {
           <li>Số điện thoại: {SDT}</li>
           <li>Kinh nghiệm: {!KinhNghiem ? 'Chưa có' : KinhNghiem}</li>
           <li>Loại nhạc cụ: {LoaiNhacCu}</li>
-          <li>Tình trạng: {TinhTrang ? 'Còn trống' : 'Đã đặt'}</li>
+          <li>
+            Tình trạng: <strong>{TinhTrang ? 'Còn trống' : 'Đã đặt'}</strong>
+          </li>
           <li>
             <strong>Giá: {Gia ? formatCurrency(Gia) : 'Free'}</strong>
           </li>
