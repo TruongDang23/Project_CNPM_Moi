@@ -1,12 +1,24 @@
 import { useContext, useState, useEffect } from 'react'
 import styled from 'styled-components'
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  TextField,
+  Snackbar
+} from '@mui/material'
+import APIClient from '../../../api/client'
 
 import { ProfileContext } from '../../../context/ProfileContext'
 import AvatarUser from '../../../components/AvatarUser'
+import ChangePassword from './ChangePassword'
 
 function MainProfile() {
   const { profile, updateProfile } = useContext(ProfileContext)
   const [localProfile, setLocalProfile] = useState(profile)
+  const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false)
 
   useEffect(() => {
     setLocalProfile(profile)
@@ -17,7 +29,7 @@ function MainProfile() {
       ...prevProfile,
       [listName]: prevProfile[listName].filter((item) => item[key] !== itemId)
     }))
-  }  
+  }
 
   const handleSave = () => {
     // Đảm bảo các trường lưu là mảng trước khi gọi updateProfile
@@ -35,6 +47,7 @@ function MainProfile() {
     window.location.reload()
   }
 
+  // Update
   const handleCancelUpdate = () => {
     setLocalProfile(profile)
     // Load lại trang để reset form
@@ -47,6 +60,15 @@ function MainProfile() {
       ...prevProfile,
       [name]: value
     }))
+  }
+
+  // Mở dialog đổi mật khẩu
+  const handleOpenChangePassword = () => {
+    setIsChangePasswordOpen(true)
+  }
+
+  const handleCloseChangePassword = () => {
+    setIsChangePasswordOpen(false)
   }
 
   // chuyển date trong profile thành dạng yyyy-mm-dd
@@ -133,6 +155,16 @@ function MainProfile() {
                 </div>
               </div>
             </form>
+
+            <div className="button-row">
+              <button id="btn-secoundary" onClick={handleOpenChangePassword}>
+                Đổi mật khẩu
+              </button>
+              <ChangePassword
+                open={isChangePasswordOpen}
+                onClose={handleCloseChangePassword}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -370,9 +402,8 @@ const MainProfileWrapper = styled.section`
 
         .button-row {
           display: flex;
-          justify-content: center;
+          justify-content: flex-start;
           gap: 30px;
-          margin-top: 50px;
         }
       }
     }
