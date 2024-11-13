@@ -108,7 +108,7 @@ const Drawer = styled(MuiDrawer, {
 function DashBoard() {
   const theme = useTheme()
   const [open, setOpen] = useState(true)
-  const [content, setContent] = useState('General')
+  const [content, setContent] = useState('Tổng quan')
 
   const handleDrawerOpen = () => {
     setOpen(true)
@@ -286,9 +286,9 @@ function DashBoard() {
         </Drawer>
         <Box component="main" sx={{ flexGrow: 1 }}>
           <DrawerHeader />
-          {content === 'Tổng quan' && <TongQuan/>}
+          {content === 'Tổng quan' && <TongQuan />}
           {content === 'Hội trường' && <HoiTruong />}
-          {content === 'Đơn đặt hàng' && <DonDatHang/>}
+          {content === 'Đơn đặt hàng' && <DonDatHang />}
           {content === 'Món ăn' && <Combo />}
           {content === 'Thiệp mời' && <Thiep />}
           {content === 'Nhạc công' && <NhacCong />}
