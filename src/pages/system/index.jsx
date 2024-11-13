@@ -8,6 +8,7 @@ import ListMC from './listService/MC/ListMC'
 import ListThiep from './listService/Thiep/ListThiep'
 import SignUp from './signup/SignUp'
 import ForgotPass from './forgotPass/ForgotPass'
+import ChatAI from './chatAI/ChatAI'
 
 export function System() {
   return (
@@ -15,8 +16,9 @@ export function System() {
       <Routes>
         <Route path="/" element={<Welcome />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp/>} />
-        <Route path='/forgot-pass' element={<ForgotPass />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/forgot-pass" element={<ForgotPass />} />
+        <Route path="/chat-ai" element={<ChatAI />} />
         <Route path="/list-hall" element={<ListHall />} />
         <Route path="/list-combo" element={<ListCombo />} />
         <Route path="/list-nc" element={<ListNC />} />
