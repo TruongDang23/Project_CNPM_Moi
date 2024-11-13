@@ -3,11 +3,44 @@ import catchAsync from '../utils/catchAsync.js'
 import AppError from '../utils/appError.js'
 
 const getAll = catchAsync(async (req, res, next) => {
-  const combo = await Combo.find().sort({ MaCombo: 1 })
+  const {
+    searchTerm,
+    price,
+    page = 1,
+    limit = 10
+  } = req.query;
+
+  let query = {};
+
+  if (searchTerm) {
+    query.TenCombo = { $regex: searchTerm, $options: 'i' };
+  }
+
+  let comboQuery = Combo.find(query);
+
+  // Convert `price` value to integer and ensure it's either 1 or -1 for sorting
+  const sortPrice = price === '1' ? 1 : price === '-1' ? -1 : null;
+  if (sortPrice !== null) {
+    comboQuery = comboQuery.sort({ Gia: sortPrice });
+  } else {
+    comboQuery = comboQuery.sort({ MaCombo: 1 }); // Default sort by MaCombo
+  }
+
+  const totalCombo = await Combo.countDocuments(query);
+  const totalPages = Math.ceil(totalCombo / limit);
+
+  comboQuery = comboQuery.skip((page - 1) * limit).limit(limit);
+
+  const combo = await comboQuery;
+
   res.status(200).json({
-    combo
-  })
-})
+    status: 'success',
+    combo,
+    totalCombo,
+    totalPages
+  });
+});
+
 
 const getByID = catchAsync(async (req, res, next) => {
   if (req.params.id !== null) {

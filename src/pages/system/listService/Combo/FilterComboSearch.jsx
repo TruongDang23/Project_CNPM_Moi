@@ -1,8 +1,13 @@
 import styled from 'styled-components'
 import Bg from '../../../../assets/bg-v1.png'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { ListNCContext } from '../../../../context/ListNCContext'
 
 function FilterComboSearch() {
+  const { updateSearchParams } = useContext(ListNCContext)
+  const navigate = useNavigate()
+
   const [searchTerm, setSearchTerm] = useState('')
   const [priceOrder, setPriceOrder] = useState('')
 
@@ -18,6 +23,15 @@ function FilterComboSearch() {
     setSearchTerm('')
     setPriceOrder('')
   }
+  const handleSearch = () => {
+    const params = {}
+    if (searchTerm) params.searchTerm = searchTerm
+    if (priceOrder) params.price = priceOrder
+    updateSearchParams(params)
+
+    const queryParams = new URLSearchParams(params).toString()
+    navigate(`?${queryParams}`)
+  }
   return (
     <FilterSearchWrapper>
       <h1>Danh sách Combo món ăn</h1>
@@ -30,15 +44,14 @@ function FilterComboSearch() {
             value={searchTerm}
             onChange={handleSearchChange}
           />
-          <button id="btn-primary">Tìm</button>
+          <button id="btn-primary" onClick={handleSearch}>Tìm</button>
         </div>
         <div className="filter-option">
           <h3>Lọc theo:</h3>
-          <select value={priceOrder} onChange={handlePriceOrderChange}>
+          <select defaultValue="" value={priceOrder} onChange={handlePriceOrderChange}>
             <option value="" disabled hidden>
               Giá
             </option>
-            <option value="all">Bỏ lọc giá</option>
             <option value={1}>Tăng dần</option>
             <option value={-1}>Giảm dần</option>
           </select>

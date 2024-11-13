@@ -4,10 +4,10 @@ import Sticky from 'react-sticky-el'
 
 import Header from '../../../../components/Header'
 import Footer from '../../../../components/Footer'
-import FilterComboSearch from './FilterComboSearch'
-import ResultComboSearch from './ResultComboSearch'
 
-import someCombodata from '../../../../data/someCombodata'
+import ComboMain from './ComboMain'
+
+import { ListNCProvider } from '../../../../context/ListNCContext'
 
 function ListCombo() {
   return (
@@ -19,10 +19,9 @@ function ListCombo() {
         <Header />
       </Sticky>
       <ListComboWrapper>
-        <FilterComboSearch />
-        <ListComboMainWrapper className="container">
-          <ResultComboSearch resultSearch={someCombodata} />
-        </ListComboMainWrapper>
+        <ListNCProvider>
+          <ComboMain />
+        </ListNCProvider>
       </ListComboWrapper>
       <Footer />
     </>

@@ -1,19 +1,40 @@
 import styled from 'styled-components'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
+import APIClient from '../../../../api/client'
 import ServiceDetailPopUp from '../../../../components/ServiceDetailPopUp'
 
 import 'react-responsive-carousel/lib/styles/carousel.min.css' // requires a loader
 import { Carousel } from 'react-responsive-carousel'
 
 function ComboSearchCard({ combo }) {
-  const { TenCombo, LoaiCombo, MoTa, Gia, DanhSachMonAn, HinhAnh } = combo
+  const { MaCombo, TenCombo, LoaiCombo, MoTa, Gia, DanhSachMonAn, HinhAnh } = combo
   const [isPopupOpen, setIsPopupOpen] = useState(false)
+  const [comboDetail, setComboDetail] = useState(null)
+  const navigate = useNavigate()
+  const location = useLocation()
+  useEffect(() => {
+    const apiClient = new APIClient('combo')
+    apiClient
+      .findByID(MaCombo)
+      .then((response) => {
+        setComboDetail(response.data.combo)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }, [MaCombo])
   const handleViewClick = () => {
     setIsPopupOpen(true)
-  }
+    navigate(`${location.pathname}?MaCombo=${MaCombo}`, { replace: true }) }
 
   const handleClosePopup = () => {
     setIsPopupOpen(false)
+    const searchParams = new URLSearchParams(location.search)
+    searchParams.delete('MaCombo')
+    navigate(`${location.pathname}?${searchParams.toString()}`, {
+      replace: true
+    })
   }
 
   const formatCurrency = (amount) => {
@@ -44,30 +65,32 @@ function ComboSearchCard({ combo }) {
 
       {isPopupOpen && (
         <ServiceDetailPopUp onClose={handleClosePopup}>
-          <h2>{TenCombo}</h2>
+          <h2>{comboDetail.TenCombo}</h2>
           <div className="popup-content">
             <div className="popup-img">
               <Carousel autoPlay interval={3000}>
-                {HinhAnh.map((img, index) => (
-                  <div key={index}>
-                    <img src={img} alt={TenCombo} />
-                  </div>
+                {comboDetail.HinhAnh.map((img, index) => (
+                  <img
+                    key={index}
+                    src={img}
+                    alt={`${comboDetail.HoTen} ${index + 1}`}
+                  />
                 ))}
               </Carousel>
             </div>
             <div className="popup-info">
               <ul>
                 <li>
-                  <strong>Tên combo:</strong> {TenCombo}
+                  <strong>Tên combo:</strong> {comboDetail.TenCombo}
                 </li>
                 <li>
-                  <strong>Loại combo:</strong> {LoaiCombo}
+                  <strong>Loại combo:</strong> {comboDetail.LoaiCombo}
                 </li>
                 <li>
-                  <strong>Giá:</strong> {formatCurrency(Gia)}
+                  <strong>Giá:</strong> {formatCurrency(comboDetail.Gia)}
                 </li>
                 <li>
-                  <strong>Mô tả:</strong> {MoTa}
+                  <strong>Mô tả:</strong> {comboDetail.MoTa}
                 </li>
                 <li>
                   <strong>Danh sách món ăn:</strong>{' '}

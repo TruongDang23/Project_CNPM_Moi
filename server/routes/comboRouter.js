@@ -8,7 +8,7 @@ comboRouter
   .route('/')
   .get(
     authController.protect,
-    authController.restrictTo('admin'),
+    authController.restrictTo('admin', 'user'),
     comboController.getAll
   )
   .post(

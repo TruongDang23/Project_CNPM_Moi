@@ -4,10 +4,10 @@ import Sticky from 'react-sticky-el'
 
 import Header from '../../../../components/Header'
 import Footer from '../../../../components/Footer'
-import FilterHallSearch from './FilterHallSearch'
-import ResultHallSearch from './ResultHallSearch'
 
-import someHallData from '../../../../data/someHallData'
+import HallMain from './HallMain'
+
+import { ListNCProvider } from '../../../../context/ListNCContext'
 
 function ListHall() {
   return (
@@ -19,10 +19,9 @@ function ListHall() {
         <Header />
       </Sticky>
       <ListHallWrapper>
-        <FilterHallSearch />
-        <ListHallMainWrapper className="container">
-          <ResultHallSearch resultSearch={someHallData} />
-        </ListHallMainWrapper>
+        <ListNCProvider>
+          <HallMain />
+        </ListNCProvider>
       </ListHallWrapper>
       <Footer />
     </>

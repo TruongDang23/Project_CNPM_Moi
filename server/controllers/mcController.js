@@ -3,12 +3,50 @@ import AppError from '../utils/appError.js'
 import MC from '../models/mc.js'
 
 const getAllMC = catchAsync(async (req, res, next) => {
-  const mc = await MC.find().sort({ MaMC: 1 });
+  const {
+    searchTerm,
+    price,
+    status,
+    page = 1,
+    limit = 10
+  } = req.query;
+
+  let query = {};
+
+  if (searchTerm) {
+    query.HoTen = { $regex: searchTerm, $options: 'i' };
+  }
+
+
+  if (status) {
+    query.TinhTrang = status === 'true';
+  }
+
+  let mcQuery = MC.find(query);
+
+  // Convert `price` value to integer and ensure it's either 1 or -1 for sorting
+  const sortPrice = price === '1' ? 1 : price === '-1' ? -1 : null;
+  if (sortPrice !== null) {
+    mcQuery = mcQuery.sort({ Gia: sortPrice });
+  } else {
+    mcQuery = mcQuery.sort({ MaMC: 1 }); // Default sort by MaMC
+  }
+
+  const totalMC = await MC.countDocuments(query);
+  const totalPages = Math.ceil(totalMC / limit);
+
+  mcQuery = mcQuery.skip((page - 1) * limit).limit(limit);
+
+  const mc = await mcQuery;
+
   res.status(200).json({
     status: 'success',
-    mc
+    mc,
+    totalMC,
+    totalPages
   });
 });
+
 
 const getMC = catchAsync(async (req, res, next) => {
   if (req.params.id !== null) {

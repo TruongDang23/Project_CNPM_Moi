@@ -1,8 +1,12 @@
 import styled from 'styled-components'
 import Bg from '../../../../assets/bg-v1.png'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { ListNCContext } from '../../../../context/ListNCContext'
 
 function FilterHallSearch() {
+  const { updateSearchParams } = useContext(ListNCContext)
+  const navigate = useNavigate()
   const [searchTerm, setSearchTerm] = useState('')
   const [capacity, setCapacity] = useState('')
   const [wifi, setWifi] = useState('')
@@ -42,6 +46,19 @@ function FilterHallSearch() {
     setStatus('')
     setPriceOrder('')
   }
+  const handleSearch = () => {
+    const params = {}
+    if (searchTerm) params.searchTerm = searchTerm
+    if (priceOrder) params.price = priceOrder
+    if (capacity) params.capacity = capacity
+    if (wifi) params.wifi = wifi
+    if (airConditioning) params.airConditioning = airConditioning
+    if (status) params.status = status
+    updateSearchParams(params)
+
+    const queryParams = new URLSearchParams(params).toString()
+    navigate(`?${queryParams}`)
+  }
   return (
     <FilterSearchWrapper>
       <h1>Danh sách hội trường</h1>
@@ -54,51 +71,46 @@ function FilterHallSearch() {
             value={searchTerm}
             onChange={handleSearchChange}
           />
-          <button id="btn-primary">Tìm</button>
+          <button id="btn-primary" onClick={handleSearch}>Tìm</button>
         </div>
         <div className="filter-option">
           <h3>Lọc theo:</h3>
-          <select value={capacity} onChange={handleCapacityChange}>
+          <select defaultValue="" value={capacity} onChange={handleCapacityChange}>
             <option value="" disabled hidden>
               Sức chứa
             </option>
-            <option value="all">Bỏ lọc sức chứa</option>
-            <option value="10">&#62; 10</option>
-            <option value="50">&#62; 50</option>
-            <option value="100">&#62; 100</option>
+            <option value={1}>Tăng dần</option>
+            <option value={-1}>Giảm dần</option>
           </select>
-          <select value={wifi} onChange={handleWifiChange}>
+          <select defaultValue="" value={wifi} onChange={handleWifiChange}>
             <option value="" disabled hidden>
               Wi-Fi
             </option>
-            <option value="all">Bỏ lọc Wi-Fi</option>
-            <option value={1}>Có Wi-Fi</option>
-            <option value={0}>Không Wi-Fi</option>
+            <option value="true">Có Wi-Fi</option>
+            <option value="false">Không Wi-Fi</option>
           </select>
           <select
+            defaultValue=""
             value={airConditioning}
             onChange={handleAirConditioningChange}
           >
             <option value="" disabled hidden>
               Máy lạnh
             </option>
-            <option value="all">Bỏ lọc máy lạnh</option>
-            <option value={1}>Có máy lạnh</option>
-            <option value={0}>Không máy lạnh</option>
+            <option value="true">Có máy lạnh</option>
+            <option value="false">Không máy lạnh</option>
           </select>
-          <select value={status} onChange={handleStatusChange}>
+          <select defaultValue="" value={status} onChange={handleStatusChange}>
             <option value="" disabled hidden>
               Tình trạng
             </option>
-            <option value="all">Bỏ lọc tình trạng</option>
-            <option value={1}>Sẵn có</option>
-            <option value={0}>Không sẵn có</option>
+            <option value="true">Sẵn có</option>
+            <option value="false">Không sẵn có</option>
           </select>
-          <select value={priceOrder} onChange={handlePriceOrderChange}>
+          <select defaultValue="" value={priceOrder} onChange={handlePriceOrderChange}>
             <option value="" disabled hidden>
               Giá
             </option>
-            <option value="all">Bỏ lọc giá</option>
             <option value={1}>Tăng dần</option>
             <option value={-1}>Giảm dần</option>
           </select>

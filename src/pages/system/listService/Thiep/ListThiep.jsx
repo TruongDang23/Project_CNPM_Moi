@@ -4,10 +4,10 @@ import Sticky from 'react-sticky-el'
 
 import Header from '../../../../components/Header'
 import Footer from '../../../../components/Footer'
-import FilterThiepSearch from './FilterThiepSearch'
-import ResultThiepSearch from './ResultThiepSearch'
+import ThiepMain from './ThiepMain'
 
-import someThiepData from '../../../../data/someThiepData'
+import { ListNCProvider } from '../../../../context/ListNCContext'
+
 
 function ListThiep() {
   return (
@@ -19,10 +19,9 @@ function ListThiep() {
         <Header />
       </Sticky>
       <ListThiepWrapper>
-        <FilterThiepSearch />
-        <ListThiepMainWrapper className="container">
-          <ResultThiepSearch resultSearch={someThiepData} />
-        </ListThiepMainWrapper>
+        <ListNCProvider>
+          <ThiepMain />
+        </ListNCProvider>
       </ListThiepWrapper>
       <Footer />
     </>
@@ -41,6 +40,5 @@ const fadeIn = keyframes`
 const ListThiepWrapper = styled.main`
   animation: ${fadeIn} 1s ease-in-out;
 `
-const ListThiepMainWrapper = styled.section``
 
 export default ListThiep

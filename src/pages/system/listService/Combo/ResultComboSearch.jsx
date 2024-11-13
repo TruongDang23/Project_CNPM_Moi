@@ -1,10 +1,10 @@
 import styled from 'styled-components'
 import ComboSearchCard from './ComboSearchCard'
 
-function ResultComboSearch({ resultSearch }) {
+function ResultComboSearch({ resultSearch, totalResults }) {
   return (
     <ResultSearchWrapper>
-      <h2>Kết quả tìm kiếm: {resultSearch.length} kết quả</h2>
+      <h2>Kết quả tìm kiếm: {totalResults} kết quả</h2>
       <div className="combo-container">
         {resultSearch.map((combo) => {
           return <ComboSearchCard key={combo.MaCombo} combo={combo} />

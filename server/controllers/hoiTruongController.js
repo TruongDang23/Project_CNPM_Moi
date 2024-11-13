@@ -3,11 +3,59 @@ import catchAsync from '../utils/catchAsync.js'
 import AppError from '../utils/appError.js'
 
 const getAll = catchAsync(async (req, res, next) => {
-  const hoitruong = await HoiTruong.find().sort({ MaHoiTruong: 1 })
+  const {
+    searchTerm,
+    capacity,
+    price,
+    wifi,
+    airConditioning,
+    status,
+    page = 1,
+    limit = 10
+  } = req.query;
+
+  let query = {};
+
+  if (searchTerm) {
+    query.TenHoiTruong = { $regex: searchTerm, $options: 'i' };
+  }
+  if (wifi) {
+    query.Wifi = wifi === 'true';
+  }
+
+  if (airConditioning) {
+    query.MayLanh = airConditioning === 'true';
+  }
+
+  if (status) {
+    query.TinhTrang = status === 'true';
+  }
+  let hoitruongQuery = HoiTruong.find(query)
+  const sortPrice = price === '1' ? 1 : price === '-1' ? -1 : null;
+  if (sortPrice !== null) {
+    hoitruongQuery = hoitruongQuery.sort({ Gia: sortPrice });
+  }
+  const sortSucChua = capacity === '1' ? 1 : capacity === '-1' ? -1 : null;
+  if (sortSucChua !== null) {
+    hoitruongQuery = hoitruongQuery.sort({ SucChua: sortSucChua });
+  }
+
+
+  const totalHoiTruong = await HoiTruong.countDocuments(query);
+  const totalPages = Math.ceil(totalHoiTruong / limit);
+
+  hoitruongQuery = hoitruongQuery.skip((page - 1) * limit).limit(limit);
+
+  const hoitruong = await hoitruongQuery;
+
   res.status(200).json({
-    hoitruong
-  })
-})
+    status: 'success',
+    hoitruong,
+    totalHoiTruong,
+    totalPages
+  });
+});
+
 
 const getByID = catchAsync(async (req, res, next) => {
   if (req.params.id !== null) {
