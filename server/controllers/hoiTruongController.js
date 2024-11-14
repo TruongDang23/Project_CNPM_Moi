@@ -1,6 +1,30 @@
 import HoiTruong from '../models/hoitruong.js'
+import DatDichVu from '../models/datdichvu.js'
 import catchAsync from '../utils/catchAsync.js'
 import AppError from '../utils/appError.js'
+
+const getTopHoiTruong = catchAsync(async (req, res, next) => {
+  const topHoiTruong = await DatDichVu.aggregate([
+    // { $match: { Active: true } }, // Chỉ lấy các dịch vụ đang active
+    { $group: { _id: '$DichVu.MaHoiTruong', count: { $sum: 1 } } }, // Nhóm theo MaHoiTruong và đếm số lần xuất hiện
+    { $sort: { count: -1 } }, // Sắp xếp giảm dần theo số lần xuất hiện
+    { $limit: 4 }, // Lấy 4 hội trường xuất hiện nhiều nhất
+    {
+      $lookup: {
+        // Kết hợp với thông tin hội trường
+        from: 'HoiTruong',
+        localField: '_id',
+        foreignField: 'MaHoiTruong',
+        as: 'hoitruong'
+      }
+    },
+    { $unwind: '$hoitruong' } // Giải nén mảng hoitruong
+  ])
+
+  res.status(200).json({
+    topHoiTruong
+  })
+})
 
 const getAll = catchAsync(async (req, res, next) => {
   const hoitruong = await HoiTruong.find().sort({ MaHoiTruong: 1 })
@@ -30,19 +54,19 @@ const create = catchAsync(async (req, res, next) => {
 
   // Thêm MaHoiTruong vào dữ liệu từ req.body
   const newHoiTruong = await HoiTruong.create({
-    MaHoiTruong:  newMaNhacCong, // Mã tự động sinh
+    MaHoiTruong: newMaNhacCong, // Mã tự động sinh
     TenHoiTruong: req.body.TenHoiTruong,
-    SucChua:      req.body.SucChua,
-    Wifi:         req.body.Wifi,
-    MoTa:         req.body.MoTa,
-    MayLanh:      req.body.MayLanh,
-    PhongKin:     req.body.PhongKin,
-    DienTich:     req.body.DienTich,
-    SoPhong:      req.body.SoPhong,
-    ViTriLau:     req.body.ViTriLau,
-    Gia:          req.body.Gia,
-    TinhTrang:    req.body.TinhTrang,
-    HinhAnh:      req.body.HinhAnh
+    SucChua: req.body.SucChua,
+    Wifi: req.body.Wifi,
+    MoTa: req.body.MoTa,
+    MayLanh: req.body.MayLanh,
+    PhongKin: req.body.PhongKin,
+    DienTich: req.body.DienTich,
+    SoPhong: req.body.SoPhong,
+    ViTriLau: req.body.ViTriLau,
+    Gia: req.body.Gia,
+    TinhTrang: req.body.TinhTrang,
+    HinhAnh: req.body.HinhAnh
   })
 
   if (!newHoiTruong) {
@@ -91,5 +115,6 @@ export default {
   getByID,
   create,
   update,
-  deleteByID
+  deleteByID,
+  getTopHoiTruong
 }

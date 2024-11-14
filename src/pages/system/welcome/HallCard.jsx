@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-function HallCard({ hall }) {
+function HallCard({ hall, count }) {
   const { TenHoiTruong, SucChua, Gia, TinhTrang, HinhAnh } = hall
 
   return (
@@ -17,6 +17,7 @@ function HallCard({ hall }) {
           <li>
             <strong>Giá: {Gia}đ</strong>
           </li>
+          <li>Số lượt đặt: {count}</li>
         </ul>
       </div>
       <div className="hall-button">

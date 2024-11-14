@@ -4,6 +4,8 @@ import authController from '../controllers/authController.js'
 
 const hoiTruongRouter = express.Router()
 
+hoiTruongRouter.route('/top').get(hoiTruongController.getTopHoiTruong)
+
 hoiTruongRouter
   .route('/')
   .get(
