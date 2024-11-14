@@ -1,7 +1,6 @@
 import APIClient from '../../../api/client'
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-
 import styled from 'styled-components'
 import ErrorPopup from './ErrorPopup'
 
@@ -52,7 +51,11 @@ function BoxChat() {
     apiClient
       .findParams({ input })
       .then((response) => {
-        setInput([...input, { role: 'assistant', content: response.data }])
+        if (response.data) {
+          setInput([...input, { role: 'assistant', content: response.data }])
+        } else {
+          setErrorOpen(true)
+        }
       })
       .catch((error) => {
         console.error(error)
@@ -73,45 +76,48 @@ function BoxChat() {
 
   return (
     <BoxChatWrapper>
-      <div className="box-chat">
-        <div className="message-list" ref={listRef}>
-          {input.map((message, index) => (
-            <div key={index} className={`message ${message.role}`}>
-              {message.content.split('\n').map((line, lineIndex) => (
-                <p key={lineIndex}>{line}</p>
-              ))}
-            </div>
-          ))}
+      {errorOpen ? (
+        <ErrorPopup
+          open={errorOpen}
+          onClose={handleCloseError}
+          onReload={handleReloadChat}
+        />
+      ) : (
+        <div className="box-chat">
+          <div className="message-list" ref={listRef}>
+            {input.map((message, index) => (
+              <div key={index} className={`message ${message.role}`}>
+                {message.content?.split('\n').map((line, lineIndex) => (
+                  <p key={lineIndex}>{line}</p>
+                ))}
+              </div>
+            ))}
+          </div>
+          <div className="input-area">
+            <button
+              id="btn-cancel"
+              onClick={handleReloadChat}
+              className="reload-button"
+            >
+              ↻
+            </button>
+            <input
+              type="text"
+              placeholder="Bạn hãy hỏi gì đó..."
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              onKeyDown={listenKeyDown}
+            />
+            <button
+              id="btn-primary"
+              onClick={handleClick}
+              className="send-button"
+            >
+              ➤
+            </button>
+          </div>
         </div>
-        <div className="input-area">
-          <button
-            id="btn-cancel"
-            onClick={handleReloadChat}
-            className="reload-button"
-          >
-            ↻
-          </button>
-          <input
-            type="text"
-            placeholder="Bạn hãy hỏi gì đó..."
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            onKeyDown={listenKeyDown}
-          />
-          <button
-            id="btn-primary"
-            onClick={handleClick}
-            className="send-button"
-          >
-            ➤
-          </button>
-        </div>
-      </div>
-      <ErrorPopup
-        open={errorOpen}
-        onClose={handleCloseError}
-        onReload={handleReloadChat}
-      />
+      )}
     </BoxChatWrapper>
   )
 }
