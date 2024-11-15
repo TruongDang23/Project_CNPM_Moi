@@ -8,7 +8,7 @@ mcRouter
   .route('/')
   .get(
     authController.protect,
-    authController.restrictTo('admin'),
+    authController.restrictTo('admin', 'user'),
     mcController.getAllMC
   )
   .post(

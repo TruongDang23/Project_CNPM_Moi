@@ -1,20 +1,47 @@
 import styled from 'styled-components'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
+import APIClient from '../../../../api/client'
 import ServiceDetailPopUp from '../../../../components/ServiceDetailPopUp'
 
 import 'react-responsive-carousel/lib/styles/carousel.min.css' // requires a loader
 import { Carousel } from 'react-responsive-carousel'
 
 function ThiepSearchCard({ thiep }) {
-  const { LoaiThiep, Gia, HinhAnh } = thiep
+  const { MaThiep, LoaiThiep, Gia, HinhAnh } = thiep
   const [isPopupOpen, setIsPopupOpen] = useState(false)
+  const [thiepDetail, setThiepDetail] = useState(null)
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  useEffect(() => {
+    const apiClient = new APIClient('thiep')
+    apiClient
+      .findByID(MaThiep)
+      .then((response) => {
+        setThiepDetail(response.data.thiep)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }, [MaThiep])
+
   const handleViewClick = () => {
     setIsPopupOpen(true)
+    // Thêm MaNhacCong vào URL
+    navigate(`${location.pathname}?MaThiep=${MaThiep}`, { replace: true })
   }
 
   const handleClosePopup = () => {
     setIsPopupOpen(false)
+    // Xóa MaNhacCong khỏi URL khi đóng popup
+    const searchParams = new URLSearchParams(location.search)
+    searchParams.delete('MaNhacCong')
+    navigate(`${location.pathname}?${searchParams.toString()}`, {
+      replace: true
+    })
   }
+
 
   const formatCurrency = (amount) => {
     // Chuyển đổi số thành chuỗi và sử dụng regex để thêm dấu phẩy
@@ -46,9 +73,11 @@ function ThiepSearchCard({ thiep }) {
             <div className="popup-img">
               <Carousel autoPlay interval={3000}>
                 {HinhAnh.map((img, index) => (
-                  <div key={index}>
-                    <img src={img} alt={LoaiThiep} />
-                  </div>
+                  <img
+                    key={index}
+                    src={img}
+                    alt={`${LoaiThiep} ${index + 1}`}
+                  />
                 ))}
               </Carousel>
             </div>

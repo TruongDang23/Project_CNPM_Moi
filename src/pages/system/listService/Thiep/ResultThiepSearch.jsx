@@ -1,10 +1,10 @@
 import styled from 'styled-components'
 import ThiepSearchCard from './ThiepSearchCard'
 
-function ResultThiepSearch({ resultSearch }) {
+function ResultThiepSearch({ resultSearch, totalResults }) {
   return (
     <ResultSearchWrapper>
-      <h2>Kết quả tìm kiếm: {resultSearch.length} kết quả</h2>
+      <h2>Kết quả tìm kiếm: {totalResults} kết quả</h2>
       <div className="thiep-container">
         {resultSearch.map((thiep) => {
           return <ThiepSearchCard key={thiep.MaThiep} thiep={thiep} />

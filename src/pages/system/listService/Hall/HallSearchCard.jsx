@@ -1,5 +1,7 @@
 import styled from 'styled-components'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
+import APIClient from '../../../../api/client'
 import ServiceDetailPopUp from '../../../../components/ServiceDetailPopUp'
 
 import 'react-responsive-carousel/lib/styles/carousel.min.css' // requires a loader
@@ -7,6 +9,7 @@ import { Carousel } from 'react-responsive-carousel'
 
 function HallSearchCard({ hall }) {
   const {
+    MaHoiTruong,
     TenHoiTruong,
     SucChua,
     Wifi,
@@ -21,12 +24,32 @@ function HallSearchCard({ hall }) {
     HinhAnh
   } = hall
   const [isPopupOpen, setIsPopupOpen] = useState(false)
+  const [hallDetail, setHallDetail] = useState(null)
+  const navigate = useNavigate()
+  const location = useLocation()
+  useEffect(() => {
+    const apiClient = new APIClient('hoitruong')
+    apiClient
+      .findByID(MaHoiTruong)
+      .then((response) => {
+        setHallDetail(response.data.hoitruong)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }, [MaHoiTruong])
   const handleViewClick = () => {
     setIsPopupOpen(true)
+    navigate(`${location.pathname}?MaHoiTruong=${MaHoiTruong}`, { replace: true })
   }
 
   const handleClosePopup = () => {
     setIsPopupOpen(false)
+    const searchParams = new URLSearchParams(location.search)
+    searchParams.delete('MaHoiTruong')
+    navigate(`${location.pathname}?${searchParams.toString()}`, {
+      replace: true
+    })
   }
 
   const formatCurrency = (amount) => {
@@ -62,10 +85,12 @@ function HallSearchCard({ hall }) {
           <div className="popup-content">
             <div className="popup-img">
               <Carousel autoPlay interval={3000}>
-                {HinhAnh.map((img, index) => (
-                  <div key={index}>
-                    <img src={img} alt={TenHoiTruong} />
-                  </div>
+                {HinhAnh.map((image, index) => (
+                  <img
+                    key={index}
+                    src={image}
+                    alt={`${TenHoiTruong} ${index + 1}`}
+                  />
                 ))}
               </Carousel>
             </div>

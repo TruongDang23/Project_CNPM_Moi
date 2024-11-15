@@ -112,15 +112,15 @@ function NCSearchCard({ nc }) {
       </div>
       {isPopupOpen && (
         <ServiceDetailPopUp onClose={handleClosePopup}>
-          <h2>{ncDetail.HoTen}</h2>
+          <h2>{HoTen}</h2>
           <div className="popup-content">
             <div className="popup-img">
               <Carousel autoPlay interval={3000}>
-                {ncDetail.HinhAnh.map((image, index) => (
+                {HinhAnh.map((image, index) => (
                   <img
                     key={index}
                     src={image}
-                    alt={`${ncDetail.HoTen} ${index + 1}`}
+                    alt={`${HoTen} ${index + 1}`}
                   />
                 ))}
               </Carousel>
@@ -128,32 +128,32 @@ function NCSearchCard({ nc }) {
             <div className="popup-info">
               <ul>
                 <li>
-                  <strong>Tên nhạc công:</strong> {ncDetail.HoTen}
+                  <strong>Tên nhạc công:</strong> {HoTen}
                 </li>
                 <li>
                   <strong>Số điện thoại: </strong>
-                  {ncDetail.SDT}
+                  {SDT}
                 </li>
                 <li>
                   <strong>Kinh nghiệm: </strong>
-                  {!ncDetail.KinhNghiem ? 'Chưa có' : ncDetail.KinhNghiem}
+                  {!KinhNghiem ? 'Chưa có' : KinhNghiem}
                 </li>
                 <li>
-                  <strong>Loại nhạc cụ:</strong> {ncDetail.LoaiNhacCu}
+                  <strong>Loại nhạc cụ:</strong> {LoaiNhacCu}
                 </li>
                 <li>
                   <strong>Tình trạng: </strong>
-                  {ncDetail.TinhTrang ? 'Còn trống' : 'Đã đặt'}
+                  {TinhTrang ? 'Còn trống' : 'Đã đặt'}
                 </li>
                 <li>
-                  <strong>Giá:</strong> {formatCurrency(ncDetail.Gia)}
+                  <strong>Giá:</strong> {formatCurrency(Gia)}
                 </li>
               </ul>
               <h3>Đánh giá:</h3>
               <div className="rating-list">
                 <ul>
-                  {ncDetail.DanhGia.length > 0 ? (
-                    ncDetail.DanhGia.map((danhGia, index) => (
+                  {DanhGia.length > 0 ? (
+                    DanhGia.map((danhGia, index) => (
                       <li key={index}>
                         <strong>{danhGia.HoTen}</strong> ({danhGia.SoSao} ⭐):{' '}
                         {danhGia.BinhLuan}

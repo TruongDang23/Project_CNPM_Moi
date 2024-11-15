@@ -1,10 +1,10 @@
 import styled from 'styled-components'
 import HallSearchCard from './HallSearchCard'
 
-function ResultHallSearch({ resultSearch }) {
+function ResultHallSearch({ resultSearch, totalResults }) {
   return (
     <ResultSearchWrapper>
-      <h2>Kết quả tìm kiếm: {resultSearch.length} kết quả</h2>
+      <h2>Kết quả tìm kiếm: {totalResults} kết quả</h2>
       <div className="hall-container">
         {resultSearch.map((hall) => {
           return <HallSearchCard key={hall.MaHoiTruong} hall={hall} />

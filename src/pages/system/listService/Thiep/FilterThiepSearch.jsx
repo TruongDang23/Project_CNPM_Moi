@@ -1,8 +1,11 @@
 import styled from 'styled-components'
 import Bg from '../../../../assets/bg-v1.png'
-import { useState } from 'react'
-
+import { useState, useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { ListNCContext } from '../../../../context/ListNCContext'
 function FilterThiepSearch() {
+  const { updateSearchParams } = useContext(ListNCContext)
+  const navigate = useNavigate()
   const [searchTerm, setSearchTerm] = useState('')
   const [price, setPrice] = useState('')
   const [type, setType] = useState('')
@@ -25,6 +28,16 @@ function FilterThiepSearch() {
     setType('')
   }
 
+  const handleSearch = () => {
+    const params = {}
+    if (searchTerm) params.searchTerm = searchTerm
+    if (price) params.price = price
+    if (type) params.type = type
+    updateSearchParams(params)
+
+    const queryParams = new URLSearchParams(params).toString()
+    navigate(`?${queryParams}`)
+  }
   return (
     <FilterSearchWrapper>
       <h1>Danh sách Thiệp mời</h1>
@@ -37,22 +50,23 @@ function FilterThiepSearch() {
             value={searchTerm}
             onChange={handleSearchChange}
           />
-          <button id="btn-primary">Tìm</button>
+          <button id="btn-primary" onClick={handleSearch}>Tìm</button>
         </div>
         <div className="filter-option">
           <h3>Lọc theo:</h3>
-          <select value={price} onChange={handlePriceChange}>
-            <option value="">Chọn mức giá</option>
-            <option value="all">Bỏ lọc giá</option>
+          <select defaultValue="" value={price} onChange={handlePriceChange}>
+            <option disabled hidden value="">Chọn mức giá</option>
             <option value={1}>Tăng dần</option>
             <option value={-1}>Giảm dần</option>
           </select>
-          <select value={type} onChange={handleTypeChange}>
-            <option value="">Chọn loại thiệp</option>
-            <option value="all">Bỏ lọc loại thiệp</option>
-            <option value="cuoi">Cưới</option>
-            <option value="sinhnhat">Sinh Nhật</option>
-            <option value="sukien">Sự kiện</option>
+          <select
+            defaultValue=""
+            value={type}
+            onChange={handleTypeChange}>
+            <option disabled hidden value="">Chọn loại thiệp</option>
+            <option value="Cưới">Cưới</option>
+            <option value="Sinh Nhật">Sinh Nhật</option>
+            <option value="Sự kiện">Sự kiện</option>
           </select>
           <button id="btn-cancel" onClick={handleClearFilters}>
             Xóa bộ lọc

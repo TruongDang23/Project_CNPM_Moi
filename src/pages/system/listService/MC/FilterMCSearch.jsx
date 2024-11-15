@@ -1,8 +1,12 @@
 import styled from 'styled-components'
 import Bg from '../../../../assets/bg-v1.png'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { ListNCContext } from '../../../../context/ListNCContext'
 
 function FilterMCSearch() {
+  const { updateSearchParams } = useContext(ListNCContext)
+  const navigate = useNavigate()
   const [searchTerm, setSearchTerm] = useState('')
   const [price, setPrice] = useState('')
   const [status, setStatus] = useState('')
@@ -24,7 +28,16 @@ function FilterMCSearch() {
     setPrice('')
     setStatus('')
   }
+  const handleSearch = () => {
+    const params = {}
+    if (searchTerm) params.searchTerm = searchTerm
+    if (price) params.price = price
+    if (status) params.status = status
+    updateSearchParams(params)
 
+    const queryParams = new URLSearchParams(params).toString()
+    navigate(`?${queryParams}`)
+  }
   return (
     <FilterSearchWrapper>
       <h1>Danh sách MC</h1>
@@ -37,19 +50,17 @@ function FilterMCSearch() {
             value={searchTerm}
             onChange={handleSearchChange}
           />
-          <button id="btn-primary">Tìm</button>
+          <button id="btn-primary"onClick={handleSearch}>Tìm</button>
         </div>
         <div className="filter-option">
           <h3>Lọc theo:</h3>
-          <select value={price} onChange={handlePriceChange}>
-            <option value="">Chọn mức giá</option>
-            <option value="all">Bỏ lọc giá</option>
+          <select defaultValue="" value={price} onChange={handlePriceChange}>
+            <option disabled hidden value="">Chọn mức giá</option>
             <option value={1}>Tăng dần</option>
             <option value={-1}>Giảm dần</option>
           </select>
-          <select value={status} onChange={handleStatusChange}>
-            <option value="">Chọn tình trạng</option>
-            <option value="all">Bỏ lọc tình trạng</option>
+          <select defaultValue="" value={status} onChange={handleStatusChange}>
+            <option disabled hidden value="">Chọn tình trạng</option>
             <option value="true">Sẵn sàng</option>
             <option value="false">Không sẵn thuê</option>
           </select>

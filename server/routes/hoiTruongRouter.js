@@ -8,7 +8,7 @@ hoiTruongRouter
   .route('/')
   .get(
     authController.protect,
-    authController.restrictTo('admin'),
+    authController.restrictTo('admin', 'user'),
     hoiTruongController.getAll
   )
   .post(

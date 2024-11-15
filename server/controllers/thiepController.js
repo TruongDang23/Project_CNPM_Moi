@@ -3,12 +3,49 @@ import catchAsync from '../utils/catchAsync.js'
 import AppError from '../utils/appError.js'
 
 const getAllThiep = catchAsync(async (req, res, next) => {
-  const thiep = await ThiepMoi.find().sort({ MaThiep: 1 })
+  const {
+    searchTerm,
+    type,
+    price,
+    page = 1,
+    limit = 10
+  } = req.query;
+
+  let query = {};
+
+  if (searchTerm) {
+    query.LoaiThiep = { $regex: searchTerm, $options: 'i' };
+  }
+
+  if (type) {
+    query.LoaiThiep = type;
+  }
+
+  let thiepQuery = ThiepMoi.find(query);
+
+  // Convert `price` value to integer and ensure it's either 1 or -1 for sorting
+  const sortPrice = price === '1' ? 1 : price === '-1' ? -1 : null;
+  if (sortPrice !== null) {
+    thiepQuery = thiepQuery.sort({ Gia: sortPrice });
+  } else {
+    thiepQuery = thiepQuery.sort({ MaThiep: 1 }); // Default sort by MaThiep
+  }
+
+  const totalThiep = await ThiepMoi.countDocuments(query);
+  const totalPages = Math.ceil(totalThiep / limit);
+
+  thiepQuery = thiepQuery.skip((page - 1) * limit).limit(limit);
+
+  const thiep = await thiepQuery;
+
   res.status(200).json({
     status: 'success',
-    thiep
-  })
-})
+    thiep,
+    totalThiep,
+    totalPages
+  });
+});
+
 
 const getThiep = catchAsync(async (req, res, next) => {
   if (req.params.id !== null) {

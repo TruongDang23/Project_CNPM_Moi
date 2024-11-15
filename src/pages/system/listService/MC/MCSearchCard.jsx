@@ -1,5 +1,7 @@
 import styled from 'styled-components'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
+import APIClient from '../../../../api/client'
 import ServiceDetailPopUp from '../../../../components/ServiceDetailPopUp'
 
 import 'react-responsive-carousel/lib/styles/carousel.min.css' // requires a loader
@@ -7,7 +9,7 @@ import { Carousel } from 'react-responsive-carousel'
 import Snackbar from '@mui/material/Snackbar'
 
 function MCSearchCard({ mc }) {
-  const { HoTen, SDT, KinhNghiem, TinhTrang, Gia, DanhGia, HinhAnh } = mc
+  const { MaMC, HoTen, SDT, KinhNghiem, TinhTrang, Gia, DanhGia, HinhAnh } = mc
   const [newRating, setNewRating] = useState({
     HoTen: '',
     SoSao: '',
@@ -15,14 +17,33 @@ function MCSearchCard({ mc }) {
   })
   const [snackbarOpen, setSnackbarOpen] = useState(false)
   const [isPopupOpen, setIsPopupOpen] = useState(false)
+  const [mcDetail, setMCDetail] = useState(null)
+  const navigate = useNavigate()
+  const location = useLocation()
   const handleViewClick = () => {
     setIsPopupOpen(true)
+    navigate(`${location.pathname}?MaMC=${MaMC}`, { replace: true })
   }
 
   const handleClosePopup = () => {
     setIsPopupOpen(false)
+    const searchParams = new URLSearchParams(location.search)
+    searchParams.delete('MaMC')
+    navigate(`${location.pathname}?${searchParams.toString()}`, {
+      replace: true
+    })
   }
-
+  useEffect(() => {
+    const apiClient = new APIClient('mc')
+    apiClient
+      .findByID(MaMC)
+      .then((response) => {
+        setMCDetail(response.data.mc)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }, [MaMC])
   const handleSubmit = (e) => {
     e.preventDefault()
     // Gọi hàm để thêm đánh giá mới vào danh sách
@@ -77,7 +98,13 @@ function MCSearchCard({ mc }) {
           <div className="popup-content">
             <div className="popup-img">
               <Carousel autoPlay interval={3000}>
-                <img src={HinhAnh} alt={HoTen} />
+                {HinhAnh.map((image, index) => (
+                  <img
+                    key={index}
+                    src={image}
+                    alt={`${HoTen} ${index + 1}`}
+                  />
+                ))}
               </Carousel>
             </div>
             <div className="popup-info">
