@@ -22,7 +22,8 @@ const getByID = catchAsync(async (req, res, next) => {
 
 const getCount = catchAsync(async (req, res, next) => {
   const count = {
-    hoiTruong: await HoiTruong.countDocuments({ Active: true }),
+    hoiTruongActive: await HoiTruong.countDocuments({ Active: true }),
+    hoiTruongUnactive: await HoiTruong.countDocuments({ Active: false }),
     datDichVu: await DatDichVu.countDocuments(),
     mc: await MC.countDocuments({ Active: true }),
     combo: await Combo.countDocuments({ Active: true }),
