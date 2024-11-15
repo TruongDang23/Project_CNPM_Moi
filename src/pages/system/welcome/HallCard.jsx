@@ -2,6 +2,10 @@ import styled from 'styled-components'
 
 function HallCard({ hall, count }) {
   const { TenHoiTruong, SucChua, Gia, TinhTrang, HinhAnh } = hall
+  const formatCurrency = (amount) => {
+    // Chuyển đổi số thành chuỗi và sử dụng regex để thêm dấu phẩy
+    return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + 'đ'
+  }
 
   return (
     <HallCardWrapper>
@@ -15,7 +19,7 @@ function HallCard({ hall, count }) {
           <li>Tình trạng: {TinhTrang ? 'Còn trống' : 'Đã đặt'}</li>
 
           <li>
-            <strong>Giá: {Gia}đ</strong>
+            <strong>Giá: {Gia ? formatCurrency(Gia) + 'đ' : "Free"}</strong>
           </li>
           <li>Số lượt đặt: {count}</li>
         </ul>
