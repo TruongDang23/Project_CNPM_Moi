@@ -94,15 +94,15 @@ function MCSearchCard({ mc }) {
 
       {isPopupOpen && (
         <ServiceDetailPopUp onClose={handleClosePopup}>
-          <h2>{mcDetail.HoTen}</h2>
+          <h2>{HoTen}</h2>
           <div className="popup-content">
             <div className="popup-img">
               <Carousel autoPlay interval={3000}>
-                {mcDetail.HinhAnh.map((image, index) => (
+                {HinhAnh.map((image, index) => (
                   <img
                     key={index}
                     src={image}
-                    alt={`${mcDetail.HoTen} ${index + 1}`}
+                    alt={`${HoTen} ${index + 1}`}
                   />
                 ))}
               </Carousel>
@@ -110,29 +110,29 @@ function MCSearchCard({ mc }) {
             <div className="popup-info">
               <ul>
                 <li>
-                  <strong>Tên MC:</strong> {mcDetail.HoTen}
+                  <strong>Tên MC:</strong> {HoTen}
                 </li>
                 <li>
                   <strong>Số điện thoại: </strong>
-                  {mcDetail.SDT}
+                  {SDT}
                 </li>
                 <li>
                   <strong>Kinh nghiệm: </strong>
-                  {!mcDetail.KinhNghiem ? 'Chưa có' : mcDetail.KinhNghiem}
+                  {!KinhNghiem ? 'Chưa có' : KinhNghiem}
                 </li>
                 <li>
                   <strong>Tình trạng: </strong>
-                  {mcDetail.TinhTrang ? 'Còn trống' : 'Đã đặt'}
+                  {TinhTrang ? 'Còn trống' : 'Đã đặt'}
                 </li>
                 <li>
-                  <strong>Giá:</strong> {formatCurrency(mcDetail.Gia)}
+                  <strong>Giá:</strong> {formatCurrency(Gia)}
                 </li>
               </ul>
               <h3>Đánh giá:</h3>
               <div className="rating-list">
                 <ul>
-                  {mcDetail.DanhGia.length > 0 ? (
-                    mcDetail.DanhGia.map((danhGia, index) => (
+                  {DanhGia.length > 0 ? (
+                    DanhGia.map((danhGia, index) => (
                       <li key={index}>
                         <strong>{danhGia.HoTen}</strong> ({danhGia.SoSao} ⭐):{' '}
                         {danhGia.BinhLuan}

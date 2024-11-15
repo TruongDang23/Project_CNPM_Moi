@@ -85,11 +85,11 @@ function HallSearchCard({ hall }) {
           <div className="popup-content">
             <div className="popup-img">
               <Carousel autoPlay interval={3000}>
-                {hallDetail.HinhAnh.map((image, index) => (
+                {HinhAnh.map((image, index) => (
                   <img
                     key={index}
                     src={image}
-                    alt={`${hallDetail.HoTen} ${index + 1}`}
+                    alt={`${TenHoiTruong} ${index + 1}`}
                   />
                 ))}
               </Carousel>
@@ -98,38 +98,38 @@ function HallSearchCard({ hall }) {
             <div className="popup-info">
               <ul>
                 <li>
-                  <strong>Tên hội trường:</strong> {hallDetail.TenHoiTruong}
+                  <strong>Tên hội trường:</strong> {TenHoiTruong}
                 </li>
                 <li>
-                  <strong>Giá:</strong> {formatCurrency(hallDetail.Gia)}
+                  <strong>Giá:</strong> {formatCurrency(Gia)}
                 </li>
                 <li>
                   <strong>Tình trạng:</strong>{' '}
-                  {hallDetail.TinhTrang ? 'Còn trống' : 'Đã đặt'}
+                  {TinhTrang ? 'Còn trống' : 'Đã đặt'}
                 </li>
                 <li>
-                  <strong>Sức chứa:</strong> {hallDetail.SucChua}
+                  <strong>Sức chứa:</strong> {SucChua}
                 </li>
                 <li>
-                  <strong>Wifi:</strong> {hallDetail.Wifi ? 'Có' : 'Không'}
+                  <strong>Wifi:</strong> {Wifi ? 'Có' : 'Không'}
                 </li>
                 <li>
-                  <strong>Mô tả:</strong> {hallDetail.MoTa}
+                  <strong>Mô tả:</strong> {MoTa}
                 </li>
                 <li>
-                  <strong>Máy lạnh:</strong> {hallDetail.MayLanh ? 'Có' : 'Không'}
+                  <strong>Máy lạnh:</strong> {MayLanh ? 'Có' : 'Không'}
                 </li>
                 <li>
-                  <strong>Phòng kín:</strong> {hallDetail.PhongKin ? 'Có' : 'Không'}
+                  <strong>Phòng kín:</strong> {PhongKin ? 'Có' : 'Không'}
                 </li>
                 <li>
-                  <strong>Diện tích:</strong> {hallDetail.DienTich} m²
+                  <strong>Diện tích:</strong> {DienTich} m²
                 </li>
                 <li>
-                  <strong>Số phòng:</strong> {hallDetail.SoPhong}
+                  <strong>Số phòng:</strong> {SoPhong}
                 </li>
                 <li>
-                  <strong>Vị trí lầu:</strong> {hallDetail.ViTriLau}
+                  <strong>Vị trí lầu:</strong> {ViTriLau}
                 </li>
               </ul>
             </div>

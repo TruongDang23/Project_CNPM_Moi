@@ -65,15 +65,15 @@ function ComboSearchCard({ combo }) {
 
       {isPopupOpen && (
         <ServiceDetailPopUp onClose={handleClosePopup}>
-          <h2>{comboDetail.TenCombo}</h2>
+          <h2>{TenCombo}</h2>
           <div className="popup-content">
             <div className="popup-img">
               <Carousel autoPlay interval={3000}>
-                {comboDetail.HinhAnh.map((img, index) => (
+                {HinhAnh.map((img, index) => (
                   <img
                     key={index}
                     src={img}
-                    alt={`${comboDetail.HoTen} ${index + 1}`}
+                    alt={`${TenCombo} ${index + 1}`}
                   />
                 ))}
               </Carousel>
@@ -81,16 +81,16 @@ function ComboSearchCard({ combo }) {
             <div className="popup-info">
               <ul>
                 <li>
-                  <strong>Tên combo:</strong> {comboDetail.TenCombo}
+                  <strong>Tên combo:</strong> {TenCombo}
                 </li>
                 <li>
-                  <strong>Loại combo:</strong> {comboDetail.LoaiCombo}
+                  <strong>Loại combo:</strong> {LoaiCombo}
                 </li>
                 <li>
-                  <strong>Giá:</strong> {formatCurrency(comboDetail.Gia)}
+                  <strong>Giá:</strong> {formatCurrency(Gia)}
                 </li>
                 <li>
-                  <strong>Mô tả:</strong> {comboDetail.MoTa}
+                  <strong>Mô tả:</strong> {MoTa}
                 </li>
                 <li>
                   <strong>Danh sách món ăn:</strong>{' '}

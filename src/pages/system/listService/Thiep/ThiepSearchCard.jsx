@@ -68,15 +68,15 @@ function ThiepSearchCard({ thiep }) {
       </div>
       {isPopupOpen && (
         <ServiceDetailPopUp onClose={handleClosePopup}>
-          <h2>{thiepDetail.LoaiThiep}</h2>
+          <h2>{LoaiThiep}</h2>
           <div className="popup-content">
             <div className="popup-img">
               <Carousel autoPlay interval={3000}>
-                {thiepDetail.map((img, index) => (
+                {HinhAnh.map((img, index) => (
                   <img
                     key={index}
                     src={img}
-                    alt={`${thiepDetail.HoTen} ${index + 1}`}
+                    alt={`${LoaiThiep} ${index + 1}`}
                   />
                 ))}
               </Carousel>
@@ -85,10 +85,10 @@ function ThiepSearchCard({ thiep }) {
             <div className="popup-info">
               <ul>
                 <li>
-                  <strong>Loại thiệp :</strong> {thiepDetail.LoaiThiep}
+                  <strong>Loại thiệp :</strong> {LoaiThiep}
                 </li>
                 <li>
-                  <strong>Giá:</strong> {formatCurrency(thiepDetail.Gia)}
+                  <strong>Giá:</strong> {formatCurrency(Gia)}
                 </li>
               </ul>
             </div>
