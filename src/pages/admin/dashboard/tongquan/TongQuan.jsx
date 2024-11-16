@@ -16,13 +16,7 @@ function TongQuan() {
               <StatisticsSummary />
             </div>
             <div className="hall-content-detail">
-              <TopServices data={someTQData.servicesData} />
-            </div>
-            <div className="hall-content-detail">
-              <ProfitChart
-                data={someTQData.dataChart}
-                value={someTQData.totalAmount}
-              />
+              <TopServices />
             </div>
           </div>
         </TongQuanWrapper>
