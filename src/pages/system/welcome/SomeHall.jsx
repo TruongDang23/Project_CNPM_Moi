@@ -1,13 +1,15 @@
 import styled from 'styled-components'
 import HallCard from './HallCard'
 
-function SomeHall({ someHallData }) {
+function SomeHall({ topHoiTruong }) {
   return (
     <SomeHallWrapper>
       <h2>Một Số Hội Trường Nổi Bật</h2>
       <div className="hall-container">
-        {someHallData.map((hall) => {
-          return <HallCard key={hall.MaHoiTruong} hall={hall} />
+        {topHoiTruong.map((hall) => {
+          return (
+            <HallCard key={hall.hoitruong.MaHoiTruong} hall={hall.hoitruong} count={hall.count}/>
+          )
         })}
       </div>
     </SomeHallWrapper>

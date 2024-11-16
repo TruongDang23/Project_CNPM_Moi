@@ -5,6 +5,9 @@ import adminController from '../controllers/adminController.js'
 
 const adminRouter = express.Router()
 
+adminRouter.route('/count-active').get(adminController.getCount)
+adminRouter.route('/most-booked').get(adminController.getMostBookedServices)
+
 adminRouter
   .route('/:id')
   .get(

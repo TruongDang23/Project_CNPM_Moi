@@ -2,7 +2,7 @@ import NhacCong from '../models/nhaccong.js'
 import catchAsync from '../utils/catchAsync.js'
 import AppError from '../utils/appError.js'
 
-const getAllNhacCong = catchAsync(async (req, res, next) => {
+const getAllNhacCong = catchAsync(async (req, res) => {
   // const nhaccong = await NhacCong.find()
   // res.status(200).json({
   //   status: 'success',
@@ -67,7 +67,7 @@ const getNhacCong = catchAsync(async (req, res, next) => {
   }
 })
 
-const createNhacCong = catchAsync(async (req, res, next) => {
+const createNhacCong = catchAsync(async (req, res) => {
   // Lấy số lượng nhạc công hiện có để sinh mã mới
   const nhacCongCount = await NhacCong.countDocuments()
 

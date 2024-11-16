@@ -1,15 +1,49 @@
+import { useState, useContext } from 'react'
+import { AdminTQContext } from '../../../../context/AdminTQContext'
 import styled from 'styled-components'
-function TopServices({ data }) {
+
+function TopServices() {
+  const { mostUsedData } = useContext(AdminTQContext)
+  console.log(mostUsedData)
+
+  const data = [
+    {
+      ma: 'Hội trường: ' + mostUsedData.mostUsedHall.MaHoiTruong,
+      name: mostUsedData.mostUsedHall.TenHoiTruong,
+      orders: mostUsedData.mostUsedHall.count || 0
+    },
+    {
+      ma: 'MC: ' + mostUsedData.mostUsedMC.MaMC,
+      name: mostUsedData.mostUsedMC.TenMC,
+      orders: mostUsedData.mostUsedMC.count || 0
+    },
+    {
+      ma: 'Combo: ' + mostUsedData.mostUsedCombo.MaCombo,
+      name: mostUsedData.mostUsedCombo.TenCombo,
+      orders: mostUsedData.mostUsedCombo.count || 0
+    },
+    {
+      ma: 'Nhạc công: ' + mostUsedData.mostUsedNhacCong.MaNC,
+      name: mostUsedData.mostUsedNhacCong.TenNC,
+      orders: mostUsedData.mostUsedNhacCong.count || 0
+    },
+    {
+      ma: 'Thiệp mời: ' + mostUsedData.mostUsedThiep.MaThiep,
+      name: mostUsedData.mostUsedThiep.TenThiep,
+      orders: mostUsedData.mostUsedThiep.count || 0
+    }
+  ]
+
   return (
     <TopServicesWrapper>
       <h3>Những hội trường và dịch vụ đứng đầu:</h3>
       <ul>
         {data.map((service, index) => (
           <li key={index}>
+            <span className="service-name">{service.ma}</span>
             <span className="service-name">{service.name}</span>
-            <span className="service-orders">{service.orders} lượt đặt</span>
             <span className="service-success">
-              Thành công: <SuccessRate>{service.successRate}</SuccessRate>
+              <SuccessRate>{service.orders}</SuccessRate> lượt đặt
             </span>
           </li>
         ))}
@@ -35,7 +69,6 @@ const TopServicesWrapper = styled.div`
     padding: 0;
     margin: 0;
 
-    
     ${'' /* Tạo một đường line giữa hai cột */}
     position: relative;
 

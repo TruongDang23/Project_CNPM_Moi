@@ -73,6 +73,9 @@ function Header() {
             <a href="/" className="link">
               Đặt dịch vụ
             </a>
+            <a href="/chat-ai" className="link">
+              Chat AI
+            </a>
           </div>
           <div className="authButtons">
             <a href="/login" className="login">
@@ -98,6 +101,9 @@ function Header() {
             <ListService />
             <a href="/customer/order-event" className="link">
               Đặt dịch vụ
+            </a>
+            <a href="/chat-ai" className="link">
+              Chat AI
             </a>
           </div>
           <div className="nav-other">
@@ -126,6 +132,9 @@ function Header() {
             <ListService />
             <a href="/admin/order-event" className="link">
               Đặt dịch vụ
+            </a>
+            <a href="/chat-ai" className="link">
+              Chat AI
             </a>
           </div>
           <div className="nav-other">
