@@ -20,6 +20,7 @@ function MCSearchCard({ mc }) {
   const [mcDetail, setMCDetail] = useState(null)
   const navigate = useNavigate()
   const location = useLocation()
+  const userID = sessionStorage.getItem('userID')
   const handleViewClick = () => {
     setIsPopupOpen(true)
     navigate(`${location.pathname}?MaMC=${MaMC}`, { replace: true })
@@ -65,6 +66,20 @@ function MCSearchCard({ mc }) {
     setSnackbarOpen(false)
   }
 
+  const handleSave = () => {
+    const apiClient = new APIClient('khachhang')
+    apiClient
+      .saveOption(userID, MaMC)
+      .then((response) => {
+        if (response.status === 200) {
+          alert('Lưu MC thành công')
+        }
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
   const formatCurrency = (amount) => {
     // Chuyển đổi số thành chuỗi và sử dụng regex để thêm dấu phẩy
     return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + 'đ'
@@ -86,7 +101,7 @@ function MCSearchCard({ mc }) {
         </ul>
       </div>
       <div className="mc-button">
-        <button id="btn-primary">Lưu</button>
+        <button id="btn-primary" onClick={handleSave}>Lưu</button>
         <button id="btn-secoundary" onClick={handleViewClick}>
           Xem
         </button>

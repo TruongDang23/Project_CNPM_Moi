@@ -93,4 +93,13 @@ export default class APIClient {
     })
     return data
   }
+
+  async saveOption(id, option) {
+    const data = await axios.patch(`${this.api}/${id}/luudichvu/${option}`, {
+      headers: {
+        Authorization: `Bearer ${this.token}`
+      }
+    })
+    return data
+  }
 }

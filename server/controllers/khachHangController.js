@@ -59,68 +59,34 @@ const update = catchAsync(async (req, res, next) => {
   })
 })
 
-// const create = catchAsync(async (req, res, next) => {
-//   // Lấy số lượng nhạc công hiện có để sinh mã mới
-//   const comboCount = await Combo.countDocuments()
+const saveOption = catchAsync(async (req, res, next) => {
+  const khachhang = await KhachHang.findOne(
+    { MaTK: req.params.id }
+  )
 
-//   // Tạo mã MaHoiTruong theo định dạng "Hxxx", ví dụ "H001", "H002", ...
-//   const newMaCombo = `C${String(comboCount + 1).padStart(3, '0')}`
+  const option = req.params.option
+  if (!khachhang || !option) {
+    return next(new AppError('Không tìm thấy khách hàng với mã này', 404))
+  }
 
-//   // Thêm MaHoiTruong vào dữ liệu từ req.body
-//   const newCombo = await Combo.create({
-//     MaCombo: newMaCombo, // Mã tự động sinh
-//     TenCombo: req.body.TenCombo,
-//     LoaiCombo: req.body.LoaiCombo,
-//     Gia: req.body.Gia,
-//     DanhSachMonAn: req.body.DanhSachMonAn,
-//     Active: req.body.Active,
-//     HinhAnh: req.body.HinhAnh
-//   })
+  if (option[0] === 'H')
+    khachhang.LuuHoiTruong.push(option)
+  else if (option[0] === 'M')
+    khachhang.LuuMC.push(option)
+  else if (option[0] === 'N')
+    khachhang.LuuNhacCong.push(option)
+  else if (option[0] === 'T')
+    khachhang.LuuThiepMoi.push(option)
+  else if (option[0] === 'C')
+    khachhang.LuuCombo.push(option)
 
-//   if (!newCombo) {
-//     return next(new AppError('Tạo mới combo không thành công', 404))
-//   }
-//   res.status(201).send()
-// })
+  await khachhang.save()
 
-// const update = catchAsync(async (req, res, next) => {
-//   const updateCombo = await Combo.findByIdAndUpdate(
-//     req.params.id,
-//     req.body,
-//     {
-//       new: true, // Trả về document mới sau khi cập nhật
-//       runValidators: true // Chạy các validator để đảm bảo dữ liệu hợp lệ
-//     }
-//   )
-
-//   if (!updateCombo) {
-//     return next(new AppError('Không tìm thấy combo với mã này', 404))
-//   }
-//   res.status(200).send()
-// })
-
-// const deleteByID = catchAsync(async (req, res, next) => {
-//   // Xóa ở đây là chuyển Active từ true sang false, tìm theo MaHoiTruong
-//   const combo = await Combo.findOneAndUpdate(
-//     { MaCombo: req.params.id },
-//     { Active: false },
-//     {
-//       new: true, // Trả về document mới sau khi cập nhật
-//       runValidators: true // Chạy các validator để đảm bảo dữ liệu hợp lệ
-//     }
-//   )
-
-//   if (!combo) {
-//     return next(new AppError('Không tìm thấy combo với ID này', 404))
-//   }
-
-//   res.status(204).send()
-// })
-
+  res.status(200).send()
+})
 export default {
   getAll,
   getByID,
-  // create,
+  saveOption,
   update
-  // deleteByID
 }

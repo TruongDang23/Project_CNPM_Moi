@@ -13,6 +13,7 @@ function ThiepSearchCard({ thiep }) {
   const [thiepDetail, setThiepDetail] = useState(null)
   const navigate = useNavigate()
   const location = useLocation()
+  const userID = sessionStorage.getItem('userID')
 
   useEffect(() => {
     const apiClient = new APIClient('thiep')
@@ -42,6 +43,19 @@ function ThiepSearchCard({ thiep }) {
     })
   }
 
+  const handleSave = () => {
+    const apiClient = new APIClient('khachhang')
+    apiClient
+      .saveOption(userID, MaThiep)
+      .then((response) => {
+        if (response.status === 200) {
+          alert('Lưu thiệp mời thành công')
+        }
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
 
   const formatCurrency = (amount) => {
     // Chuyển đổi số thành chuỗi và sử dụng regex để thêm dấu phẩy
@@ -61,7 +75,7 @@ function ThiepSearchCard({ thiep }) {
         </ul>
       </div>
       <div className="thiep-button">
-        <button id="btn-primary">Lưu</button>
+        <button id="btn-primary" onClick={handleSave}>Lưu</button>
         <button id="btn-secoundary" onClick={handleViewClick}>
           Xem
         </button>

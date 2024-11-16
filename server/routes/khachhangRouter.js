@@ -31,11 +31,12 @@ khachhangRouter
     khachhangController.update
   )
 
-
-// .delete(
-//   authController.protect,
-//   authController.restrictTo('admin'),
-//   khachhangController.deleteByID
-// )
+khachhangRouter
+  .route('/:id/luudichvu/:option')
+  .patch(
+    // authController.protect,
+    // authController.restrictTo('admin', 'user'),
+    khachhangController.saveOption
+  )
 
 export default khachhangRouter

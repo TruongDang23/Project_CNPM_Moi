@@ -30,6 +30,7 @@ function NCSearchCard({ nc }) {
   const [ncDetail, setNcDetail] = useState(null)
   const navigate = useNavigate()
   const location = useLocation()
+  const userID = sessionStorage.getItem('userID')
 
   useEffect(() => {
     const apiClient = new APIClient('nhaccong')
@@ -57,6 +58,20 @@ function NCSearchCard({ nc }) {
     navigate(`${location.pathname}?${searchParams.toString()}`, {
       replace: true
     })
+  }
+
+  const handleSave = () => {
+    const apiClient = new APIClient('khachhang')
+    apiClient
+      .saveOption(userID, MaNhacCong)
+      .then((response) => {
+        if (response.status === 200) {
+          alert('Lưu nhạc công thành công')
+        }
+      })
+      .catch((error) => {
+        console.error(error)
+      })
   }
 
   const handleSubmit = (e) => {
@@ -105,7 +120,7 @@ function NCSearchCard({ nc }) {
         </ul>
       </div>
       <div className="nc-button">
-        <button id="btn-primary">Lưu</button>
+        <button id="btn-primary" onClick={handleSave}>Lưu</button>
         <button id="btn-secoundary" onClick={handleViewClick}>
           Xem
         </button>

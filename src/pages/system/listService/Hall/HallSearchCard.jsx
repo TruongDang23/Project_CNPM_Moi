@@ -27,6 +27,7 @@ function HallSearchCard({ hall }) {
   const [hallDetail, setHallDetail] = useState(null)
   const navigate = useNavigate()
   const location = useLocation()
+  const userID = sessionStorage.getItem('userID')
   useEffect(() => {
     const apiClient = new APIClient('hoitruong')
     apiClient
@@ -57,6 +58,20 @@ function HallSearchCard({ hall }) {
     return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + 'đ'
   }
 
+  const handleSave = () => {
+    const apiClient = new APIClient('khachhang')
+    apiClient
+      .saveOption(userID, MaHoiTruong)
+      .then((response) => {
+        if (response.status === 200) {
+          alert('Lưu hội trường thành công')
+        }
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
   return (
     <HallSearchCardWrapper>
       <div className="hall-img">
@@ -72,9 +87,9 @@ function HallSearchCard({ hall }) {
             <strong>Giá: {formatCurrency(Gia)}</strong>
           </li>
         </ul>
-      </div>
+      </div>;
       <div className="hall-button">
-        <button id="btn-primary">Lưu</button>
+        <button id="btn-primary" onClick={handleSave}>Lưu</button>
         <button id="btn-secoundary" onClick={handleViewClick}>
           Xem
         </button>

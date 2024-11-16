@@ -13,6 +13,7 @@ function ComboSearchCard({ combo }) {
   const [comboDetail, setComboDetail] = useState(null)
   const navigate = useNavigate()
   const location = useLocation()
+  const userID = sessionStorage.getItem('userID')
   useEffect(() => {
     const apiClient = new APIClient('combo')
     apiClient
@@ -37,6 +38,20 @@ function ComboSearchCard({ combo }) {
     })
   }
 
+  const handleSave = () => {
+    const apiClient = new APIClient('khachhang')
+    apiClient
+      .saveOption(userID, MaCombo)
+      .then((response) => {
+        if (response.status === 200) {
+          alert('Lưu combo thành công')
+        }
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
   const formatCurrency = (amount) => {
     // Chuyển đổi số thành chuỗi và sử dụng regex để thêm dấu phẩy
     return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + 'đ'
@@ -57,7 +72,7 @@ function ComboSearchCard({ combo }) {
         </ul>
       </div>
       <div className="combo-button">
-        <button id="btn-primary">Lưu</button>
+        <button id="btn-primary" onClick={handleSave}>Lưu</button>
         <button id="btn-secoundary" onClick={handleViewClick}>
           Xem
         </button>
