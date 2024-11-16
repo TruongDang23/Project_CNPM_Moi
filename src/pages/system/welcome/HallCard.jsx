@@ -19,7 +19,7 @@ function HallCard({ hall, count }) {
           <li>Tình trạng: {TinhTrang ? 'Còn trống' : 'Đã đặt'}</li>
 
           <li>
-            <strong>Giá: {Gia ? formatCurrency(Gia) + 'đ' : "Free"}</strong>
+            <strong>Giá: {Gia ? formatCurrency(Gia) : 'Free'}</strong>
           </li>
           <li>Số lượt đặt: {count}</li>
         </ul>
