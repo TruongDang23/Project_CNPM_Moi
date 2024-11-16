@@ -36,4 +36,11 @@ nhacCongRouter
     nhacCongController.deleteNhacCong
   )
 
+nhacCongRouter
+  .route('/:id/rating')
+  .patch(
+    authController.protect,
+    authController.restrictTo('user'),
+    nhacCongController.rating
+  )
 export default nhacCongRouter

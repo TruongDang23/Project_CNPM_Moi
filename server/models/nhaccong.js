@@ -47,16 +47,6 @@ const nhacCongSchema = new mongoose.Schema({
         required: [true, 'Họ tên người đánh giá là bắt buộc'],
         minlength: [2, 'Họ tên phải có ít nhất 2 ký tự']
       },
-      SDT: {
-        type: String,
-        required: [true, 'Số điện thoại là bắt buộc'],
-        validate: {
-          validator: function (v) {
-            return validator.isMobilePhone(v, 'vi-VN')
-          },
-          message: 'Số điện thoại không hợp lệ'
-        }
-      },
       SoSao: {
         type: Number,
         required: [true, 'Số sao là bắt buộc'],

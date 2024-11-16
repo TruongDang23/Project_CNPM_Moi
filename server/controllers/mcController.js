@@ -130,10 +130,27 @@ const deleteMC = catchAsync(async (req, res, next) => {
   });
 });
 
+const rating = catchAsync(async (req, res, next) => {
+  const mc = await MC.findOne(
+    { MaMC: req.params.id }
+  );
+
+  const content = req.body
+
+  if (!mc) {
+    return next(new AppError('Không tìm thấy MC với ID này', 404));
+  }
+
+  mc.DanhGia.push(content)
+  await mc.save()
+  res.status(200).send()
+});
+
 export default {
   getAllMC,
   getMC,
   createMC,
   updateMC,
-  deleteMC
+  deleteMC,
+  rating
 };

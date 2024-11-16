@@ -35,4 +35,11 @@ mcRouter
     mcController.deleteMC
   );
 
+mcRouter
+  .route('/:id/rating')
+  .patch(
+    authController.protect,
+    authController.restrictTo('user'),
+    mcController.rating
+  )
 export default mcRouter;

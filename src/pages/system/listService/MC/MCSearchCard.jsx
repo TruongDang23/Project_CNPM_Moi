@@ -8,7 +8,7 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css' // requires a loa
 import { Carousel } from 'react-responsive-carousel'
 import Snackbar from '@mui/material/Snackbar'
 
-function MCSearchCard({ mc }) {
+function MCSearchCard({ mc, setReload }) {
   const { MaMC, HoTen, SDT, KinhNghiem, TinhTrang, Gia, DanhGia, HinhAnh } = mc
   const [newRating, setNewRating] = useState({
     HoTen: '',
@@ -45,6 +45,7 @@ function MCSearchCard({ mc }) {
         console.error(error)
       })
   }, [MaMC])
+
   const handleSubmit = (e) => {
     e.preventDefault()
     // Gọi hàm để thêm đánh giá mới vào danh sách
@@ -52,11 +53,20 @@ function MCSearchCard({ mc }) {
       ...DanhGia,
       { ...newRating, ThoiGian: new Date().toISOString() }
     ]
-    console.log(updatedRatings)
+    const apiClient = new APIClient('mc')
+    apiClient
+      .rating(MaMC, newRating)
+      .then((response) => {
+        setReload(prev => !prev)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
     setSnackbarOpen(true)
     // Reset form
     setNewRating({ HoTen: '', SoSao: '', BinhLuan: '' })
   }
+
   const handleInputChange = (e) => {
     const { name, value } = e.target
     setNewRating({ ...newRating, [name]: value })
@@ -152,9 +162,9 @@ function MCSearchCard({ mc }) {
                         <strong>{danhGia.HoTen}</strong> ({danhGia.SoSao} ⭐):{' '}
                         {danhGia.BinhLuan}
                         <br />
-                        <small>
+                        {/* <small>
                           {new Date(danhGia.ThoiGian).toLocaleDateString()}
-                        </small>
+                        </small> */}
                       </li>
                     ))
                   ) : (
@@ -192,6 +202,7 @@ function MCSearchCard({ mc }) {
                   value={newRating.BinhLuan}
                   onChange={handleInputChange}
                   required
+                  minLength={10}
                 />
                 <button id="btn-primary" type="submit">
                   Gửi đánh giá

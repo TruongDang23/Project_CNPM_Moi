@@ -1,12 +1,15 @@
 import styled from 'styled-components'
-
+import { useNavigate } from 'react-router-dom'
 function HallCard({ hall, count }) {
   const { TenHoiTruong, SucChua, Gia, TinhTrang, HinhAnh } = hall
+  const navigation = useNavigate()
   const formatCurrency = (amount) => {
     // Chuyển đổi số thành chuỗi và sử dụng regex để thêm dấu phẩy
     return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + 'đ'
   }
-
+  const handleClick = () => {
+    navigation('/customer/order-event')
+  }
   return (
     <HallCardWrapper>
       <div className="hall-img">
@@ -25,7 +28,7 @@ function HallCard({ hall, count }) {
         </ul>
       </div>
       <div className="hall-button">
-        <button>Đặt hội trường</button>
+        <button onClick={handleClick}>Đặt hội trường</button>
       </div>
     </HallCardWrapper>
   )

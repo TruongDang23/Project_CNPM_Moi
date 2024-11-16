@@ -1,9 +1,10 @@
 import styled from 'styled-components'
 import { OrderContext } from '../../../../context/OrderContext'
 import { useContext } from 'react'
-
+import { useNavigate } from 'react-router-dom'
 function StepHall({ luuHoiTruong }) {
   const { selectedHall, setSelectedHall, setOrder } = useContext(OrderContext)
+  const navigation = useNavigate()
   const handleHallChange = (e) => {
     const hallId = e.target.value
     const hall = luuHoiTruong.find((hall) => hall.MaHoiTruong === hallId)
@@ -15,6 +16,10 @@ function StepHall({ luuHoiTruong }) {
         MaHoiTruong: hall.MaHoiTruong
       }
     }))
+  }
+
+  const handleClick = () => {
+    navigation('/list-hall')
   }
   return (
     <StepHallWrapper>
@@ -35,7 +40,7 @@ function StepHall({ luuHoiTruong }) {
               </option>
             ))}
           </select>
-          <button id="btn-primary">Danh sách</button>
+          <button id="btn-primary" onClick={handleClick}>Danh sách</button>
         </div>
       </div>
 
