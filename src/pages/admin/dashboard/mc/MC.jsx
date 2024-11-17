@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import {useEffect, useState } from 'react'
 import DataTable from 'react-data-table-component'
 import APIClient from '../../../../api/client'
-import { columnsMC, customStyles } from './columnsMC'
+import { columnsMC, customStyles, conditionalRowStyles } from './columnsMC'
 import MCDetail from './MCDetail'
 
 function MC() {
@@ -87,6 +87,7 @@ function MC() {
             data={filteredData} // Dữ liệu sau khi lọc
             onRowClicked={handleRowClicked}
             pagination // Tính năng phân trang
+            conditionalRowStyles={conditionalRowStyles} // Tùy chỉnh giao diện dòng
             paginationServer // Sử dụng phân trang từ server
             paginationTotalRows={totalMC} // Tổng số dòng
             paginationDefaultPage={currentPage} // Trang hiện tại

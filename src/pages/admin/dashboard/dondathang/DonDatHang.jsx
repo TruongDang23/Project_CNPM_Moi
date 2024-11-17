@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { useState, useEffect } from 'react'
 import DataTable from 'react-data-table-component'
 
-import { columnsDonDatHang, customStyles } from './columnsDonDatHang'
+import { columnsDonDatHang, customStyles, conditionalRowStyles } from './columnsDonDatHang'
 import DonDatHangDetail from './DonDatHangDetail'
 import APIClient from '../../../../api/client'
 
@@ -88,6 +88,7 @@ function DonDatHang() {
             data={filteredData} // Dữ liệu sau khi lọc
             onRowClicked={handleRowClicked}
             pagination // Tính năng phân trang
+            conditionalRowStyles={conditionalRowStyles} // Tùy chỉnh giao diện dòng
             paginationServer // Sử dụng phân trang từ server
             paginationTotalRows={totalDonDV} // Tổng số dòng
             paginationDefaultPage={currentPage} // Trang hiện tại

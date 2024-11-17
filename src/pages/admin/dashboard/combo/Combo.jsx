@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import DataTable from 'react-data-table-component'
 import APIClient from '../../../../api/client'
 
-import { columnCombo, customStyles } from './columnCombo'
+import { columnCombo, customStyles, conditionalRowStyles } from './columnCombo'
 import ComboDetail from './ComboDetail'
 
 function Combo() {
@@ -87,6 +87,7 @@ function Combo() {
             data={filteredData} // Dữ liệu sau khi lọc
             onRowClicked={handleRowClicked}
             pagination // Tính năng phân trang
+            conditionalRowStyles={conditionalRowStyles} // Tùy chỉnh giao diện dòng
             paginationServer // Sử dụng phân trang từ server
             paginationTotalRows={totalCombo} // Tổng số dòng
             paginationDefaultPage={currentPage} // Trang hiện tại

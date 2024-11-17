@@ -130,6 +130,19 @@ function MCDetail({ selectedData, setReload }) {
     }
   }
 
+  // hàm clear form
+  const handleClear = () => {
+    setFormData({
+      MaMC: '',
+      HoTen: '',
+      SDT: '',
+      KinhNghiem: '',
+      TinhTrang: true,
+      Gia: '',
+      HinhAnh: []
+    })
+  }
+
   return (
     <MCDetailWrapper>
       <h3>Chi tiết MC</h3>
@@ -243,6 +256,9 @@ function MCDetail({ selectedData, setReload }) {
           </button>
           <button id="btn-secoundary" type="submit" onClick={handleUpdate}>
             Cập nhật
+          </button>
+          <button id="btn-secoundary" type="button" onClick={handleClear}>
+            Làm mới
           </button>
           <button id="btn-cancel" type="button" onClick={handleDelete}>
             Xóa

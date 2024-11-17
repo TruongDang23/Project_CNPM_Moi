@@ -134,6 +134,17 @@ function ThiepDetail({ selectedData, setReload }) {
     }
   }
 
+  // Hàm clear form
+  const handleClear = () => {
+    setFormData({
+      // Đặt lại giá trị mặc định cho các trường trong form
+      MaThiep: '',
+      LoaiThiep: '',
+      Gia: '',
+      HinhAnh: []
+    })
+  }
+
   return (
     <ThiepDetailWrapper>
       <h3>Chi tiết thiệp mời</h3>
@@ -209,6 +220,9 @@ function ThiepDetail({ selectedData, setReload }) {
           </button>
           <button id="btn-secoundary" type="submit" onClick={handleUpdate}>
             Cập nhật
+          </button>
+          <button id="btn-secoundary" type="button" onClick={handleClear}>
+            Làm mới
           </button>
           <button id="btn-cancel" type="button" onClick={handleDelete}>
             Xóa
