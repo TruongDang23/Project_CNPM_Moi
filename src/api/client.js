@@ -102,4 +102,13 @@ export default class APIClient {
     })
     return data
   }
+
+  async rating(id, content) {
+    const data = await axios.patch(`${this.api}/${id}/rating`, content, {
+      headers: {
+        Authorization: `Bearer ${this.token}`
+      }
+    })
+    return data
+  }
 }

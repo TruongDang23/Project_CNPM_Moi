@@ -2,8 +2,10 @@ import styled from 'styled-components'
 import { useContext } from 'react'
 import { OrderContext } from '../../../../context/OrderContext'
 
+import { useNavigate } from 'react-router-dom'
 function StepMC({ luuMC }) {
   const { selectedMC, setSelectedMC, setOrder } = useContext(OrderContext)
+  const navigation = useNavigate()
   const handleMCChange = (e) => {
     const mcID = e.target.value
     const mc = luuMC.find((mc) => mc.MaMC === mcID)
@@ -17,6 +19,9 @@ function StepMC({ luuMC }) {
     }))
   }
 
+  const handleClick = () => {
+    navigation('/list-mc')
+  }
   return (
     <StepMCWrapper>
       <h3>Chọn MC</h3>
@@ -27,17 +32,16 @@ function StepMC({ luuMC }) {
         </p>
         <div className="step-content-action">
           <select defaultValue="" onChange={handleMCChange}>
-            <option value="" disabled hidden>
+            <option value="" disabled hidden >
               Chọn MC
             </option>
-            <option value="none">Không chọn MC</option>
             {luuMC.map((mc) => (
               <option key={mc.MaMC} value={mc.MaMC}>
                 {mc.HoTen}
               </option>
             ))}
           </select>
-          <button id="btn-primary">Danh sách</button>
+          <button id="btn-primary" onClick={handleClick}>Danh sách</button>
         </div>
       </div>
 

@@ -138,10 +138,26 @@ const deleteNhacCong = catchAsync(async (req, res, next) => {
   })
 })
 
+const rating = catchAsync(async (req, res, next) => {
+  const nc = await NhacCong.findOne(
+    { MaNhacCong: req.params.id }
+  );
+
+  const content = req.body
+
+  if (!nc) {
+    return next(new AppError('Không tìm thấy Nhạc công với ID này', 404));
+  }
+
+  nc.DanhGia.push(content)
+  await nc.save()
+  res.status(200).send()
+});
 export default {
   getAllNhacCong,
   getNhacCong,
   createNhacCong,
   updateNhacCong,
-  deleteNhacCong
+  deleteNhacCong,
+  rating
 }

@@ -1,9 +1,11 @@
 import styled from 'styled-components'
 import { useContext } from 'react'
 import { OrderContext } from '../../../../context/OrderContext'
+import { useNavigate } from 'react-router-dom'
 
 function StepNC({ luuNhacCong }) {
   const { selectedNC, setSelectedNC, setOrder } = useContext(OrderContext)
+  const navigation = useNavigate()
   const handleNCChange = (e) => {
     const ncID = e.target.value
     const nc = luuNhacCong.find((nc) => nc.MaNhacCong === ncID)
@@ -17,6 +19,9 @@ function StepNC({ luuNhacCong }) {
     }))
   }
 
+  const handleClick = () => {
+    navigation('/list-nc')
+  }
   return (
     <StepNCWrapper>
       <h3>Chọn Nhạc Công</h3>
@@ -30,14 +35,13 @@ function StepNC({ luuNhacCong }) {
             <option value="" disabled hidden>
               Chọn Nhạc Công
             </option>
-            <option value="none">Không chọn Nhạc Công</option>
             {luuNhacCong.map((nc) => (
               <option key={nc.MaNhacCong} value={nc.MaNhacCong}>
                 {nc.HoTen}
               </option>
             ))}
           </select>
-          <button id="btn-primary">Danh sách</button>
+          <button id="btn-primary" onClick={handleClick}>Danh sách</button>
         </div>
       </div>
 

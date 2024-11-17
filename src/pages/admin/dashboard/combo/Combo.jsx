@@ -11,19 +11,28 @@ function Combo() {
   const [filterText, setFilterText] = useState('')
   const [somCombodata, setComboData] = useState([])
   const [reload, setReload] = useState(true)
+  const [totalCombo, setTotalCombo] = useState(0)
+  const [totalPages, setTotalPages] = useState(0)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [perPage, setPerPage] = useState(10)
 
-  useEffect(() => {
+  // Hàm tải lại dữ liệu từ API
+  const fetchData = (page = 1, perPage = 10) => {
     const apiClient = new APIClient('combo')
     apiClient
-      .find()
+      .findParams({ page, limit: perPage })
       .then((response) => {
         setComboData(response.data.combo || [])
+        setTotalCombo(response.data.totalCombo || 0)
+        setTotalPages(response.data.totalPages || 0)
       })
       .catch((error) => {
-        // eslint-disable-next-line no-console
         console.error(error)
       })
-  }, [reload])
+  }
+  useEffect(() => {
+    fetchData(currentPage, perPage)
+  }, [reload, currentPage, perPage])
 
   // Hàm xử lý khi nhấn vào dòng
   const handleRowClicked = (row) => {
@@ -46,6 +55,18 @@ function Combo() {
       return false
     })
   )
+
+  // Hàm xử lý khi thay đổi trang
+  const handlePageChange = (page) => {
+    setCurrentPage(page)
+  }
+
+  // Hàm xử lý khi thay đổi số lượng dòng trên mỗi trang
+  const handlePerRowsChange = (newPerPage, page) => {
+    setPerPage(newPerPage)
+    setCurrentPage(page)
+  }
+
   return (
     <ComboWrapper>
       <h2>Quản lý Combo món ăn</h2>
@@ -67,6 +88,12 @@ function Combo() {
             onRowClicked={handleRowClicked}
             pagination // Tính năng phân trang
             conditionalRowStyles={conditionalRowStyles} // Tùy chỉnh giao diện dòng
+            paginationServer // Sử dụng phân trang từ server
+            paginationTotalRows={totalCombo} // Tổng số dòng
+            paginationDefaultPage={currentPage} // Trang hiện tại
+            paginationPerPage={perPage} // Số dòng trên mỗi trang
+            onChangePage={handlePageChange} // Hàm xử lý khi thay đổi trang
+            onChangeRowsPerPage={handlePerRowsChange} // Hàm xử lý khi thay đổi số lượng dòng trên mỗi trang
             customStyles={customStyles} // Tùy chỉnh giao diện
           />
         </div>

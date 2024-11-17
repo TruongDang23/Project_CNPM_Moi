@@ -35,7 +35,16 @@ function StepInfor() {
   }, [formData, setOrder])
 
   const handleChange = (field, value) => {
-    setFormData({ ...formData, [field]: value })
+    if (field === 'tableCount' || field === 'invitationCount') {
+      // Regex to allow only positive integers (no decimal, no negative)
+      const regex = /^[1-9]\d*$/; // Matches numbers like 1, 2, 123, etc., but NOT 0, 1.5, or -1
+
+      if (value === '' || regex.test(value)) {
+        setFormData({ ...formData, [field]: value })
+      }
+    }
+    else
+      setFormData({ ...formData, [field]: value })
   }
 
   return (
@@ -90,10 +99,10 @@ function StepInfor() {
               <div className="form-group">
                 <label className="label">Số lượng bàn ăn</label>
                 <TextField
-                  type="number"
+                  defaultValue="0"
                   value={formData.tableCount}
                   InputLabelProps={{ sx: { fontSize: '1.6rem' } }}
-                  inputProps={{ min: 0 }}
+                  inputProps={{ min: 0, step: 1 }}
                   onChange={(e) => handleChange('tableCount', e.target.value)}
                   sx={{
                     fontSize: '1.6rem',
@@ -105,7 +114,7 @@ function StepInfor() {
               <div className="form-group">
                 <label className="label">Số lượng thiệp mời</label>
                 <TextField
-                  type="number"
+                  defaultValue="0"
                   value={formData.invitationCount}
                   InputLabelProps={{ sx: { fontSize: '1.6rem' } }}
                   inputProps={{ min: 0 }}

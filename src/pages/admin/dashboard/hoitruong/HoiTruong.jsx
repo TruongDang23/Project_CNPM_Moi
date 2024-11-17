@@ -11,19 +11,28 @@ function HoiTruong() {
   const [filterText, setFilterText] = useState('')
   const [someHallData, setHallData] = useState([])
   const [reload, setReload] = useState(true)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [perPage, setPerPage] = useState(10)
+  const [totalHoiTruong, setTotalHoiTruong] = useState(0)
+  const [totalPages, setTotalPages] = useState(0)
 
-  useEffect(() => {
+  const fetchData = (page = 1, perPage = 10) => {
     const apiClient = new APIClient('hoitruong')
     apiClient
-      .find()
+      .findParams({ page, limit: perPage })
       .then((response) => {
         setHallData(response.data.hoitruong || [])
+        setTotalHoiTruong(response.data.totalHoiTruong || 0)
+        setTotalPages(response.data.totalPages || 0)
       })
       .catch((error) => {
-        // eslint-disable-next-line no-console
         console.error(error)
       })
-  }, [reload])
+  }
+
+  useEffect(() => {
+    fetchData(currentPage, perPage)
+  }, [reload, currentPage, perPage])
 
   // Hàm xử lý khi nhấn vào dòng
   const handleRowClicked = (row) => {
@@ -47,6 +56,17 @@ function HoiTruong() {
     })
   )
 
+  // Hàm xử lý khi thay đổi trang
+  const handlePageChange = (page) => {
+    setCurrentPage(page)
+  }
+
+  // Hàm xử lý khi thay đổi số lượng dòng trên mỗi trang
+  const handlePerRowsChange = (newPerPage, page) => {
+    setPerPage(newPerPage)
+    setCurrentPage(page)
+  }
+
   return (
     <HoiTruongWrapper>
       <h2>Quản lý hội trường</h2>
@@ -68,6 +88,12 @@ function HoiTruong() {
             onRowClicked={handleRowClicked}
             pagination // Tính năng phân trang
             conditionalRowStyles={conditionalRowStyles} // Tùy chỉnh giao diện dòng
+            paginationServer // Sử dụng phân trang từ server
+            paginationTotalRows={totalHoiTruong} // Tổng số dòng
+            paginationDefaultPage={currentPage} // Trang hiện tại
+            paginationPerPage={perPage} // Số dòng trên mỗi trang
+            onChangePage={handlePageChange} // Hàm xử lý khi thay đổi trang
+            onChangeRowsPerPage={handlePerRowsChange} // Hàm xử lý khi thay đổi số lượng dòng trên mỗi trang
             customStyles={customStyles} // Tùy chỉnh giao diện
           />
         </div>

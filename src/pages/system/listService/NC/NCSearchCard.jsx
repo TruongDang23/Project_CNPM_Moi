@@ -8,7 +8,7 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css' // requires a loa
 import { Carousel } from 'react-responsive-carousel'
 import Snackbar from '@mui/material/Snackbar'
 
-function NCSearchCard({ nc }) {
+function NCSearchCard({ nc, setReload }) {
   const {
     MaNhacCong,
     HoTen,
@@ -81,7 +81,15 @@ function NCSearchCard({ nc }) {
       ...DanhGia,
       { ...newRating, ThoiGian: new Date().toISOString() }
     ]
-    console.log(updatedRatings)
+    const apiClient = new APIClient('nhaccong')
+    apiClient
+      .rating(MaNhacCong, newRating)
+      .then((response) => {
+        setReload(prev => !prev)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
     setSnackbarOpen(true)
     // Reset form
     setNewRating({ HoTen: '', SoSao: '', BinhLuan: '' })
@@ -173,9 +181,9 @@ function NCSearchCard({ nc }) {
                         <strong>{danhGia.HoTen}</strong> ({danhGia.SoSao} ⭐):{' '}
                         {danhGia.BinhLuan}
                         <br />
-                        <small>
+                        {/* <small>
                           {new Date(danhGia.ThoiGian).toLocaleDateString()}
-                        </small>
+                        </small> */}
                       </li>
                     ))
                   ) : (
