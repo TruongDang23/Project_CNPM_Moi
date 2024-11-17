@@ -13,15 +13,21 @@ function Footer() {
             <li>Vũ Hoàng Gia Bảo</li>
           </ul>
           {/* THêm ảnh gif */}
-          <img src="https://i.ibb.co/TK9DgQZ/76332.gif" alt="footer" />
+          {/* <img src="https://i.ibb.co/TK9DgQZ/76332.gif" alt="footer" /> */}
+          <img
+            src="https://media.giphy.com/media/26tn33aiTi1jkl6H6/giphy.gif?cid=790b7611fyl47xnqbgts43euoc45c7rv6ndtnq7l6kgxivi4&ep=v1_gifs_search&rid=giphy.gif&ct=g"
+            alt="footer"
+          />
           <a
             href="https://github.com/TruongDang23/Project_CNPM_Moi"
             target="_blank"
             rel="noreferrer"
           >
-            Github Repository:
+            Trường Đại học Sư phạm Kỹ thuật TP.HCM
             <br />
-            https://github.com/TruongDang23/Project_CNPM_Moi
+            Khoa Công nghệ Thông tin 
+            <br />
+            Chuyên ngành Công nghệ Phần mềm
           </a>
         </div>
       </div>

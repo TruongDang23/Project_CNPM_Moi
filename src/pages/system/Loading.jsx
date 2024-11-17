@@ -6,7 +6,7 @@ function Loading() {
   return (
     <>
       <Helmet>
-        <title>Loading | EL-Space</title>
+        <title>Loading</title>
       </Helmet>
       <LoadingWrapper>
         <div className="loader">

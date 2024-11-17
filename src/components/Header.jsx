@@ -70,9 +70,6 @@ function Header() {
               Trang chủ
             </a>
             <ListService />
-            <a href="/" className="link">
-              Đặt dịch vụ
-            </a>
             <a href="/chat-ai" className="link">
               Chat AI
             </a>
