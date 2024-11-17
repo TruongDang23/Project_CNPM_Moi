@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import imgLogin from '../../../assets/login-normal.jpg'
+import imgLogin from '../../../assets/e-login.png'
 
 import BgLogin from '../../../assets/bg-v1.png'
 // import BgLogin from '../../../assets/bg-v2.png'

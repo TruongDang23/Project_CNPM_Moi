@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import imgLogin from '../../../assets/signup.jpg'
+import imgLogin from '../../../assets/e-signup.png'
 
 import BgLogin from '../../../assets/bg-v1.png'
 // import BgLogin from '../../../assets/bg-v2.png'
@@ -15,6 +15,27 @@ import styled, { keyframes } from 'styled-components'
 import { Helmet } from 'react-helmet' // dùng để thay đổi title của trang
 import APIClient from '../../../api/client'
 
+import Dialog from '@mui/material/Dialog'
+import DialogTitle from '@mui/material/DialogTitle'
+import DialogContent from '@mui/material/DialogContent'
+import DialogActions from '@mui/material/DialogActions'
+
+const strongPassword = (password) => {
+  const minLength = 8
+  const hasLowercase = /[a-z]/.test(password)
+  const hasUppercase = /[A-Z]/.test(password)
+  const hasNumber = /[0-9]/.test(password)
+  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password)
+
+  return (
+    password.length >= minLength &&
+    hasLowercase &&
+    hasUppercase &&
+    hasNumber &&
+    hasSpecialChar
+  )
+}
+
 function SignUp() {
   const navigate = useNavigate()
   const [username, setUsername] = useState('')
@@ -22,6 +43,24 @@ function SignUp() {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [message, setMessage] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+
+  const navigation = useNavigate()
+  const [dialogOpen, setDialogOpen] = useState(false) // Trạng thái hiển thị Dialog
+  const [dialogMessage, setDialogMessage] = useState('') // Nội dung thông báo từ server
+  const [dialogTitle, setDialogTitle] = useState('') // Tiêu đề của Dialog
+
+  const handlePasswordChange = (e) => {
+    const password = e.target.value
+    setPassword(password)
+
+    if (!strongPassword(password)) {
+      setMessage(
+        'Mật khẩu phải chứa ít nhất 1 chữ thường, 1 chữ hoa, 1 số và 1 ký tự đặc biệt và ít nhất 8 kí tự'
+      )
+    } else {
+      setMessage('')
+    }
+  }
 
   const handleSignup = async () => {
     if (username === '' || pass === '' || confirmPassword === '') {
@@ -31,18 +70,48 @@ function SignUp() {
     } else {
       setMessage('')
       const client = new APIClient('system/signup')
-      const result = await client.create({
-        username,
-        pass
-      })
+      // const result = await client.create({
+      //   username,
+      //   pass
+      // })
 
-      if (result.status === 201) {
-        alert('Đăng ký thành công')
-        navigate('/login')
-      } else {
-        setMessage('Có lỗi xảy ra, vui lòng thử lại')
-      }
+      // if (result.status === 201) {
+      //   alert('Đăng ký thành công')
+      //   navigate('/login')
+      // } else {
+      //   setMessage('Có lỗi xảy ra, vui lòng thử lại')
+      // }
+      client
+        .create({ username, pass })
+        .then((res) => {
+          if (res.status === 201) {
+            alert('Đăng ký thành công')
+            navigate('/login')
+          } else {
+            showDialog('Đăng ký thất bại', 'Có lỗi xảy ra, vui lòng thử lại')
+          }
+        })
+        .catch((error) => {
+          const regex = /MongoServerError: (.+?)<br>/
+          const match = error.response.data.match(regex)
+          if (match) {
+            showDialog('Lỗi khi đăng kí', "\n Trùng username rồi, Bạn hãy chọn username khác" || 'Đã xảy ra lỗi.')
+          }
+        })
     }
+  }
+
+  // Các hàm xử lí mở, đóng Dialog
+  // Hàm hiển thị Dialog
+  const showDialog = (title, message) => {
+    setDialogTitle(title)
+    setDialogMessage(message)
+    setDialogOpen(true)
+  }
+  // Hàm đóng Dialog
+  const closeDialog = () => {
+    setDialogOpen(false)
+    navigation('/signup')
   }
 
   return (
@@ -87,7 +156,7 @@ function SignUp() {
                     type={showPassword ? 'text' : 'password'}
                     required
                     value={pass}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={handlePasswordChange}
                     placeholder="Enter your password"
                   />
                   <span
@@ -143,6 +212,21 @@ function SignUp() {
             </div>
           </div>
         </div>
+
+        {/* Dialog hiển thị thông báo */}
+        <StyledDialog open={dialogOpen} onClose={closeDialog}>
+          <StyledDialogTitle>
+            <h2>{dialogTitle}</h2>
+          </StyledDialogTitle>
+          <StyledDialogContent>
+            <p>{dialogMessage}</p>
+          </StyledDialogContent>
+          <StyledDialogActions>
+            <button id="btn-primary" onClick={closeDialog}>
+              Đóng
+            </button>
+          </StyledDialogActions>
+        </StyledDialog>
       </SignUpWrapper>
     </>
   )
@@ -155,6 +239,29 @@ const fadeIn = keyframes`
   to {
     opacity: 1;
   }
+`
+
+// Custom Dialog
+const StyledDialog = styled(Dialog)`
+  & .MuiPaper-root {
+    text-align: center;
+    background-color: #f3f4f6;
+    border-radius: 8px;
+    padding: 16px;
+  }
+`
+const StyledDialogTitle = styled(DialogTitle)`
+  font-size: 2rem;
+  text-transform: uppercase;
+  color: var(--primary-color);
+  font-weight: bold;
+`
+const StyledDialogContent = styled(DialogContent)`
+  font-size: 1.6rem;
+  color: var(--primary-color);
+`
+const StyledDialogActions = styled(DialogActions)`
+  justify-content: center;
 `
 
 const SignUpWrapper = styled.main`

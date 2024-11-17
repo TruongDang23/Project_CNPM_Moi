@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import imgLogin from '../../../assets/forgotpass.jpg'
+import imgLogin from '../../../assets/e-fp.png'
 import BgLogin from '../../../assets/bg-v1.png'
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'
@@ -9,10 +9,19 @@ import styled, { keyframes } from 'styled-components'
 import { Helmet } from 'react-helmet'
 import APIClient from '../../../api/client'
 
+import Dialog from '@mui/material/Dialog'
+import DialogTitle from '@mui/material/DialogTitle'
+import DialogContent from '@mui/material/DialogContent'
+import DialogActions from '@mui/material/DialogActions'
+
 function ForgotPass() {
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
+
+  const [dialogOpen, setDialogOpen] = useState(false) // Trạng thái hiển thị Dialog
+  const [dialogMessage, setDialogMessage] = useState('') // Nội dung thông báo từ server
+  const [dialogTitle, setDialogTitle] = useState('') // Tiêu đề của Dialog
 
   const handleForgotPass = async () => {
     if (email === '') {
@@ -22,15 +31,49 @@ function ForgotPass() {
     } else {
       setMessage('')
       const client = new APIClient('system/reset-password')
-      const result = await client.create({ email })
+      // const result = await client.create({ email })
 
-      if (result.status === 200) {
-        alert('Đã gửi email khôi phục mật khẩu')
-        navigate('/login')
-      } else {
-        setMessage('Email không tồn tại trong hệ thống')
-      }
+      // if (result.status === 200) {
+      //   alert('Đã gửi email khôi phục mật khẩu')
+      //   navigate('/login')
+      // } else {
+      //   setMessage('Email không tồn tại trong hệ thống')
+      // }
+      client
+        .create({ email })
+        .then((response) => {
+          if (response.status === 200) {
+            alert('Đã gửi email khôi phục mật khẩu')
+            navigate('/login')
+          } else {
+            showDialog('Lỗi', 'Email không tồn tại trong hệ thống')
+          }
+        })
+        .catch((error) => {
+          const regex = /Error: (.+?)<br>/
+          const match = error.response.data.match(regex)
+          if (match) {
+            showDialog(
+              'Lỗi khi quên mật khẩu',
+              '\n Không tìm thấy người dùng với email này' ||
+                'Đã xảy ra lỗi.'
+            )
+          }
+        })
     }
+  }
+
+  // Các hàm xử lí mở, đóng Dialog
+  // Hàm hiển thị Dialog
+  const showDialog = (title, message) => {
+    setDialogTitle(title)
+    setDialogMessage(message)
+    setDialogOpen(true)
+  }
+  // Hàm đóng Dialog
+  const closeDialog = () => {
+    setDialogOpen(false)
+    navigate('/forgot-pass')
   }
 
   return (
@@ -94,6 +137,21 @@ function ForgotPass() {
             </div>
           </div>
         </div>
+
+        {/* Dialog hiển thị thông báo */}
+        <StyledDialog open={dialogOpen} onClose={closeDialog}>
+          <StyledDialogTitle>
+            <h2>{dialogTitle}</h2>
+          </StyledDialogTitle>
+          <StyledDialogContent>
+            <p>{dialogMessage}</p>
+          </StyledDialogContent>
+          <StyledDialogActions>
+            <button id="btn-primary" onClick={closeDialog}>
+              Đóng
+            </button>
+          </StyledDialogActions>
+        </StyledDialog>
       </ForgotPassWrapper>
     </>
   )
@@ -106,6 +164,29 @@ const fadeIn = keyframes`
   to {
     opacity: 1;
   }
+`
+
+// Custom Dialog
+const StyledDialog = styled(Dialog)`
+  & .MuiPaper-root {
+    text-align: center;
+    background-color: #f3f4f6;
+    border-radius: 8px;
+    padding: 16px;
+  }
+`
+const StyledDialogTitle = styled(DialogTitle)`
+  font-size: 2rem;
+  text-transform: uppercase;
+  color: var(--primary-color);
+  font-weight: bold;
+`
+const StyledDialogContent = styled(DialogContent)`
+  font-size: 1.6rem;
+  color: var(--primary-color);
+`
+const StyledDialogActions = styled(DialogActions)`
+  justify-content: center;
 `
 
 const ForgotPassWrapper = styled.main`
