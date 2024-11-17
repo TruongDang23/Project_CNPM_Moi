@@ -141,6 +141,26 @@ function HoiTruongDetail({ selectedData, setReload }) {
       })
   }
 
+  // Hàm clear form
+  const handleClear = () => {
+    setFormData({
+      // Đặt lại giá trị mặc định cho các trường trong form
+      MaHoiTruong: '',
+      TenHoiTruong: '',
+      SucChua: '',
+      Wifi: '',
+      MayLanh: '',
+      PhongKin: '',
+      DienTich: '',
+      SoPhong: '',
+      ViTriLau: '',
+      TinhTrang: '',
+      Gia: '',
+      MoTa: '',
+      HinhAnh: []
+    })
+  }
+
   return (
     <HoiTruongDetailWrapper>
       <h3>Chi tiết hội trường</h3>
@@ -328,6 +348,9 @@ function HoiTruongDetail({ selectedData, setReload }) {
           </button>
           <button id="btn-secoundary" type="submit" onClick={updateHall}>
             Cập nhật
+          </button>
+          <button id="btn-secoundary" type="button" onClick={handleClear}>
+            Làm mới
           </button>
           <button id="btn-cancel" type="button" onClick={deleteHall}>
             Xóa

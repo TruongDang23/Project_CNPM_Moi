@@ -63,3 +63,14 @@ export const customStyles = {
     }
   }
 }
+
+export const conditionalRowStyles = [
+  {
+    when: (row) => row.Active === false,
+    style: {
+      backgroundColor: 'rgba(255, 0, 0, 0.1)',
+      color: 'red',
+      cursor: 'not-allowed'
+    }
+  }
+]

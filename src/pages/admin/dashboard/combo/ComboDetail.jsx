@@ -162,6 +162,20 @@ function ComboDetail({ selectedData, setReload }) {
       })
   }
 
+  // Hàm clear form
+  const handleClear = () => {
+    setFormData({
+      // Đặt lại giá trị mặc định cho các trường trong form
+      MaCombo: '',
+      TenCombo: '',
+      LoaiCombo: '',
+      Gia: '',
+      MoTa: '',
+      DanhSachMonAn: [],
+      HinhAnh: []
+    })
+  }
+
   return (
     <ComboDetailWrapper>
       <h3>Thông tin chi tiết combo</h3>
@@ -288,6 +302,9 @@ function ComboDetail({ selectedData, setReload }) {
           </button>
           <button id="btn-secoundary" onClick={updateCombo}>
             Cập nhật
+          </button>
+          <button id="btn-secoundary" type="button" onClick={handleClear}>
+            Làm mới
           </button>
           <button id="btn-cancel" onClick={deleteCombo}>
             Xóa

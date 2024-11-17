@@ -135,6 +135,22 @@ function NhacCongDetail({ selectedData, onActionComplete }) {
     }
   }
 
+  // Hàm clear form
+  const handleClear = () => {
+    setFormData({
+      // Đặt lại giá trị mặc định cho các trường trong form
+      MaNhacCong: '',
+      HoTen: '',
+      SDT: '',
+      KinhNghiem: '',
+      LoaiNhacCu: '',
+      TinhTrang: '',
+      Gia: '',
+      Active: false,
+      HinhAnh: []
+    })
+  }
+
   return (
     <NhacCongDetailWrapper>
       <h3>Chi tiết nhạc công</h3>
@@ -265,6 +281,9 @@ function NhacCongDetail({ selectedData, onActionComplete }) {
           </button>
           <button id="btn-secoundary" type="submit" onClick={handleUpdate}>
             Cập nhật
+          </button>
+          <button id="btn-secoundary" type="button" onClick={handleClear}>
+            Làm mới
           </button>
           <button id="btn-cancel" type="button" onClick={handleDelete}>
             Xóa

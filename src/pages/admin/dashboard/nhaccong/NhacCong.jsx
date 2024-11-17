@@ -4,7 +4,7 @@ import APIClient from '../../../../api/client'
 import styled from 'styled-components'
 import DataTable from 'react-data-table-component'
 
-import { columnsNC, customStyles } from './columnsNC'
+import { columnsNC, customStyles, conditionalRowStyles } from './columnsNC'
 import NhacCongDetail from './NhacCongDetail'
 
 function NhacCong() {
@@ -58,6 +58,10 @@ function NhacCong() {
     })
   )
 
+  useEffect(() => {
+    console.log('Filtered Data:', filteredData)
+  }, [filteredData])
+
   // Hàm xử lý khi thay đổi trang
   const handlePageChange = (page) => {
     setCurrentPage(page)
@@ -95,6 +99,7 @@ function NhacCong() {
             paginationPerPage={perPage} // Số dòng trên mỗi trang
             onChangePage={handlePageChange} // Hàm xử lý khi thay đổi trang
             onChangeRowsPerPage={handlePerRowsChange} // Hàm xử lý khi thay đổi số lượng dòng trên mỗi trang
+            conditionalRowStyles={conditionalRowStyles} // Tùy chỉnh giao diện dòng
             customStyles={customStyles} // Tùy chỉnh giao diện
           />
         </div>
