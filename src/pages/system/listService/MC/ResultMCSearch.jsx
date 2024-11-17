@@ -1,13 +1,13 @@
 import styled from 'styled-components'
 import MCSearchCard from './MCSearchCard'
 
-function ResultMCSearch({ resultSearch, totalResults }) {
+function ResultMCSearch({ resultSearch, totalResults, setReload }) {
   return (
     <ResultSearchWrapper>
       <h2>Kết quả tìm kiếm: {totalResults} kết quả</h2>
       <div className="nc-container">
         {resultSearch.map((mc) => {
-          return <MCSearchCard key={mc.MaNC} mc={mc} />
+          return <MCSearchCard key={mc.MaNC} mc={mc} setReload={setReload}/>
         })}
       </div>
     </ResultSearchWrapper>

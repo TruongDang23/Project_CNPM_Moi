@@ -13,6 +13,7 @@ function NCMain() {
   const [ncData, setNcData] = useState([])
   const [totalPages, setTotalPages] = useState(1)
   const [totalResults, setTotalResults] = useState(0)
+  const [reload, setReload] = useState(true)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -35,14 +36,14 @@ function NCMain() {
       .catch((error) => {
         console.error(error)
       })
-  }, [searchParams, currentPage, navigate])
+  }, [searchParams, currentPage, navigate, reload])
 
   console.log(ncData)
   return (
     <NCMainWrapper>
       <FilterNCSearch />
       <ListNCMainWrapper className="container">
-        <ResultNCSearch resultSearch={ncData} totalResults={totalResults} />
+        <ResultNCSearch resultSearch={ncData} totalResults={totalResults} setReload={setReload}/>
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}

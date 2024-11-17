@@ -1,9 +1,11 @@
 import styled from 'styled-components'
 import { OrderContext } from '../../../../context/OrderContext'
 import { useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function StepCombo({ luuCombo }) {
   const { selectedCombo, setSelectedCombo, setOrder } = useContext(OrderContext)
+  const navigation = useNavigate()
   const handleComboChange = (e) => {
     const comboID = e.target.value
     const combo = luuCombo.find((combo) => combo.MaCombo === comboID)
@@ -15,6 +17,9 @@ function StepCombo({ luuCombo }) {
         MaCombo: combo.MaCombo
       }
     }))
+  }
+  const handleClick = () => {
+    navigation('/list-combo')
   }
 
   return (
@@ -30,14 +35,13 @@ function StepCombo({ luuCombo }) {
             <option value="" disabled hidden>
               Chọn Combo
             </option>
-            <option value="none">Không chọn Combo</option>
             {luuCombo.map((combo) => (
               <option key={combo.MaCombo} value={combo.MaCombo}>
                 {combo.TenCombo}
               </option>
             ))}
           </select>
-          <button id="btn-primary">Danh sách</button>
+          <button id="btn-primary" onClick={handleClick}>Danh sách</button>
         </div>
       </div>
 

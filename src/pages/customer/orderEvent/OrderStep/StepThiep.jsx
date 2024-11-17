@@ -1,9 +1,11 @@
 import styled from 'styled-components'
 import { OrderContext } from '../../../../context/OrderContext'
 import { useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function StepThiep({ luuThiep }) {
   const { selectedThiep, setSelectedThiep, setOrder } = useContext(OrderContext)
+  const navigation = useNavigate()
   const handleThiepChange = (e) => {
     const thiepID = e.target.value
     const thiep = luuThiep.find((thiep) => thiep.MaThiep === thiepID)
@@ -15,6 +17,9 @@ function StepThiep({ luuThiep }) {
         MaThiep: thiep.MaThiep
       }
     }))
+  }
+  const handleClick = () => {
+    navigation('/list-thiep')
   }
   return (
     <StepThiepWrapper>
@@ -29,14 +34,13 @@ function StepThiep({ luuThiep }) {
             <option value="" disabled hidden>
               Chọn thiệp
             </option>
-            <option value="none">Không chọn thiệp</option>
             {luuThiep.map((thiep) => (
               <option key={thiep.MaThiep} value={thiep.MaThiep}>
                 {thiep.LoaiThiep}
               </option>
             ))}
           </select>
-          <button id="btn-primary">Danh sách</button>
+          <button id="btn-primary" onClick={handleClick}>Danh sách</button>
         </div>
       </div>
 

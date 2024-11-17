@@ -50,7 +50,6 @@ const mcSchema = new mongoose.Schema({
       },
       SDT: {
         type: String,
-        required: [true, 'Số điện thoại là bắt buộc'],
         validate: {
           validator: function (v) {
             return validator.isMobilePhone(v, 'vi-VN')

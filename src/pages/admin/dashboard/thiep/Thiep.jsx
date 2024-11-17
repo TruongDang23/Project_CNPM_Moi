@@ -12,19 +12,29 @@ function Thiep() {
   const [filterText, setFilterText] = useState('')
   const [thiepData, setThiepData] = useState([])
   const [reload, setReload] = useState(true)
+  const [totalThiep, setTotalThiep] = useState(0)
+  const [totalPages, setTotalPages] = useState(0)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [perPage, setPerPage] = useState(10)
 
-  useEffect(() => {
+  // Hàm tải lại dữ liệu từ API
+  const fetchData = (page = 1, perPage = 10) => {
     const apiClient = new APIClient('thiep')
     apiClient
-      .find()
+      .findParams({ page, limit: perPage })
       .then((response) => {
         setThiepData(response.data.thiep || [])
+        setTotalThiep(response.data.totalNhacCong || 0)
+        setTotalPages(response.data.totalPages || 0)
       })
       .catch((error) => {
-        // eslint-disable-next-line no-console
         console.error(error)
       })
-  }, [reload])
+  }
+
+  useEffect(() => {
+    fetchData(currentPage, perPage)
+  }, [reload, currentPage, perPage])
 
   // Hàm xử lý khi nhấn vào dòng
   const handleRowClicked = (row) => {
@@ -48,6 +58,17 @@ function Thiep() {
     })
   )
 
+  // Hàm xử lý khi thay đổi trang
+  const handlePageChange = (page) => {
+    setCurrentPage(page)
+  }
+
+  // Hàm xử lý khi thay đổi số lượng dòng trên mỗi trang
+  const handlePerRowsChange = (newPerPage, page) => {
+    setPerPage(newPerPage)
+    setCurrentPage(page)
+  }
+
   return (
     <ThiepWrapper>
       <h2>Quản lý hội trường</h2>
@@ -68,6 +89,12 @@ function Thiep() {
             data={filteredData} // Dữ liệu sau khi lọc
             onRowClicked={handleRowClicked}
             pagination // Tính năng phân trang
+            paginationServer // Sử dụng phân trang từ server
+            paginationTotalRows={totalThiep} // Tổng số dòng
+            paginationDefaultPage={currentPage} // Trang hiện tại
+            paginationPerPage={perPage} // Số dòng trên mỗi trang
+            onChangePage={handlePageChange} // Hàm xử lý khi thay đổi trang
+            onChangeRowsPerPage={handlePerRowsChange} // Hàm xử lý khi thay đổi số lượng dòng trên mỗi trang
             customStyles={customStyles} // Tùy chỉnh giao diện
           />
         </div>

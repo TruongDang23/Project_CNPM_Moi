@@ -18,6 +18,7 @@ import StepCombo from './OrderStep/StepCombo'
 import StepThiep from './OrderStep/StepThiep'
 import StepInfor from './OrderStep/StepInfor'
 import APIClient from '../../../api/client'
+import { useNavigate } from 'react-router-dom'
 
 const steps = [
   'Chọn hội trường',
@@ -31,7 +32,7 @@ const steps = [
 function MainOrderStepper() {
   const { markdata, order, canCompleteOrder } =
     useContext(OrderContext)
-  console.log(markdata)
+  const navigation = useNavigate()
   const { LuuHoiTruong, LuuMC, LuuNhacCong, LuuCombo, LuuThiep } = markdata
   const [activeStep, setActiveStep] = useState(0)
   const [isLoading, setIsLoading] = useState(false)
@@ -76,6 +77,7 @@ function MainOrderStepper() {
   // Hàm đóng Dialog
   const closeDialog = () => {
     setDialogOpen(false)
+    navigation('/')
   }
 
   const handleOrder = () => {
