@@ -39,7 +39,8 @@ const getAll = catchAsync(async (req, res, next) => {
   } = req.query;
 
   let query = {};
-
+  if (req.user.MaTK[0] === 'U')
+    query.Active = "true"
   if (searchTerm) {
     query.TenHoiTruong = { $regex: searchTerm, $options: 'i' };
   }
@@ -55,6 +56,7 @@ const getAll = catchAsync(async (req, res, next) => {
     query.TinhTrang = status === 'true';
   }
   let hoitruongQuery = HoiTruong.find(query)
+  hoitruongQuery = hoitruongQuery.sort({ MaHoiTruong: 1 });
   const sortPrice = price === '1' ? 1 : price === '-1' ? -1 : null;
   if (sortPrice !== null) {
     hoitruongQuery = hoitruongQuery.sort({ Gia: sortPrice });
@@ -126,7 +128,6 @@ const create = catchAsync(async (req, res, next) => {
 const update = catchAsync(async (req, res, next) => {
   const updateHoiTruong = await HoiTruong.findOneAndUpdate(
     { MaHoiTruong: req.params.id },
-    req.params.id,
     req.body,
     {
       new: true, // Trả về document mới sau khi cập nhật
@@ -144,7 +145,10 @@ const deleteByID = catchAsync(async (req, res, next) => {
   // Xóa ở đây là chuyển Active từ true sang false, tìm theo MaHoiTruong
   const hoitruong = await HoiTruong.findOneAndUpdate(
     { MaHoiTruong: req.params.id },
-    { Active: false },
+    {
+      Active: false,
+      TinhTrang: false
+    },
     {
       new: true, // Trả về document mới sau khi cập nhật
       runValidators: true // Chạy các validator để đảm bảo dữ liệu hợp lệ

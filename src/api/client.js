@@ -76,12 +76,14 @@ export default class APIClient {
     return data
   }
 
-  async delete(id) {
+  async delete(id, content) {
     const data = await axios.delete(`${this.api}/${id}`, {
       headers: {
         Authorization: `Bearer ${this.token}`
-      }
-    })
+      },
+      data: content
+    }
+    )
     return data
   }
 

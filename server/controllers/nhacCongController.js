@@ -19,6 +19,8 @@ const getAllNhacCong = catchAsync(async (req, res) => {
   } = req.query
 
   let query = {}
+  if (req.user.MaTK[0] === 'U')
+    query.Active = "true"
 
   if (searchTerm) {
     query.HoTen = { $regex: searchTerm, $options: 'i' }
@@ -33,7 +35,7 @@ const getAllNhacCong = catchAsync(async (req, res) => {
   }
 
   let nhaccongQuery = NhacCong.find(query)
-
+  nhaccongQuery = nhaccongQuery.sort({ MaNhacCong: 1 })
   // Chuyển đổi giá trị của `price` thành số nguyên và đảm bảo là 1 hoặc -1
   const sortPrice = price === '1' ? 1 : price === '-1' ? -1 : null;
   if (sortPrice !== null) {
@@ -121,7 +123,7 @@ const deleteNhacCong = catchAsync(async (req, res, next) => {
   // Xóa ở đây là chuyển Active từ true sang false, tìm theo MaNhacCong
   const nhaccong = await NhacCong.findOneAndUpdate(
     { MaNhacCong: req.params.id },
-    { Active: false },
+    { Active: false, TinhTrang: false },
     {
       new: true, // Trả về document mới sau khi cập nhật
       runValidators: true // Chạy các validator để đảm bảo dữ liệu hợp lệ

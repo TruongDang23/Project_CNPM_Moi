@@ -12,7 +12,8 @@ const getAllMC = catchAsync(async (req, res, next) => {
   } = req.query;
 
   let query = {};
-
+  if (req.user.MaTK[0] === 'U')
+    query.Active = "true"
   if (searchTerm) {
     query.HoTen = { $regex: searchTerm, $options: 'i' };
   }
@@ -113,7 +114,7 @@ const deleteMC = catchAsync(async (req, res, next) => {
   // Soft delete by setting Active to false, find by MaMC
   const mc = await MC.findOneAndUpdate(
     { MaMC: req.params.id },
-    { Active: false },
+    { Active: false, TinhTrang: false },
     {
       new: true, // Return the updated document
       runValidators: true // Run validators to ensure valid data

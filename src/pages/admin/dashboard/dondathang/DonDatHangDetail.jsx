@@ -44,8 +44,8 @@ function DonDatHangDetail({ selectedData, setReload }) {
       .then((response) => {
         if (response.status === 200) {
           showDialog(
-            'Chấp nhận thành công',
-            'Trạng thái của đơn đặt hàng đã được cập nhật'
+            'Đơn hàng đã được chấp nhận',
+            'Hãy liên hệ với khách hàng để xác nhận thông tin'
           );
           setReload((prevReload) => !prevReload);
         }
@@ -64,8 +64,8 @@ function DonDatHangDetail({ selectedData, setReload }) {
       .then((response) => {
         if (response.status === 200) {
           showDialog(
-            'Từ chối thành công',
-            'Trạng thái của đơn đặt hàng đã được cập nhật'
+            'Đơn đặt hàng đã được từ chối',
+            'Hãy liên hệ với khách hàng để xác nhận thông tin'
           );
           setReload((prevReload) => !prevReload);
         }
