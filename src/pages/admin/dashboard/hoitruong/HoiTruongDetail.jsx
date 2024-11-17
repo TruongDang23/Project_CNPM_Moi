@@ -60,10 +60,46 @@ function HoiTruongDetail({ selectedData, setReload }) {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value
-    }))
+
+    if (name === 'SucChua') {
+      // Regex to allow only positive integers (no decimal, no negative)
+      const regex = /^[1-9]\d*$/; // Matches numbers like 1, 2, 123, etc., but NOT 0, 1.5, or -1
+
+      if (value === '' || regex.test(value)) {
+        setFormData((prevData) => ({
+          ...prevData,
+          [name]: value
+        }))
+      }
+    }
+    else if (name === 'DienTich') {
+      // Regex to allow only positive integers (no decimal, no negative)
+      const regex = /^(?:[1-9]\d*|0)?(\.\d+)?$/;// Matches numbers like 1, 2, 123, etc., but NOT 0, 1.5, or -1
+
+      if (value === '' || regex.test(value)) {
+        setFormData((prevData) => ({
+          ...prevData,
+          [name]: value
+        }))
+      }
+    }
+    else if (name === 'Gia') {
+      // Regex to allow only positive integers (no decimal, no negative)
+      const regex = /^[1-9]\d*$/; // Matches numbers like 1, 2, 123, etc., but NOT 0, 1.5, or -1
+
+      if (value === '' || regex.test(value)) {
+        setFormData((prevData) => ({
+          ...prevData,
+          [name]: value
+        }))
+      }
+    }
+    else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value
+      }))
+    }
   }
 
   const handleSubmit = (e) => {
@@ -83,7 +119,7 @@ function HoiTruongDetail({ selectedData, setReload }) {
         }
       })
       .catch((error) => {
-        if (error.status == 404) {
+        if (error.status == 500) {
           const regex = /ValidationError: (.+?)<br>/
           const match = error.response.data.match(regex)
           if (match) {
@@ -91,6 +127,11 @@ function HoiTruongDetail({ selectedData, setReload }) {
               'Lỗi khi tạo mới hội trường',
               match[1] || 'Đã xảy ra lỗi.')
           }
+        }
+        else {
+          showDialog(
+            'Lỗi khi tạo mới hội trường',
+            '')
         }
       })
   }
@@ -107,6 +148,11 @@ function HoiTruongDetail({ selectedData, setReload }) {
         }
       })
       .catch((error) => {
+        if (error.status === 404) {
+          showDialog(
+            'Lỗi khi cập nhật hội trường',
+            'Không tìm thấy hội trường')
+        }
         const regex = /ValidationError: (.+?)<br>/
         const match = error.response.data.match(regex)
         if (match) {

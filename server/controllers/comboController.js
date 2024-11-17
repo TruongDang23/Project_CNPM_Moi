@@ -11,7 +11,8 @@ const getAll = catchAsync(async (req, res, next) => {
   } = req.query;
 
   let query = {};
-
+  if (req.user.MaTK[0] === 'U')
+    query.Active = "true"
   if (searchTerm) {
     query.TenCombo = { $regex: searchTerm, $options: 'i' };
   }

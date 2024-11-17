@@ -61,10 +61,45 @@ function MCDetail({ selectedData, setReload }) {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value
-    }))
+    if (name === 'SDT') {
+      // Regex to allow only positive integers (no decimal, no negative)
+      const regex = /^[1-9]\d*$/; // Matches numbers like 1, 2, 123, etc., but NOT 0, 1.5, or -1
+
+      if (value === '' || regex.test(value)) {
+        setFormData((prevData) => ({
+          ...prevData,
+          [name]: value
+        }))
+      }
+    }
+    else if (name === 'KinhNghiem') {
+      // Regex to allow only positive integers (no decimal, no negative)
+      const regex = /^[1-9]\d*$/; // Matches numbers like 1, 2, 123, etc., but NOT 0, 1.5, or -1
+
+      if (value === '' || regex.test(value)) {
+        setFormData((prevData) => ({
+          ...prevData,
+          [name]: value
+        }))
+      }
+    }
+    else if (name === 'Gia') {
+      // Regex to allow only positive integers (no decimal, no negative)
+      const regex = /^[1-9]\d*$/; // Matches numbers like 1, 2, 123, etc., but NOT 0, 1.5, or -1
+
+      if (value === '' || regex.test(value)) {
+        setFormData((prevData) => ({
+          ...prevData,
+          [name]: value
+        }))
+      }
+    }
+    else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value
+      }))
+    }
   }
 
   const handleSubmit = (e) => {

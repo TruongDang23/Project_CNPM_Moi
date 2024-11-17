@@ -8,9 +8,29 @@ dayjs.extend(customParseFormat)
 
 // Get all orders
 const getAllDonDatHang = catchAsync(async (req, res, next) => {
-  const dondathang = await DatDichVu.find().sort({ MaDDV: 1 })
+
+  const {
+    page = 1,
+    limit = 8
+  } = req.query;
+
+  let query = {}
+
+  let dondathangQuery = DatDichVu.find(query)
+  dondathangQuery = dondathangQuery.sort({ MaDDV: 1 })
+
+  const totalDonDV= await DatDichVu.countDocuments(query);
+  const totalPages = Math.ceil(totalDonDV / limit);
+
+  dondathangQuery = dondathangQuery.skip((page - 1) * limit).limit(limit);
+
+  // const dondathang = await DatDichVu.find().sort({ MaDDV: 1 })
+  const dondathang = await dondathangQuery
+
   res.status(200).json({
-    dondathang
+    dondathang,
+    totalDonDV,
+    totalPages
   })
 })
 
