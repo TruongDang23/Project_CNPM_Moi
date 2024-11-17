@@ -107,16 +107,17 @@ function HoiTruong() {
 
 const HoiTruongWrapper = styled.section`
   font-family: 'Source Sans 3', sans-serif;
+  background-color: #f1f3f5;
   h2 {
     color: var(--primary-color);
     width: 100%;
     font-size: 2.4rem;
-    margin: 20px;
+    padding: 20px;
     text-align: center;
     text-transform: uppercase;
   }
   .hall-content {
-    margin: 20px;
+    padding: 20px;
     display: grid;
     grid-template-columns: 1fr 1fr; /* Chia cột thành 2 phần bằng nhau */
     gap: 20px; /* Khoảng cách giữa 2 cột */
@@ -124,10 +125,11 @@ const HoiTruongWrapper = styled.section`
     .hall-content-table {
       max-width: 700px;
       padding: 20px;
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       height: auto;
+      border: 1px solid #ccc;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: #0000000f 0px 4px 20px 0px;
 
       h3 {
         color: var(--primary-color);
@@ -157,9 +159,10 @@ const HoiTruongWrapper = styled.section`
 
     .hall-content-detail {
       padding: 20px;
+      border: 1px solid #ccc;
       background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      box-shadow: #0000000f 0px 4px 20px 0px;
     }
   }
 `

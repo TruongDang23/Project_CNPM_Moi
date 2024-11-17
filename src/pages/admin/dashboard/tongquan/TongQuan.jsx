@@ -27,16 +27,17 @@ function TongQuan() {
 
 const TongQuanWrapper = styled.section`
   font-family: 'Source Sans 3', sans-serif;
+  background-color: #f1f3f5;
   h2 {
     color: var(--primary-color);
     width: 100%;
     font-size: 2.4rem;
-    margin: 20px;
+    padding: 20px;
     text-align: center;
     text-transform: uppercase;
   }
   .hall-content {
-    margin: 20px;
+    padding: 20px;
     display: grid;
     grid-template-rows: auto;
     gap: 20px;
