@@ -10,6 +10,7 @@ import {
   Snackbar
 } from '@mui/material'
 import APIClient from '../../../api/client'
+import validator from 'validator'
 
 import { ProfileContext } from '../../../context/ProfileContext'
 import AvatarUser from '../../../components/AvatarUser'
@@ -32,6 +33,51 @@ function MainProfile() {
   }
 
   const handleSave = () => {
+    // Kiểm tra các trường bắt buộc
+    if (
+      !localProfile.HoTen ||
+      !localProfile.GioiTinh ||
+      !localProfile.SDT ||
+      !localProfile.Email ||
+      !localProfile.NgaySinh ||
+      !localProfile.NoiSong
+    ) {
+      alert('Vui lòng điền đầy đủ thông tin!')
+      return
+    }
+
+    // Kiểm tra độ dài của họ tên (ít nhất 2 ký tự)
+    if (localProfile.HoTen.length < 2) {
+      alert('Họ tên phải có ít nhất 2 ký tự!')
+      return
+    }
+
+    // Kiểm tra số điện thoại (phải có 10 hoặc 11 ký tự và bắt đầu bằng 0)
+    const phonePattern = /^0\d{9,10}$/
+    if (!phonePattern.test(localProfile.SDT)) {
+      alert(
+        'Số điện thoại không hợp lệ! (Phải bắt đầu bằng 0 và có 10 hoặc 11 chữ số)'
+      )
+      return
+    }
+
+    // Kiểm tra email hợp lệ
+    if (!validator.isEmail(localProfile.Email)) {
+      alert('Email không hợp lệ!')
+      return
+    }
+
+    // Kiểm tra ngày sinh hợp lệ (định dạng YYYY-MM-DD)
+    if (
+      !validator.isDate(localProfile.NgaySinh, {
+        format: 'YYYY-MM-DD',
+        strictMode: true
+      })
+    ) {
+      alert('Ngày sinh không hợp lệ! (Yêu cầu định dạng YYYY-MM-DD)')
+      return
+    }
+
     // Đảm bảo các trường lưu là mảng trước khi gọi updateProfile
     const sanitizedProfile = {
       ...localProfile,
@@ -42,8 +88,9 @@ function MainProfile() {
       LuuCombo: localProfile.LuuCombo || []
     }
 
+    console.log('Cập nhật thông tin:', sanitizedProfile)
+
     updateProfile(sanitizedProfile)
-    updateProfile(localProfile)
     window.location.reload()
   }
 
@@ -98,6 +145,7 @@ function MainProfile() {
                     name="HoTen"
                     value={localProfile.HoTen}
                     onChange={handleChange}
+                    required
                   />
                 </div>
                 <div className="form-group">
@@ -106,6 +154,7 @@ function MainProfile() {
                     name="GioiTinh"
                     value={localProfile.GioiTinh}
                     onChange={handleChange}
+                    required
                   >
                     <option value="Nam">Nam</option>
                     <option value="Nữ">Nữ</option>
@@ -119,8 +168,10 @@ function MainProfile() {
                   <input
                     type="tel"
                     name="SDT"
+                    maxLength={10}
                     value={localProfile.SDT}
                     onChange={handleChange}
+                    required
                   />
                 </div>
                 <div className="form-group">
@@ -128,6 +179,7 @@ function MainProfile() {
                   <input
                     type="email"
                     name="Email"
+                    required
                     value={localProfile.Email}
                     onChange={handleChange}
                   />
@@ -142,6 +194,7 @@ function MainProfile() {
                     name="NgaySinh"
                     value={localProfile.NgaySinh}
                     onChange={handleChange}
+                    required
                   />
                 </div>
                 <div className="form-group">
@@ -151,6 +204,7 @@ function MainProfile() {
                     name="NoiSong"
                     value={localProfile.NoiSong}
                     onChange={handleChange}
+                    required
                   />
                 </div>
               </div>

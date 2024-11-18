@@ -185,6 +185,20 @@ export const ProfileProvider = ({ children }) => {
       // updatedProfile.NgaySinh = formattedDate
 
       console.log('Cập nhật thông tin:', updatedProfile)
+      // chuyển đổi các object thành mã của nó
+      updatedProfile.LuuHoiTruong = updatedProfile.LuuHoiTruong.map(
+        (item) => item.MaHoiTruong
+      )
+      updatedProfile.LuuMC = updatedProfile.LuuMC.map((item) => item.MaMC)
+      updatedProfile.LuuNhacCong = updatedProfile.LuuNhacCong.map(
+        (item) => item.MaNhacCong
+      )
+      updatedProfile.LuuThiepMoi = updatedProfile.LuuThiepMoi.map(
+        (item) => item.MaThiep
+      )
+      updatedProfile.LuuCombo = updatedProfile.LuuCombo.map(
+        (item) => item.MaCombo
+      )
 
       // Gửi yêu cầu cập nhật lên server với thông tin mới
       const response = await apiClient.update(userID, updatedProfile)
