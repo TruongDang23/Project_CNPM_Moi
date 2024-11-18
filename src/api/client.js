@@ -1,5 +1,5 @@
 import axios from 'axios'
-const path = 'http://localhost:3000'
+const path = 'http://localhost:8080'
 export default class APIClient {
   // Constructor để khởi tạo thuộc tính
   constructor(object) {
@@ -82,8 +82,7 @@ export default class APIClient {
         Authorization: `Bearer ${this.token}`
       },
       data: content
-    }
-    )
+    })
     return data
   }
 
