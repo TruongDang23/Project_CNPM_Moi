@@ -67,8 +67,8 @@ const getMostBookedServices = catchAsync(async (req, res, next) => {
     {
       $project: {
         _id: 0, // Ẩn _id
-        MaHoiTruong: '$_id',
-        TenHoiTruong: '$details.TenHoiTruong',
+        id: '$_id',
+        name: '$details.TenHoiTruong',
         count: 1 // Giữ lại trường count
       }
     }
@@ -104,8 +104,8 @@ const getMostBookedServices = catchAsync(async (req, res, next) => {
     {
       $project: {
         _id: 0, // Ẩn _id
-        MaMC: '$_id',
-        TenMC: '$details.HoTen',
+        id: '$_id',
+        name: '$details.HoTen',
         count: 1 // Giữ lại trường count
       }
     }
@@ -141,8 +141,8 @@ const getMostBookedServices = catchAsync(async (req, res, next) => {
     {
       $project: {
         _id: 0, // Ẩn _id
-        MaCombo: '$_id',
-        TenCombo: '$details.TenCombo',
+        id: '$_id',
+        name: '$details.TenCombo',
         count: 1 // Giữ lại trường count
       }
     }
@@ -178,8 +178,8 @@ const getMostBookedServices = catchAsync(async (req, res, next) => {
     {
       $project: {
         _id: 0, // Ẩn _id
-        MaNC: '$_id',
-        TenNC: '$details.HoTen',
+        id: '$_id',
+        name: '$details.HoTen',
         count: 1 // Giữ lại trường count
       }
     }
@@ -215,8 +215,8 @@ const getMostBookedServices = catchAsync(async (req, res, next) => {
     {
       $project: {
         _id: 0, // Ẩn _id
-        MaThiep: '$_id',
-        TenThiep: '$details.LoaiThiep',
+        id: '$_id',
+        name: '$details.LoaiThiep',
         count: 1 // Giữ lại trường count
       }
     }

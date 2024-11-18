@@ -8,28 +8,28 @@ function TopServices() {
 
   const data = [
     {
-      ma: 'Hội trường: ' + mostUsedData.mostUsedHall.MaHoiTruong,
-      name: mostUsedData.mostUsedHall.TenHoiTruong,
+      ma: 'Hội trường: ' + mostUsedData.mostUsedHall.id,
+      name: mostUsedData.mostUsedHall.name,
       orders: mostUsedData.mostUsedHall.count || 0
     },
     {
-      ma: 'MC: ' + mostUsedData.mostUsedMC.MaMC,
-      name: mostUsedData.mostUsedMC.TenMC,
+      ma: 'MC: ' + mostUsedData.mostUsedMC.id,
+      name: mostUsedData.mostUsedMC.name,
       orders: mostUsedData.mostUsedMC.count || 0
     },
     {
-      ma: 'Combo: ' + mostUsedData.mostUsedCombo.MaCombo,
-      name: mostUsedData.mostUsedCombo.TenCombo,
+      ma: 'Combo: ' + mostUsedData.mostUsedCombo.id,
+      name: mostUsedData.mostUsedCombo.name,
       orders: mostUsedData.mostUsedCombo.count || 0
     },
     {
-      ma: 'Nhạc công: ' + mostUsedData.mostUsedNhacCong.MaNC,
-      name: mostUsedData.mostUsedNhacCong.TenNC,
+      ma: 'Nhạc công: ' + mostUsedData.mostUsedNhacCong.id,
+      name: mostUsedData.mostUsedNhacCong.name,
       orders: mostUsedData.mostUsedNhacCong.count || 0
     },
     {
-      ma: 'Thiệp mời: ' + mostUsedData.mostUsedThiep.MaThiep,
-      name: mostUsedData.mostUsedThiep.TenThiep,
+      ma: 'Thiệp mời: ' + mostUsedData.mostUsedThiep.id,
+      name: mostUsedData.mostUsedThiep.name,
       orders: mostUsedData.mostUsedThiep.count || 0
     }
   ]

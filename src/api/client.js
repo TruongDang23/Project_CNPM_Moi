@@ -82,8 +82,7 @@ export default class APIClient {
         Authorization: `Bearer ${this.token}`
       },
       data: content
-    }
-    )
+    })
     return data
   }
 

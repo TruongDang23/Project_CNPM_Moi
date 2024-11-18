@@ -39,7 +39,7 @@ const khachhangSchema = new mongoose.Schema({
       validator: (value) => validator.isEmail(value), // Kiểm tra xem email có hợp lệ không
       message: 'Email không hợp lệ'
     },
-    default: 'lethanhvinhtbt@gmail.com'
+    default: 'example@gmail.com'
   },
   NgaySinh: {
     type: String,
