@@ -59,6 +59,12 @@ function ForgotPass() {
                 'Đã xảy ra lỗi.'
             )
           }
+          else {
+            showDialog(
+              'Lỗi khi quên mật khẩu',
+              'Không tìm thấy người dùng với email này.'
+            )
+          }
         })
     }
   }
