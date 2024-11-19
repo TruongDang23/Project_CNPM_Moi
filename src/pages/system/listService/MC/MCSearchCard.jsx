@@ -60,6 +60,7 @@ function MCSearchCard({ mc, setReload }) {
         setReload(prev => !prev)
       })
       .catch((error) => {
+        alert(error)
         console.error(error)
       })
     setSnackbarOpen(true)

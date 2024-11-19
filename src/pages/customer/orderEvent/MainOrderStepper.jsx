@@ -91,12 +91,18 @@ function MainOrderStepper() {
         }
       })
       .catch((error) => {
+        console.log(error)
         const regex = /ValidationError: (.+?)<br>/
         const match = error.response.data.match(regex)
         if (match) {
           showDialog(
             'Lỗi khi đặt sự kiện',
             match[1] || 'Đã xảy ra lỗi.')
+        }
+        else {
+          showDialog(
+            'Lỗi khi đặt sự kiện',
+            'Thời gian đăng ký không hợp lệ')
         }
       })
   }

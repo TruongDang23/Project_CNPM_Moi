@@ -3,12 +3,6 @@ import catchAsync from '../utils/catchAsync.js'
 import AppError from '../utils/appError.js'
 
 const getAllNhacCong = catchAsync(async (req, res) => {
-  // const nhaccong = await NhacCong.find()
-  // res.status(200).json({
-  //   status: 'success',
-  //   nhaccong
-  // })
-
   const {
     searchTerm,
     instrument,

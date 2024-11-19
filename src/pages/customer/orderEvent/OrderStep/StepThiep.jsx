@@ -14,7 +14,7 @@ function StepThiep({ luuThiep }) {
       ...prevOrder,
       DichVu: {
         ...prevOrder.DichVu,
-        MaThiep: thiep.MaThiep
+        MaThiepMoi: thiep.MaThiep
       }
     }))
   }

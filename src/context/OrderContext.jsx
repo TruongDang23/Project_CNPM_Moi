@@ -36,7 +36,7 @@ export const OrderProvider = ({ children }) => {
       MaMC: '',
       MaNhacCong: '',
       MaCombo: '',
-      MaThiep: ''
+      MaThiepMoi: ''
     },
     Note: ''
   })
