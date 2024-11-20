@@ -68,6 +68,7 @@ const StatisticsWrapper = styled.div`
   h3 {
     font-size: 1.6rem;
     margin-bottom: 20px;
+    color: var(--primary-color);
   }
 
   .stats-grid {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import Logo from '../assets/logo-v1.png'
-// import Logo from '../assets/logo-v2.png'
+// import Logo from '../assets/logo-v1.png'
+import Logo from '../assets/logo-v2.png'
 import ListService from './ListService'
 
 import Badge from '@mui/material/Badge'
@@ -69,10 +69,10 @@ function Header() {
             <a href="/" className="link">
               Trang chủ
             </a>
-            <ListService />
-            <a href="/chat-ai" className="link">
+            {/* <ListService /> */}
+            {/* <a href="/chat-ai" className="link">
               Chat AI
-            </a>
+            </a> */}
           </div>
           <div className="authButtons">
             <a href="/login" className="login">
@@ -99,9 +99,9 @@ function Header() {
             <a href="/customer/order-event" className="link">
               Đặt dịch vụ
             </a>
-            <a href="/chat-ai" className="link">
+            {/* <a href="/chat-ai" className="link">
               Chat AI
-            </a>
+            </a> */}
           </div>
           <div className="nav-other">
             <div onClick={handleProfileClick} style={{ cursor: 'pointer' }}>
@@ -127,12 +127,12 @@ function Header() {
               Trang chủ
             </a>
             <ListService />
-            <a href="/admin/order-event" className="link">
+            {/* <a href="/admin/order-event" className="link">
               Đặt dịch vụ
-            </a>
-            <a href="/chat-ai" className="link">
+            </a> */}
+            {/* <a href="/chat-ai" className="link">
               Chat AI
-            </a>
+            </a> */}
           </div>
           <div className="nav-other">
             <div onClick={handleAdminClick} style={{ cursor: 'pointer' }}>

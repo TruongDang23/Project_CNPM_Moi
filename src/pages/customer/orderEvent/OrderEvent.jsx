@@ -1,7 +1,7 @@
 import styled, { keyframes } from 'styled-components'
 import { Helmet } from 'react-helmet'
 import Header from '../../../components/Header'
-import Bg from '../../../assets/bg-v1.png'
+import Bg from '../../../assets/bg-tt.jpg'
 import MainOrder from './MainOrder'
 
 import { OrderProvider } from '../../../context/OrderContext'
