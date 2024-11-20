@@ -66,7 +66,10 @@ function ComboDetail({ selectedData, setReload }) {
       setNewMonAn('')
       setFormData((prev) => ({
         ...prev,
-        DanhSachMonAn: danhSachMonAn
+        DanhSachMonAn: [
+          ...prev.DanhSachMonAn || [],
+          newMonAn
+        ]
       }))
     }
   }
@@ -131,7 +134,7 @@ function ComboDetail({ selectedData, setReload }) {
 
   const updateCombo = () => {
     apiClient
-      .update(formData._id, formData)
+      .update(formData.MaCombo, formData)
       .then((response) => {
         if (response.status == 200) {
           showDialog(

@@ -80,8 +80,8 @@ const create = catchAsync(async (req, res, next) => {
 })
 
 const update = catchAsync(async (req, res, next) => {
-  const updateCombo = await Combo.findByIdAndUpdate(
-    req.params.id,
+  const updateCombo = await Combo.findOneAndUpdate(
+    { MaCombo: req.params.id },
     req.body,
     {
       new: true, // Trả về document mới sau khi cập nhật
