@@ -28,7 +28,7 @@ const HeroSectionWrapper = styled.section`
   text-align: center;
   h1 {
     ${'' /* color: var(--primary-color); */}
-    color: #e9ecef;
+    color: #fff;
     font-size: 6rem;
     margin-bottom: 2rem;
     text-transform: uppercase;
