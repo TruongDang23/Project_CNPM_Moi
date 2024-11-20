@@ -69,7 +69,7 @@ function Header() {
             <a href="/" className="link">
               Trang chủ
             </a>
-            <ListService />
+            {/* <ListService /> */}
             <a href="/chat-ai" className="link">
               Chat AI
             </a>
@@ -127,9 +127,9 @@ function Header() {
               Trang chủ
             </a>
             <ListService />
-            <a href="/admin/order-event" className="link">
+            {/* <a href="/admin/order-event" className="link">
               Đặt dịch vụ
-            </a>
+            </a> */}
             <a href="/chat-ai" className="link">
               Chat AI
             </a>
