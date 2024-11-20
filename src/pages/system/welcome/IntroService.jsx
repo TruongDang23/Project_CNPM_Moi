@@ -1,10 +1,10 @@
 import styled from 'styled-components'
 
-import service_one from '../../../assets/welcome-1.png'
-import service_two from '../../../assets/welcome-2.png'
-import service_three from '../../../assets/welcome-3.png'
-import service_four from '../../../assets/welcome-4.png'
-import service_five from '../../../assets/welcome-5.png'
+import service_one from '../../../assets/welcome-1-tt.png'
+import service_two from '../../../assets/welcome-2-tt.jpg'
+import service_three from '../../../assets/welcome-3-tt.jpg'
+import service_four from '../../../assets/welcome-4-tt.jpg'
+import service_five from '../../../assets/welcome-5-tt.jpg'
 
 function IntroService() {
   return (

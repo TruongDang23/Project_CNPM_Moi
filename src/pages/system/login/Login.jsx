@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import imgLogin from '../../../assets/e-login.png'
 
-import BgLogin from '../../../assets/bg-v1.png'
+import BgLogin from '../../../assets/bg-tt.jpg'
 // import BgLogin from '../../../assets/bg-v2.png'
 
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline'

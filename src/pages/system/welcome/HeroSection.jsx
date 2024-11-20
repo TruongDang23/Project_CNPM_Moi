@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import Bg from '../../../assets/bg-v1.png'
+import Bg from '../../../assets/bg-tt.jpg'
 // import Bg from '../../../assets/bg-v2.png'
 
 function HeroSection() {
@@ -27,10 +27,14 @@ const HeroSectionWrapper = styled.section`
   object-fit: cover;
   text-align: center;
   h1 {
-    color: var(--primary-color);
+    ${'' /* color: var(--primary-color); */}
+    color: #fff;
     font-size: 6rem;
     margin-bottom: 2rem;
     text-transform: uppercase;
+    text-shadow: -5px -1px 0 var(--primary-color),
+      1px -1px 0 var(--primary-color), -1px 1px 0 var(--primary-color),
+      1px 1px 0 var(--primary-color); /* Border line effect */
 
     @media (max-width: 1024px) {
       font-size: 4.5rem; /* Adjust for medium screens */
@@ -45,10 +49,15 @@ const HeroSectionWrapper = styled.section`
     }
   }
   h3 {
-    color: var(--secondary-color);
+    ${'' /* color: var(--secondary-color); */}
+    color: #f8f9fa;
     font-size: 3rem;
     margin-bottom: 1rem;
     line-height: 1.5;
+    text-shadow: -5px -1px 0 var(--primary-color),
+      1px -1px 0 var(--primary-color), -1px 1px 0 var(--primary-color),
+      1px 1px 0 var(--primary-color);
+
     @media (max-width: 1024px) {
       font-size: 2.5rem; /* Adjust for medium screens */
     }

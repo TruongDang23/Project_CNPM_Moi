@@ -5,11 +5,17 @@ function MainOrder() {
   const handleCancel = () => {
     window.history.back()
   }
+  const handleCancel = () => {
+    window.history.back()
+  }
 
   return (
     <OrderEventWrapper className="container">
       <div className="order-event-heading">
         <h2>Đặt dịch vụ</h2>
+        <button id="btn-cancel" onClick={handleCancel}>
+          Hủy
+        </button>
         <button id="btn-cancel" onClick={handleCancel}>
           Hủy
         </button>

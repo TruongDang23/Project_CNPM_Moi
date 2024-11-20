@@ -36,7 +36,8 @@ function Footer() {
 }
 
 const FooterWrapper = styled.footer`
-  background-color: var(--primary-color);
+  ${'' /* background-color: var(--primary-color); */}
+  background-color: #212529;
   color: #fff;
   padding: 40px 20px;
 
