@@ -2,11 +2,17 @@ import styled from 'styled-components'
 import MainOrderStepper from './MainOrderStepper'
 
 function MainOrder() {
+  const handleCancel = () => {
+    window.history.back()
+  }
+
   return (
     <OrderEventWrapper className="container">
       <div className="order-event-heading">
         <h2>Đặt dịch vụ</h2>
-        <button id="btn-cancel">Hủy</button>
+        <button id="btn-cancel" onClick={handleCancel}>
+          Hủy
+        </button>
       </div>
       <hr />
       <MainOrderStepper />

@@ -8,6 +8,11 @@ function HallCard({ hall, count }) {
     return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.') + 'đ'
   }
   const handleClick = () => {
+    // Kiểm tra người dùng đã đăng nhập chưa
+    // Nếu chưa, chuyển hướng đến trang đăng nhập
+    if (!sessionStorage.getItem('userID')) {
+      return navigation('/login')
+    }
     navigation('/customer/order-event')
   }
   return (
