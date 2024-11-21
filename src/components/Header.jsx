@@ -70,9 +70,9 @@ function Header() {
               Trang chủ
             </a>
             {/* <ListService /> */}
-            <a href="/chat-ai" className="link">
+            {/* <a href="/chat-ai" className="link">
               Chat AI
-            </a>
+            </a> */}
           </div>
           <div className="authButtons">
             <a href="/login" className="login">
@@ -131,9 +131,9 @@ function Header() {
             {/* <a href="/admin/order-event" className="link">
               Đặt dịch vụ
             </a> */}
-            <a href="/chat-ai" className="link">
+            {/* <a href="/chat-ai" className="link">
               Chat AI
-            </a>
+            </a> */}
           </div>
           <div className="nav-other">
             <div onClick={handleAdminClick} style={{ cursor: 'pointer' }}>
