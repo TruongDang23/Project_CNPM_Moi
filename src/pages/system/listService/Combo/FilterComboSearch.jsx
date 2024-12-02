@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import Bg from '../../../../assets/bg-v1.png'
+import Bg from '../../../../assets/bg-tt.jpg'
 import { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ListNCContext } from '../../../../context/ListNCContext'
@@ -44,11 +44,17 @@ function FilterComboSearch() {
             value={searchTerm}
             onChange={handleSearchChange}
           />
-          <button id="btn-primary" onClick={handleSearch}>Tìm</button>
+          <button id="btn-primary" onClick={handleSearch}>
+            Tìm
+          </button>
         </div>
         <div className="filter-option">
           <h3>Lọc theo:</h3>
-          <select defaultValue="" value={priceOrder} onChange={handlePriceOrderChange}>
+          <select
+            defaultValue=""
+            value={priceOrder}
+            onChange={handlePriceOrderChange}
+          >
             <option value="" disabled hidden>
               Giá
             </option>
@@ -73,8 +79,11 @@ const FilterSearchWrapper = styled.section`
   h1 {
     font-size: 3rem;
     margin-bottom: 2rem;
-    color: var(--primary-color);
     text-align: center;
+    color: #fff;
+    text-shadow: -5px -1px 0 var(--primary-color),
+      1px -1px 0 var(--primary-color), -1px 1px 0 var(--primary-color),
+      1px 1px 0 var(--primary-color); /* Border line effect */
   }
 
   input {

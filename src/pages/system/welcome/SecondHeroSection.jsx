@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import Bg from '../../../assets/bg-v1.png'
+import Bg from '../../../assets/bg-tt.jpg'
 // import Bg from '../../../assets/bg-v2.png'
 
 function SecondHeroSection() {
@@ -22,9 +22,13 @@ const SecondHeroSectionWrapper = styled.section`
   object-fit: cover;
   text-align: center;
   h1 {
-    color: var(--primary-color);
+    ${'' /* color: var(--primary-color); */}
+    color: #e9ecef;
     font-size: 4.5rem;
     margin-bottom: 2rem;
+    text-shadow: -5px -1px 0 var(--primary-color),
+      1px -1px 0 var(--primary-color), -1px 1px 0 var(--primary-color),
+      1px 1px 0 var(--primary-color); /* Border line effect */
 
     @media (max-width: 1024px) {
       font-size: 4.5rem; /* Adjust for medium screens */

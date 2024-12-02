@@ -14,6 +14,10 @@ function HallCard({ hall, count }) {
       return navigation('/login')
     }
     navigation('/customer/order-event')
+    // Kiểm tra nếu không có token thì chuyển hướng đến trang đăng nhập
+    if (!sessionStorage.getItem('userID')) {
+      navigation('/login')
+    } else navigation('/customer/order-event')
   }
   return (
     <HallCardWrapper>

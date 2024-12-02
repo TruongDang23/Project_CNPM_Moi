@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import imgLogin from '../../../assets/e-fp.png'
-import BgLogin from '../../../assets/bg-v1.png'
+import BgLogin from '../../../assets/bg-tt.jpg'
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'
 import CloseIcon from '@mui/icons-material/Close'
