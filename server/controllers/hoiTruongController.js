@@ -92,6 +92,8 @@ const getByID = catchAsync(async (req, res, next) => {
     res.status(200).json({
       hoitruong
     })
+  } else {
+    return next(new AppError("ID không được để trống", 400))
   }
 })
 
